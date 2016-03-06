@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="statics/styles/bulma.min.css">
+	<link href='https://fonts.googleapis.com/css?family=Nunito:700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<video autoplay loop poster="polina.jpg" id="bg-vid">
+	<source src="statics/medias/bg.mp4" type="video/mp4">
+</video>
+<section class="hero is-primary is-fullheight">
+	<!-- Hero content: will be in the middle -->
+	<div class="hero-content">
+		<div class="title container">
+			<img src="statics/medias/abrio-transparent.png">
+		</div>
+		<h1 class="title">
+			AbrIO
+		</h1>
+		<br/>
+		<h2 class="subtitle">
+			Abrio is a BaaS (Backend as a Service) for everyone who need <br/>
+			a soft real-time messaging server. <br/>
+		</h2>
+	</div>
+	</div>
+</section>
+</body>
+<style type="text/css">
+	.title{
+		font-family:Nunito;
+		font-size: 72px;
+	}
+	.hero.is-primary{
+		background-color: rgba(24,153,211,0.7);
+	}
+	video#bg-vid {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		min-width: 100%;
+		min-height: 100%;
+		width: auto;
+		height: auto;
+		z-index: -100;
+		-ms-transform: translateX(-50%) translateY(-50%);
+		-moz-transform: translateX(-50%) translateY(-50%);
+		-webkit-transform: translateX(-50%) translateY(-50%);
+		transform: translateX(-50%) translateY(-50%);
+		background: url(polina.jpg) no-repeat;
+		background-size: cover;
+	}
+</style>
+</html>
