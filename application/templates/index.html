@@ -2,18 +2,18 @@
 <html>
 <head>
 	<title></title>
-	<link rel="stylesheet" type="text/css" href="statics/styles/bulma.min.css">
+	<link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/bulma.min.css") }}>
 	<link href='https://fonts.googleapis.com/css?family=Nunito:700' rel='stylesheet' type='text/css'>
 </head>
 <body>
 <video autoplay loop poster="polina.jpg" id="bg-vid">
-	<source src="statics/medias/bg.mp4" type="video/mp4">
+	<source src={{ url_for('static', filename="medias/bg.mp4") }} type="video/mp4">
 </video>
 <section class="hero is-primary is-fullheight">
 	<!-- Hero content: will be in the middle -->
 	<div class="hero-content">
 		<div class="title container">
-			<img src="statics/medias/abrio-transparent.png">
+			<img src={{ url_for('static',filename="medias/abrio-transparent.png") }}>
 		</div>
 		<h1 class="title">
 			AbrIO
