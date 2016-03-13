@@ -65,6 +65,7 @@ target/
 [Ii]nclude
 [Ll]ib
 [Ss]cripts
+/venv
 pyvenv.cfg
 pip-selfcheck.json
 ### JetBrains template

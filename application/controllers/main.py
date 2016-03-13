@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-@author: Negmo
-"""
+
 from flask import Blueprint, render_template
 
 __all__ = ["main"]

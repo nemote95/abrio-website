@@ -1,8 +1,5 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-"""
-@author: Negmo
-"""
 
 import os
 from application import create_app

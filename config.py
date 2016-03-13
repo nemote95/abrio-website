@@ -9,7 +9,9 @@ class DefaultConfig(object):
     DEPLOYMENT = False
 
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'developers@abrio.ir'
-    SITE_NAME = 'http://abrio.ir'
+
+    TEMPLATE = ''
+    SITE_NAME = 'Abrio'
 
     # Blueprint need to be installed entered here
     INSTALLED_CONTROLLERS = (
