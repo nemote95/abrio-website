@@ -10,4 +10,5 @@ python 2.x
 alternative: if virtualenv haven't been installed use `sudo apt-get install virtual` to install it.
 3. Go to created environment by `source venv/bin/activate`
 4. Install project dependencies by `pip install -r requirments`
-5. Run project `python manage.py`
+5. create database by 'python manage.py database create'
+6. Run project `python manage.py`
