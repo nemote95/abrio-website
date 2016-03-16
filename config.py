@@ -19,6 +19,7 @@ class DefaultConfig(object):
     # Blueprint need to be installed entered here
     INSTALLED_CONTROLLERS = (
         'main',
+        'user'
     )
 
 

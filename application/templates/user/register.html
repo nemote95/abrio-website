@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+
+</head>
+<body>
+    {% from "_fieldrender.html" import render_field %}
+        <form method=post action="{{url_for('user.register')}}">
+            <dl>
+                {{ render_field(form.email) }}
+                {{ render_field(form.password) }}
+                {{ render_field(form.confirm)}}
+
+            </dl>
+            <p><input type=submit value=Signup>
+        </form>
+
+
+</body>
+</html>
