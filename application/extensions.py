@@ -2,8 +2,8 @@
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 
-__all__ = ["db", "login"]
+__all__ = ["db", "login_manager"]
 
 db = SQLAlchemy()
-login = LoginManager()
-login.session_protection = 'strong'
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'

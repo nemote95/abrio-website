@@ -1,7 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import current_app, request, url_for
 from flask.ext.login import UserMixin
-from application.extensions import db, login
+from application.extensions import db, login_manager
 
 
 class User(UserMixin, db.Model):
@@ -28,6 +28,6 @@ class User(UserMixin, db.Model):
         return '<User %r>' % self.email
 
 
-@login.user_loader
+@login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))

@@ -12,3 +12,8 @@ class RegistrationForm(Form):
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError("Email already registered.")
+
+
+class LoginForm(Form):
+    email = StringField('Email Address', [validators.Length(min=6, max=35), validators.DataRequired()])
+    password = PasswordField('New Password', [validators.DataRequired(), validators.Length(min=6)])

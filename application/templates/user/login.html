@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Registration</title>
+    <title>Login</title>
 
 </head>
 <body>
@@ -15,12 +15,12 @@
              </ul>
         {% endif %}
     {% endwith %}
+
     {% from "_fieldrender.html" import render_field %}
-        <form method=post action="{{url_for('user.register')}}">
+        <form method=post action="{{url_for('user.login')}}">
             <dl>
                 {{ render_field(form.email) }}
                 {{ render_field(form.password) }}
-                {{ render_field(form.confirm)}}
 
             </dl>
             <p><input type=submit value=Signup>
