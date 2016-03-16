@@ -1,5 +1,6 @@
 # python imports
 import os
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -15,7 +16,6 @@ class DefaultConfig(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') or 'sqlite:///db.sqlite'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
-
     # Blueprint need to be installed entered here
     INSTALLED_CONTROLLERS = (
         'main',
@@ -25,6 +25,7 @@ class DefaultConfig(object):
 
 class DevelopmentConfig(DefaultConfig):
     DEBUG = True
+
 
 config = {
     'development': DevelopmentConfig,

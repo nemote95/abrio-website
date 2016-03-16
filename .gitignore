@@ -66,6 +66,7 @@ target/
 [Ll]ib
 [Ss]cripts
 /venv
+/application/db.sqlite
 pyvenv.cfg
 pip-selfcheck.json
 ### JetBrains template

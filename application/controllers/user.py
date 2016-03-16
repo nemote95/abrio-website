@@ -1,11 +1,11 @@
 # flask imports
-from flask.ext.login import login_user
 from flask import Blueprint, render_template, redirect, request, url_for, flash
-# project imports
-from application.extensions import db,login_manager
-from application.forms.user import RegistrationForm,LoginForm
-from application.models.user import User
+from flask.ext.login import login_user
 
+# project imports
+from application.extensions import db
+from application.forms.user import RegistrationForm, LoginForm
+from application.models.user import User
 
 __all__ = ["user"]
 
@@ -17,7 +17,7 @@ def register():
     form = RegistrationForm(request.form)
     if request.method == 'POST' and form.validate():
         new_user = User(email=form.email.data,
-                    password=form.password.data)
+                        password=form.password.data)
         db.session.add(new_user)
         db.session.commit()
         flash('A confirmation email has been sent to you by email.')
@@ -35,4 +35,3 @@ def login():
             return redirect(request.args.get('next') or url_for('main.index'))
         flash('Invalid username or password.')
     return render_template('user/login.html', form=form)
-
