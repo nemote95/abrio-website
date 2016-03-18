@@ -15,7 +15,7 @@ def drop():
 
 @manager.command
 def create():
-    """Creates database tables from sqlalchemy models"""
+    """Creates database tables from SqlAlchemy models"""
     db.create_all()
 
 
