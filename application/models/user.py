@@ -10,8 +10,10 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
-    company = db.Column(db.String(64))
-    phone_number= db.Column(db.String(15))
+    name = db.Column(db.String(100))
+    company = db.Column(db.String(100))
+    phone_number = db.Column(db.String(15))
+    ssn = db.Column(db.String(10))
 
     @property
     def password(self):
