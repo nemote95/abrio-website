@@ -8,6 +8,7 @@ class Project(db.Model):
     file_path = db.Column(db.String())
     owner = db.Column(db.Integer, db.ForeignKey('users.id'))
     git_url = db.Column(db.String())
+    plan = db.Column(db.Integer, db.ForeignKey('plans.id'))
 
     def __repr__(self):
         return '<Project %r>' % self.name
