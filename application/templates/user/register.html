@@ -1,31 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Registration</title>
+   <title>Login</title>
+    <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/bulma.min.css") }}>
+    <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/login.css") }}>
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <meta charset="utf-8">
 
 </head>
 <body>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class=flashes>
-                {% for message in messages %}
-            <li>{{ message }}</li>
-                {% endfor %}
-             </ul>
-        {% endif %}
-    {% endwith %}
-    {% from "_fieldrender.html" import render_field %}
-        <form method=post action="{{url_for('user.register')}}">
-            <dl>
-                {{ render_field(form.email) }}
-                {{ render_field(form.password) }}
-                {{ render_field(form.confirm)}}
+          <header class="header">
+            <div class="container">
+                <div class="header-left">
+                    <a class="header-item" href="/login">
+                        <button class="button is-success">ورود</button>
+                    </a>
+                </div>
+                <div class="header-right" style="direction: rtl;">
+                    <a class="header-item logo" href="/">
+                        <img src={{ url_for('static',filename="medias/abrio-blue.png") }}>
+                        <span class="header-banner">
+                         اَبریو
+                        </span>
+                    </a>
+                    
+                    <a class="header-item" href="#">خانه</a>
+                </div>
 
-            </dl>
-            <p><input type=submit value="Sign up">
-        </form>
-
+            </div>
+        </header>
+            <div class="hero is-large">
+                {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                    <div class="message is-danger">
+                                      <div class="message-header">
+                                        Messages
+                                      </div>
+                                      <div class="message-body">
+                                        <ul class=flashes>
+                                        {% for message in messages %}
+                                            <li>{{ message }}</li>
+                                        {% endfor %}
+                                        </ul>
+                                      </div>
+                                    </div>    
+                        {% endif %}
+                {% endwith %}
+                <div class="columns">
+                <form class="column is-4 is-offset-4">
+                    <legend><h1>ثبت نام</h1></legend>
+                    <p class="control has-icon">
+                        <input class="input" type="email" name="email" placeholder="پست الکترونیکی">
+                        <i class="fa fa-envelope"></i>
+                    </p>
+                    <p class="control has-icon">
+                        <input class="input" type="password" name="password" placeholder="رمز عبور">
+                        <i class="fa fa-lock"></i>
+                    </p>
+                    <p class="control has-icon">
+                        <input class="input" type="password" name="password" placeholder="تکرار رمز عبور">
+                        <i class="fa fa-lock"></i>
+                    </p>
+                    <p class="control">
+                        <button class="button is-primary">
+                            ثبت نام
+                         </button>
+                    </p>    
+                </form>
+                
+            </div>
+            </div>
+            <footer class="footer">
+                <div class="container">
+                    <div class="content is-centered">
+                        <p><strong>اَبریو</strong> پشتتون رو خالی نمیکنه :)</p>
+                    </div>
+                </div>
+            </footer>  
 
 </body>
 </html>

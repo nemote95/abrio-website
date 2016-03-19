@@ -1,0 +1,89 @@
+@font-face{
+    font-family: 'Yekan';
+    src: url('../font/BYekan.eot?#iefix') format('embedded-opentype'),
+    url('../font/BYekan.woff') format('woff'),
+    url('../font/BYekan.ttf') format('truetype');
+}
+html {
+	background-color: #f5f7fa;
+}
+body *{
+	font-family: 'Yekan' , sans-serif;
+}
+body{
+	font-family: 'Yekan' , sans-serif;
+}
+
+footer{
+	border-top : 1px solid #e3e3e3;
+	font-size: 1.2em;
+}
+ footer .content {
+ 	direction: rtl;
+
+ }
+ .hero{
+ 	padding-bottom: 3em;
+ }
+.header {
+	direction: ltr;
+	color : #454545;
+	border: none;
+	box-shadow: none;
+	min-height: 5rem;
+	font-size: 1.2em;
+}
+.header-item{
+	margin-left: 1em;
+	opacity: 0.8;
+}
+.logo:hover{
+	text-decoration: normal !important;
+}
+.header-banner{
+	color: #1fc8db;
+	margin-left: 1em;
+	margin-right: 0.5em;
+}
+.header .container {
+	box-shadow: none;
+}
+.input{
+	background-color: #fff;
+	border : 1px solid #e3e3e3;
+	border-radius: 4px;
+	padding: 1em;
+	min-height: 55px;
+	box-shadow: none;
+}
+.header a {
+	color: inherit;
+
+}
+.header a:hover {
+	opacity: 1;
+}
+form legend{
+	margin-bottom: 1em;
+	margin-top: 1em;
+}
+form button {
+	width: 100%;
+	margin:auto;
+	min-height: 55px;
+	font-size: 3em;
+	float: right;
+	font-family: 'Yekan';
+
+}
+.border{
+	background-color: #fff;
+	border-radius: 4px;
+	margin-top: 2em;
+}
+/*p.control {
+	text-align: center;
+}*/
+.column{
+	direction: rtl;
+}
