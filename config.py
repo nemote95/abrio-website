@@ -17,6 +17,7 @@ class DefaultConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     UPLOAD_FOLDER = 'uploads/'
+    UPLOAD_DIRECTORIES = ['components']
     ALLOWED_EXTENSIONS = {'jar'}
 
     # Blueprint need to be installed entered here
