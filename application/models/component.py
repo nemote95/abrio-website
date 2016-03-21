@@ -1,6 +1,7 @@
 from application.extensions import db
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer,BadSignature
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
+
 
 class Component(db.Model):
     __tablename__ = 'components'
@@ -13,16 +14,17 @@ class Component(db.Model):
         s = Serializer(current_app.config['SECRET_KEY'])
         return s.dumps({'id': self.id})
 
-    @staticmethod
-    def verify_token(token):
+    @classmethod
+    def verify_token(cls, token):
+        """
+        :raises BadSignature
+        :param token:
+        :return: component object that match token
+        """
         s = Serializer(current_app.config['SECRET_KEY'])
-        try:
-            data = s.loads(token)
-        except BadSignature:
-            return 401
-        component = Component.query.get(data['id'])
+        data = s.loads(token)
+        component = cls.query.get(data['id'])
         return component
 
     def __repr__(self):
         return '<Component %r>' % self.name
-

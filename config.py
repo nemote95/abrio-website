@@ -17,13 +17,12 @@ class DefaultConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     UPLOAD_FOLDER = 'uploads/'
-    ALLOWED_EXTENSIONS = set(['jar'])
+    ALLOWED_EXTENSIONS = {'jar'}
 
     # Blueprint need to be installed entered here
     INSTALLED_CONTROLLERS = (
         'main',
         'user',
-        'component'
     )
 
     INSTALLED_API = (
@@ -31,6 +30,7 @@ class DefaultConfig(object):
     )
 
     API_VERSION = '1'
+
 
 class DevelopmentConfig(DefaultConfig):
     DEBUG = True
