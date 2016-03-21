@@ -41,10 +41,22 @@ def configure_controllers(app):
             app.register_blueprint(route_obj)
 
 
+def configure_APIs(app):
+    apis = app.config['INSTALLED_API']
+    version = app.config['API_VERSION']
+    for api in apis:
+        bp = __import__('application.controllers.%s_api%s' % (api,version), fromlist=[api])
+
+        for route in bp.__all__:
+            route_obj = getattr(bp, route)
+            app.register_blueprint(route_obj)
+
+
 def create_app(config_name):
     app = Flask(__name__)
     configure_app(app)
     configure_controllers(app)
+    configure_APIs(app)
     configure_extensions(app)
     configure_error_handlers(app)
     return app

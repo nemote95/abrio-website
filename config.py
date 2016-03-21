@@ -16,12 +16,21 @@ class DefaultConfig(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') or 'sqlite:///db.sqlite'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
+    UPLOAD_FOLDER = 'uploads/'
+    ALLOWED_EXTENSIONS = set(['jar'])
+
     # Blueprint need to be installed entered here
     INSTALLED_CONTROLLERS = (
         'main',
-        'user'
+        'user',
+        'component'
     )
 
+    INSTALLED_API = (
+        'component',
+    )
+
+    API_VERSION = '1'
 
 class DevelopmentConfig(DefaultConfig):
     DEBUG = True
