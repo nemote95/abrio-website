@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Components</title>
+    <title>Component View</title>
 </head>
 <body>
+<p>component name : {{component.name}}</p>
+{% if component.deploy_version %}
+<p>deploy version : {{component.deploy_version}}</p>
+{% else %}
+<p> no deploy version has been set</p>
+{% endif %}
         {% with messages = get_flashed_messages() %}
         {% if messages %}
             <ul class=flashes>
@@ -15,13 +21,13 @@
         {% endif %}
     {% endwith %}
     {% from "_fieldrender.html" import render_field %}
-        <form method=post action="{{url_for('component.create')}}">
-                {{ render_field(form.name) }}
-            <p><input type=submit value="Create">
+        <form method=post action="{{url_for('component.upload',cid=component.id)}}" enctype="multipart/form-data">
+             {{ upload_form.file.label }}
+            {{ upload_form.file }}
+            {{ upload_form.version.label }}
+            {{ upload_form.version }}
+            {{ upload_form.csrf_token }}
+            <input type="submit" value="Upload">
         </form>
-
-    {% for component in components%}
-        <p>name : {{component.name}}-version : {{component.deploy_version}}</p>
-    {% endfor %}
 </body>
 </html>

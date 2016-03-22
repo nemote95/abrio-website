@@ -30,13 +30,13 @@ def upload_component():
     try:
         component = Component.verify_token(token)
         component.deploy_version = version
-        db.session.commit()
     except BadSignature:
         return abort(401)
 
     if file_type in current_app.config['ALLOWED_EXTENSIONS']:
         jar_file.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
                                    'components', '%s_v%s.%s' % (str(component.id), version, file_type)))
+        db.session.commit()
         return 'successfully uploaded', 200
     else:
         return abort(422)
