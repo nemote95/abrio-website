@@ -45,7 +45,6 @@ def view(cid):
     edit_form = EditForm()
     regex = re.compile(r'\d+_(v(.+)\..+)')
     edit_form.deploy_version.choices = [(regex.match(f).group(2), regex.match(f).group(1)) for f in c.component_files()]
-    print edit_form.deploy_version.choices
     return render_template('component/view.html', upload_form=upload_form, edit_form=edit_form, component=c)
 
 
@@ -79,7 +78,6 @@ def edit(cid):
     form.deploy_version.choices = [(regex.match(f).group(2), regex.match(f).group(1)) for f in c.component_files()]
     if current_user.id != c.owner:
         return abort(403)
-    print form.validate()
     if form.validate():
         if form.deploy_version.data:
             c.deploy_version = form.deploy_version.data
@@ -90,3 +88,17 @@ def edit(cid):
         else:
             flash('no change')
     return redirect(url_for('component.view', cid=cid))
+
+
+@component.route('/delete/<int:cid>', methods=['POST'])
+@login_required
+def delete(cid):
+    c = Component.query.filter_by(id=cid).one_or_none()
+    if current_user.id != c.owner:
+        return abort(403)
+    for file in c.component_files():
+        print file
+        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'],'components',file))
+    db.session.delete(c)
+    db.session.commit()
+    return redirect(url_for('component.list'))

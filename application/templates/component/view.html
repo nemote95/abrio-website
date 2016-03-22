@@ -5,24 +5,30 @@
     <title>Component View</title>
 </head>
 <body>
+info:
 <p>component name : {{component.name}}</p>
 {% if component.deploy_version %}
 <p>deploy version : {{component.deploy_version}}</p>
 {% else %}
 <p> no deploy version has been set</p>
 {% endif %}
+delete:<br>
+<form method=post action="{{url_for('component.delete',cid=component.id)}}" enctype="multipart/form-data">
+    <input type="submit" value="Delete">
+    </form>
+edit:<br>
 {% from "_fieldrender.html" import render_field %}
 <form method=post action="{{url_for('component.edit',cid=component.id)}}" enctype="multipart/form-data">
-    {{ render_field(edit_form.name)}}
-    {{ render_field(edit_form.deploy_version) }}
+    {{ render_field(edit_form.name)}}<br>
+    {{ render_field(edit_form.deploy_version) }}<br>
     {{ edit_form.csrf_token }}
     <input type="submit" value="Update">
 </form>
 
-
+upload:<br>
 <form method=post action="{{url_for('component.upload',cid=component.id)}}" enctype="multipart/form-data">
-            {{ render_field(upload_form.file) }}
-            {{ render_field(upload_form.version) }}
+            {{ render_field(upload_form.file) }}<br>
+            {{ render_field(upload_form.version) }}<br>
             {{ upload_form.csrf_token }}
             <input type="submit" value="Upload">
 </form>
