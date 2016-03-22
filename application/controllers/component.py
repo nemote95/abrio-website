@@ -1,5 +1,6 @@
 # python imports
 import os
+import re
 # flask imports
 from flask import Blueprint, request, render_template, redirect, url_for, flash, abort, current_app
 from flask.ext.login import current_user, login_required
@@ -42,6 +43,9 @@ def view(cid):
         return abort(403)
     upload_form = UploadForm()
     edit_form = EditForm()
+    regex = re.compile(r'\d+_(v(.+)\..+)')
+    edit_form.deploy_version.choices = [(regex.match(f).group(2), regex.match(f).group(1)) for f in c.component_files()]
+    print edit_form.deploy_version.choices
     return render_template('component/view.html', upload_form=upload_form, edit_form=edit_form, component=c)
 
 
@@ -58,7 +62,7 @@ def upload(cid):
         if file_type in current_app.config['ALLOWED_EXTENSIONS']:
             form.file.data.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
                                              'components', '%s_v%s.%s' % (str(cid), form.version.data, file_type)))
-            c.deploy_version=form.version.data
+            c.deploy_version = form.version.data
             db.session.commit()
         else:
             flash('wrong file type')
@@ -69,14 +73,20 @@ def upload(cid):
 @component.route('/edit/<int:cid>', methods=['POST'])
 @login_required
 def edit(cid):
-    form = EditForm(request.form)
     c = Component.query.filter_by(id=cid).one_or_none()
+    form = EditForm(request.form)
+    regex = re.compile(r'\d+_(v(.+)\..+)')
+    form.deploy_version.choices = [(regex.match(f).group(2), regex.match(f).group(1)) for f in c.component_files()]
     if current_user.id != c.owner:
         return abort(403)
     print form.validate()
     if form.validate():
-        c.deploy_version=form.deploy_version.data
-        c.name=form.name.data
-        db.session.commit()
-        flash('successfully updated')
+        if form.deploy_version.data:
+            c.deploy_version = form.deploy_version.data
+            db.session.commit()
+        if form.name.data:
+            c.name = form.name.data
+            db.session.commit()
+        else:
+            flash('no change')
     return redirect(url_for('component.view', cid=cid))

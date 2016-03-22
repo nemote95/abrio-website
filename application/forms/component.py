@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, validators
+from wtforms import Form, StringField, SelectField, validators
 from flask.ext.wtf import Form as WTFForm
 from flask.ext.wtf.file import FileField, FileRequired
 
@@ -13,5 +13,5 @@ class UploadForm(WTFForm):
 
 
 class EditForm(Form):
-    name = StringField('Component_name', [validators.DataRequired()])
-    deploy_version = StringField('version', [validators.DataRequired()])
+    name = StringField('Component Name', validators=[validators.optional()])
+    deploy_version = SelectField('deploy version', validators=[validators.optional()])
