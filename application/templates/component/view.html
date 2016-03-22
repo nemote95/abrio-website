@@ -5,6 +5,21 @@
     <title>Components</title>
 </head>
 <body>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+            <li>{{ message }}</li>
+                {% endfor %}
+             </ul>
+        {% endif %}
+    {% endwith %}
+    {% from "_fieldrender.html" import render_field %}
+        <form method=post action="{{url_for('component.create')}}">
+                {{ render_field(form.name) }}
+            <p><input type=submit value="Create">
+        </form>
+
     {% for component in components%}
         <p>name : {{component.name}}-version : {{component.deploy_version}}</p>
     {% endfor %}
