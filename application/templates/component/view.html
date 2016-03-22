@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Components</title>
+</head>
+<body>
+    {% for component in components%}
+        <p>name : {{component.name}}-version : {{component.deploy_version}}</p>
+    {% endfor %}
+</body>
+</html>

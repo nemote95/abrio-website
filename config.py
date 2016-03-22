@@ -24,6 +24,7 @@ class DefaultConfig(object):
     INSTALLED_CONTROLLERS = (
         'main',
         'user',
+        'component',
     )
 
     INSTALLED_API = (
