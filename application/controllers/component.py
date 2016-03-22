@@ -6,7 +6,7 @@ from flask.ext.login import current_user, login_required
 from werkzeug import secure_filename
 # project imports
 from application.models.component import Component
-from application.forms.component import CreateComponentForm, UploadForm
+from application.forms.component import CreateComponentForm, UploadForm, EditForm
 from application.extensions import db
 
 __all__ = ['component']
@@ -40,8 +40,9 @@ def view(cid):
     c = Component.query.filter_by(id=cid).one_or_none()
     if current_user.id != c.owner:
         return abort(403)
-    upload_form = UploadForm(request.form)
-    return render_template('component/view.html', upload_form=upload_form, component=c)
+    upload_form = UploadForm()
+    edit_form = EditForm()
+    return render_template('component/view.html', upload_form=upload_form, edit_form=edit_form, component=c)
 
 
 @component.route('/upload/<int:cid>', methods=['POST'])
@@ -62,4 +63,20 @@ def upload(cid):
         else:
             flash('wrong file type')
     flash('invalid form')
+    return redirect(url_for('component.view', cid=cid))
+
+
+@component.route('/edit/<int:cid>', methods=['POST'])
+@login_required
+def edit(cid):
+    form = EditForm(request.form)
+    c = Component.query.filter_by(id=cid).one_or_none()
+    if current_user.id != c.owner:
+        return abort(403)
+    print form.validate()
+    if form.validate():
+        c.deploy_version=form.deploy_version.data
+        c.name=form.name.data
+        db.session.commit()
+        flash('successfully updated')
     return redirect(url_for('component.view', cid=cid))
