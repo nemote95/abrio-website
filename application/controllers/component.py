@@ -14,9 +14,9 @@ __all__ = ['component']
 component = Blueprint('component', __name__)
 
 
-@component.route('/list', methods=['GET'])
+@component.route('/components_list', methods=['GET'])
 @login_required
-def list():
+def list_components():
     form = CreateComponentForm(request.form)
     c = Component.query.filter_by(owner=current_user.id).all()
     return render_template('component/list.html', components=c, form=form)
@@ -30,9 +30,9 @@ def create():
         new_component = Component(name=form.name.data, owner=current_user.id)
         db.session.add(new_component)
         db.session.commit()
-        return redirect(url_for('component.list'))
+        return redirect(url_for('component.list_components'))
     flash('creation failed')
-    return redirect(url_for('component.list'))
+    return redirect(url_for('component.list_components'))
 
 
 @component.route('/view/<int:cid>', methods=['GET'])
@@ -101,4 +101,4 @@ def delete(cid):
         os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'],'components',file))
     db.session.delete(c)
     db.session.commit()
-    return redirect(url_for('component.list'))
+    return redirect(url_for('component.list_components'))
