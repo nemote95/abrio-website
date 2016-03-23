@@ -5,6 +5,15 @@
     <title>Component View</title>
 </head>
 <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+            <li>{{ message }}</li>
+                {% endfor %}
+             </ul>
+        {% endif %}
+    {% endwith %}
 info:
 <p>component name : {{component.name}}</p>
 {% if component.deploy_version %}
