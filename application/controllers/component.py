@@ -11,10 +11,10 @@ from application.forms.component import CreateComponentForm, UploadForm, EditFor
 from application.extensions import db
 
 __all__ = ['component']
-component = Blueprint('component', __name__)
+component = Blueprint('component', __name__,url_prefix='/component')
 
 
-@component.route('/components_list', methods=['GET'])
+@component.route('/list', methods=['GET'])
 @login_required
 def list_components():
     form = CreateComponentForm(request.form)
@@ -63,9 +63,9 @@ def upload(cid):
                                              'components', '%s_v%s.%s' % (str(cid), form.version.data, file_type)))
             c.deploy_version = form.version.data
             db.session.commit()
+            return redirect(url_for('component.view', cid=cid))
         else:
             flash('wrong file type')
-    flash('invalid form')
     return redirect(url_for('component.view', cid=cid))
 
 
@@ -96,9 +96,8 @@ def delete(cid):
     c = Component.query.filter_by(id=cid).one_or_none()
     if current_user.id != c.owner:
         return abort(403)
-    for file in c.component_files():
-        print file
-        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'],'components',file))
+    for f in c.component_files():
+        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'],'components', f))
     db.session.delete(c)
     db.session.commit()
     return redirect(url_for('component.list_components'))
