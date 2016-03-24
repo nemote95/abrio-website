@@ -25,6 +25,7 @@ class DefaultConfig(object):
         'main',
         'user',
         'component',
+        'project',
     )
 
     INSTALLED_API = (

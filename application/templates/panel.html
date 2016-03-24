@@ -5,7 +5,10 @@
     <title>My Panel</title>
 </head>
 <body>
-<a href="{{url_for('component.list_components')}}">components</a>
-<a>edit profile</a>
+<ul>
+<li><a href="{{url_for('project.list_projects')}}">projects</a></li>
+<li><a href="{{url_for('component.list_components')}}">components</a></li>
+<li><a>edit profile</a></li>
+    </ul>
 </body>
 </html>
