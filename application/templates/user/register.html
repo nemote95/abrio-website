@@ -13,7 +13,7 @@
             <div class="container">
                 <div class="header-left">
                     <a class="header-item" href="/login">
-                        <button class="button is-success">ورود</button>
+                        <button class="button is-danger">ورود</button>
                     </a>
                 </div>
                 <div class="header-right" style="direction: rtl;">
@@ -47,7 +47,7 @@
                         {% endif %}
                 {% endwith %}
                 <div class="columns">
-                <form class="column is-4 is-offset-4">
+                <form class="border column is-4 is-offset-4" method="post">
                     <legend><h1>ثبت نام</h1></legend>
                     <p class="control has-icon">
                         <input class="input" type="email" name="email" placeholder="پست الکترونیکی">
@@ -62,7 +62,7 @@
                         <i class="fa fa-lock"></i>
                     </p>
                     <p class="control">
-                        <button class="button is-primary">
+                        <button class="button is-success">
                             ثبت نام
                          </button>
                     </p>    
