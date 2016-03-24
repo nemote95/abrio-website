@@ -21,7 +21,7 @@
         </form>
 
     {% for project in projects%}
-        name : {{project.name}}
+        <a href="{{url_for('project.view',pid=project.id)}}">name : {{project.name}}</a>
     {% endfor %}
 </body>
 </html>
