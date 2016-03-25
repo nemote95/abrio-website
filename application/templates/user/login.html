@@ -9,45 +9,45 @@
 
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <div class="header-left">
-                <a class="header-item" href="/register">
-                    
-                </a>
-            </div>
-            <div class="header-right" style="direction: rtl;">
-                <a class="header-item logo" href="#">
-                    <img src={{ url_for('static',filename="medias/abrio-blue.png") }}>
+<header class="header">
+    <div class="container">
+        <div class="header-left">
+            <a class="header-item" href="/register">
+
+            </a>
+        </div>
+        <div class="header-right" style="direction: rtl;">
+            <a class="header-item logo" href="#">
+                <img src={{ url_for('static',filename="medias/abrio-blue.png") }}>
                     <span class="header-banner">
                      اَبریو
                     </span>
-                </a>
-                
-                <a class="header-item" href="#">خانه</a>
-            </div>
+            </a>
 
+            <a class="header-item" href="#">خانه</a>
         </div>
-    </header>
-    <div class="hero is-large">
-            {% with messages = get_flashed_messages() %}
-                            {% if messages %}
-                                <div class="message is-danger">
-                                  <div class="message-header">
-                                    Messages
-                                  </div>
-                                  <div class="message-body">
-                                    <ul class=flashes>
-                                    {% for message in messages %}
-                                        <li>{{ message }}</li>
-                                    {% endfor %}
-                                    </ul>
-                                  </div>
-                                </div>    
-                    {% endif %}
-            {% endwith %}
-        
-        <div class="columns">
+
+    </div>
+</header>
+<div class="hero is-large">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="message is-danger">
+                <div class="message-header">
+                    Messages
+                </div>
+                <div class="message-body">
+                    <ul class=flashes>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="columns">
         <form class="column is-4 is-offset-4 border" method="post">
             <legend><h1>ورود</h1></legend>
             <p class="control has-icon">
@@ -58,27 +58,27 @@
                 <input class="input" type="password" name="password" placeholder="رمز عبور">
                 <i class="fa fa-lock"></i>
             </p>
-            
+
             <p class="control">
                 <button class="button is-danger">
                     ورود
-                 </button>
+                </button>
             </p>
             <p class="link">
                 حساب کاربری اَبریو ندارید ؟ <a href="/register">همین الان ثبت نام کنید</a>
-            </p>    
+            </p>
         </form>
-        
+
     </div>
+</div>
+<footer class="footer">
+    <div class="container">
+        <div class="content is-centered">
+            <p><strong>اَبریو</strong> پشتتون رو خالی نمیکنه :)</p>
+        </div>
     </div>
-         <footer class="footer">
-                <div class="container">
-                    <div class="content is-centered">
-                        <p><strong>اَبریو</strong> پشتتون رو خالی نمیکنه :)</p>
-                    </div>
-                </div>
-            </footer>  
-   
+</footer>
+
 
 </body>
 </html>
