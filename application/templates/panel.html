@@ -7,7 +7,7 @@
 <body>
 <ul>
     <li><a href="{{url_for('user.info',uid=current_user.id)}}">Profile</a></li>
-    <li><a>edit profile</a></li>
+    <li><a href="{{url_for('user.edit_view')}}">edit profile</a></li>
     <li><a href="{{url_for('project.list_projects')}}">Projects</a></li>
     <li><a href="{{url_for('component.list_components')}}">Components</a></li>
     </ul>

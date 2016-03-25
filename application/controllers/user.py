@@ -1,10 +1,12 @@
+# python imports
+from sqlalchemy.orm.exc import NoResultFound
 # flask imports
-from flask import Blueprint, render_template, redirect, request, url_for, flash
-from flask.ext.login import login_user, login_required,logout_user, current_user
+from flask import Blueprint, render_template, redirect, request, url_for, flash, abort
+from flask.ext.login import login_user, login_required, logout_user, current_user
 
 # project imports
 from application.extensions import db
-from application.forms.user import RegistrationForm, LoginForm
+from application.forms.user import RegistrationForm, LoginForm, EditProfileForm
 from application.models.user import User
 
 __all__ = ["user"]
@@ -47,5 +49,38 @@ def logout():
 
 @user.route('/profile/<int:uid>')
 def info(uid):
-    user_page = User.query.filter_by(id=current_user.id).one()
-    return render_template('user/profile.html', user_page=current_user)
+    try:
+        user_page = User.query.filter_by(id=uid).one()
+    except NoResultFound:
+        abort(404)
+    return render_template('user/profile.html', user_page=user_page)
+
+
+@user.route('/edit_profile')
+def edit_view():
+    form = EditProfileForm(request.form)
+    return render_template('user/edit.html', form=form)
+
+
+@user.route('/edit', methods=['Post'])
+@login_required
+def edit_profile():
+    form = EditProfileForm(request.form)
+    if form.validate():
+        u = User.query.filter_by(id=current_user.id).one()
+        print u
+        if form.company.data:
+            u.company = form.company.data
+            db.session.commit()
+        if form.name.data:
+            u.name = form.name.data
+            db.session.commit()
+        if form.phone_number.data:
+            u.phone_number = form.phone_number.data
+            db.session.commit()
+        if form.ssn.data:
+            u.ssn = form.ssn.data
+            db.session.commit()
+        return redirect(url_for('user.info', uid=current_user.id))
+    flash('invalid information')
+    return redirect(url_for('user.edit_view', uid=current_user.id))

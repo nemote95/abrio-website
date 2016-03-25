@@ -66,6 +66,8 @@ def upload(cid):
             return redirect(url_for('component.view', cid=cid))
         else:
             flash('wrong file type')
+            return redirect(url_for('component.view', cid=cid))
+    flash('invalid form')
     return redirect(url_for('component.view', cid=cid))
 
 
@@ -85,8 +87,8 @@ def edit(cid):
         if form.name.data:
             c.name = form.name.data
             db.session.commit()
-        else:
-            flash('no change')
+        return redirect(url_for('component.view', cid=cid))
+    flash('invalid form')
     return redirect(url_for('component.view', cid=cid))
 
 
