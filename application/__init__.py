@@ -19,6 +19,7 @@ def configure_extensions(app):
         except (AttributeError, TypeError):
             pass
 
+
 def configure_error_handlers(app):
     @app.errorhandler(404)
     def page_not_found(_):
