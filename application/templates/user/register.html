@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-    <title>Login</title>
+    <title>Registration</title>
     <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/bulma.min.css") }}>
     <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/login.css") }}>
     <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
@@ -12,7 +12,7 @@
 <header class="header">
     <div class="container">
         <div class="header-left">
-            <a class="header-item" href="/login">
+            <a class="header-item" href="{{url_for('user.login')}}">
                 <button class="button is-danger">ورود</button>
             </a>
         </div>
@@ -47,24 +47,25 @@
         {% endif %}
     {% endwith %}
     <div class="columns">
-        <form class="border column is-4 is-offset-4" method="post">
+        <form class="border column is-4 is-offset-4" action="{{url_for('user.register')}}" method="post">
             <legend><h1>ثبت نام</h1></legend>
             <p class="control has-icon">
-                <input class="input" type="email" name="email" placeholder="پست الکترونیکی">
+                {{form.email(class_="input",placeholder="پست الکترونیکی")}}
                 <i class="fa fa-envelope"></i>
             </p>
             <p class="control has-icon">
-                <input class="input" type="password" name="password" placeholder="رمز عبور">
+                {{form.password(class_="input",placeholder="رمز عبور")}}
                 <i class="fa fa-lock"></i>
             </p>
             <p class="control has-icon">
-                <input class="input" type="password" name="password" placeholder="تکرار رمز عبور">
+                {{form.confirm(class_="input",placeholder="تکرار رمز عبور")}}
                 <i class="fa fa-lock"></i>
             </p>
+            {{form.csrf_token}}
             <p class="control">
-                <button class="button is-success">
-                    ثبت نام
-                </button>
+                            <button class="button is-success" type="submit">
+ثبت نام
+                 </button>
             </p>
         </form>
 

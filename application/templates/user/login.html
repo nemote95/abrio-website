@@ -48,24 +48,24 @@
     {% endwith %}
 
     <div class="columns">
-        <form class="column is-4 is-offset-4 border" method="post">
+        <form class="column is-4 is-offset-4 border" action="{{url_for('user.login')}}" method="post">
             <legend><h1>ورود</h1></legend>
             <p class="control has-icon">
-                <input class="input" type="email" name="email" placeholder="پست الکترونیکی">
+                {{form.email(class_="input",placeholder="پست الکترونیکی")}}
                 <i class="fa fa-envelope"></i>
             </p>
             <p class="control has-icon">
-                <input class="input" type="password" name="password" placeholder="رمز عبور">
+                {{form.password(class_="input",placeholder="رمز عبور")}}
                 <i class="fa fa-lock"></i>
             </p>
-
+            {{form.csrf_token}}
             <p class="control">
-                <button class="button is-danger">
+                <button type="submit" class="button is-danger">
                     ورود
-                </button>
+                 </button>
             </p>
             <p class="link">
-                حساب کاربری اَبریو ندارید ؟ <a href="/register">همین الان ثبت نام کنید</a>
+                حساب کاربری اَبریو ندارید ؟ <a href="{{url_for('user.register')}}">همین الان ثبت نام کنید</a>
             </p>
         </form>
 
