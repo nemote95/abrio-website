@@ -8,6 +8,13 @@ class Project(db.Model):
     owner = db.Column(db.Integer, db.ForeignKey('users.id'))
     plan = db.Column(db.Integer, db.ForeignKey('plans.id'))
 
+    @classmethod
+    def generate_fake(cls,user):
+        fake = Project(name="Fake Project",owner=user.id)
+        db.session.add(fake)
+        db.session.commit()
+        return fake
+
     def __repr__(self):
         return '<Project %r>' % self.name
 
