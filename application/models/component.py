@@ -33,6 +33,7 @@ class Component(db.Model):
 
     @classmethod
     def generate_fake(cls, user):
+        from shutil import copyfile
         from random import randint
         fake = Component(
             name='Fake Component',
@@ -42,9 +43,9 @@ class Component(db.Model):
         db.session.add(fake)
         db.session.commit()
         for i in range(int(fake.deploy_version)):
-            current_app.config['FAKE_UPLOAD'].save(os.path.join(current_app.config['UPLOAD_FOLDER'], 'components',
-                                                                '%s_v%s.%s' % (
-                                                                str(fake.id), fake.deploy_version, 'jar')))
+            copyfile(current_app.config['FAKE_UPLOAD'], os.path.join(current_app.config['UPLOAD_FOLDER'], 'components',
+                                                                     '%s_v%s.%s' % (
+                                                                     str(fake.id), i, 'jar')))
         return fake
 
     def __repr__(self):

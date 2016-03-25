@@ -26,3 +26,8 @@ def recreate():
     """
     drop()
     create()
+
+@manager.command
+def generate_fake():
+    from application.generate_fake import generate_fake
+    generate_fake()
