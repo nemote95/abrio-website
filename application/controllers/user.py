@@ -1,6 +1,6 @@
 # flask imports
 from flask import Blueprint, render_template, redirect, request, url_for, flash
-from flask.ext.login import login_user, login_required,logout_user
+from flask.ext.login import login_user, login_required,logout_user, current_user
 
 # project imports
 from application.extensions import db
@@ -43,3 +43,9 @@ def logout():
     logout_user()
     flash('You have been logged out.')
     return redirect(url_for('main.index'))
+
+
+@user.route('/profile/<int:uid>')
+def info(uid):
+    user_page = User.query.filter_by(id=current_user.id).one()
+    return render_template('user/profile.html', user_page=current_user)
