@@ -1,7 +1,7 @@
 # flask imports
 from flask.ext.script import Manager, prompt_bool
 # project imports
-from application.extensions import db
+from application.extensions import db,redis
 
 manager = Manager(usage="Perform database operations")
 
@@ -11,6 +11,7 @@ def drop():
     """Drops database tables"""
     if prompt_bool("Are you sure you want to lose all your data"):
         db.drop_all()
+        redis.flushall()
 
 
 @manager.command

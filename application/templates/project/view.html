@@ -5,15 +5,15 @@
     <title>Project View</title>
 </head>
 <body>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class=flashes>
-                {% for message in messages %}
-            <li>{{ message }}</li>
-                {% endfor %}
-             </ul>
-        {% endif %}
-    {% endwith %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
 
 info:
 <p>Project Name : {{project.name}}</p>
@@ -23,6 +23,15 @@ info:
 <p> no plan has been set</p>
 {% endif %}
 
+<form action="{{url_for('project.run_project',pid=project.id)}}" method="POST">
+    {% if running %}
+    <input type="submit" value="Stop">
+    {%else%}
+    <input type="submit" value="Run">
+    {% endif %}
+</form>
+
+
 define logic:<br>
 {% from "_fieldrender.html" import render_field %}
 <form method=post action="{{url_for('project.define_logic',pid=project.id)}}" enctype="multipart/form-data">
@@ -31,11 +40,11 @@ define logic:<br>
     {{ render_field(logic_form.message_type) }}<br>
     {{ logic_form.csrf_token }}
     <input type="submit" value="Add">
-    </form>
-    <ul>
+</form>
+<ul>
     {% for c1,c2,t in logic_view%}
-       <li> <a href="{{url_for('component.view',cid=c1.id)}}">{{c1.name}}</a>-<a href="{{url_for('component.view',cid=c2.id)}}">{{c2.name}}</a>  : {{t}}</li>
+    <li> <a href="{{url_for('component.view',cid=c1.id)}}">{{c1.name}}</a>-<a href="{{url_for('component.view',cid=c2.id)}}">{{c2.name}}</a>  : {{t}}</li>
     {% endfor %}
-        </ul>
+</ul>
 </body>
 </html>

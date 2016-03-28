@@ -1,5 +1,6 @@
 # python imports
 from sqlalchemy.exc import IntegrityError
+from uuid import uuid4
 # flask imports
 from flask import Blueprint, request, render_template, redirect, url_for, flash, abort, current_app
 from flask.ext.login import current_user, login_required
@@ -8,7 +9,7 @@ from application.models.project import Project
 from application.models.component import Component
 from application.models.logic import Logic
 from application.forms.project import CreateProjectForm, LogicForm
-from application.extensions import db
+from application.extensions import db,redis
 
 __all__ = ['project']
 project = Blueprint('project', __name__, url_prefix='/project')
@@ -27,7 +28,7 @@ def list_projects():
 def create():
     form = CreateProjectForm(request.form)
     if form.validate():
-        new_project = Project(name=form.name.data, owner=current_user.id)
+        new_project = Project(name=form.name.data, owner=current_user.id, private_key=str(uuid4()))
         db.session.add(new_project)
         db.session.commit()
         return redirect(url_for('project.list_projects'))
@@ -47,7 +48,8 @@ def view(pid):
     project_logic = Logic.query.filter_by(project_id=pid).all()
     logic_view = [(Component.query.filter_by(id=l.component_id1).one_or_none(),
                    Component.query.filter_by(id=l.component_id2).one_or_none(), l.message_type) for l in project_logic]
-    return render_template('project/view.html', project=p, logic_form=logic_form, logic_view=logic_view)
+    running = redis.exists('abr:%s' %p.private_key)
+    return render_template('project/view.html', project=p, logic_form=logic_form, logic_view=logic_view,running=running)
 
 
 @project.route('/define_logic/<int:pid>', methods=['POST'])
@@ -69,4 +71,17 @@ def define_logic(pid):
             flash('you have already defined this logic')
         return redirect(url_for('project.view', pid=pid))
     flash('invalid logic')
+    return redirect(url_for('project.view', pid=pid))
+
+
+@project.route('/run/<int:pid>', methods=['POST'])
+@login_required
+def run_project(pid):
+    p = Project.query.filter_by(id=pid).one_or_none()
+    if current_user.id != p.owner:
+        return abort(403)
+    if redis.exists('abr:%s' %p.private_key):
+        redis.delete('abr:%s' %p.private_key)
+    else:
+        redis.set('abr:%s' %p.private_key, pid)
     return redirect(url_for('project.view', pid=pid))
