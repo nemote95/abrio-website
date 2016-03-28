@@ -25,6 +25,23 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    @classmethod
+    def generate_fake(cls):
+        from faker import Factory
+        faker = Factory.create()
+        fake = User(
+            email=faker.email(),
+            password='123123',
+            name=faker.name(),
+            company=faker.company(),
+            phone_number=faker.phone_number(),
+            ssn=faker.profile()["ssn"]
+        )
+
+        db.session.add(fake)
+        db.session.commit()
+        return fake
+
     def __repr__(self):
         return '<User %r>' % self.email
 
