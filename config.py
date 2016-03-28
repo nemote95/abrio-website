@@ -17,6 +17,7 @@ class DefaultConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     UPLOAD_FOLDER = 'uploads/'
+    FAKE_UPLOAD = 'fake upload/sample.jar'
     UPLOAD_DIRECTORIES = ['components']
     ALLOWED_EXTENSIONS = {'jar'}
 

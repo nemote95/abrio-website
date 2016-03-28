@@ -31,5 +31,22 @@ class Component(db.Model):
         directory = os.path.join(current_app.config['UPLOAD_FOLDER'], 'components')
         return [filename for filename in os.listdir(directory) if filename.startswith(str(self.id))]
 
+    @classmethod
+    def generate_fake(cls, user):
+        from shutil import copyfile
+        from random import randint
+        fake = Component(
+            name='Fake Component',
+            deploy_version=randint(0, 10),
+            owner=user.id
+        )
+        db.session.add(fake)
+        db.session.commit()
+        for i in range(int(fake.deploy_version)):
+            copyfile(current_app.config['FAKE_UPLOAD'], os.path.join(current_app.config['UPLOAD_FOLDER'], 'components',
+                                                                     '%s_v%s.%s' % (
+                                                                     str(fake.id), i, 'jar')))
+        return fake
+
     def __repr__(self):
         return '<Component %r>' % self.name
