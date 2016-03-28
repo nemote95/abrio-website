@@ -1,12 +1,12 @@
 # python imports
 from sqlalchemy.exc import IntegrityError
 # flask imports
-from flask import Blueprint, request, render_template, redirect, url_for, flash, abort, current_app
+from flask import Blueprint, request, render_template, redirect, url_for, flash, abort
 from flask.ext.login import current_user, login_required
 # project imports
 from application.models.project import Project
 from application.models.component import Component
-from application.models.Logic import Logic
+from application.models.logic import Logic
 from application.forms.project import CreateProjectForm, LogicForm
 from application.extensions import db
 

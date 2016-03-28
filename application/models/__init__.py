@@ -3,4 +3,4 @@ from project import Project
 from plan import Plan
 from transaction import Transaction
 from component import Component
-from Logic import Logic
+from logic import Logic
