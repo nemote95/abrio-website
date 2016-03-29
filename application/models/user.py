@@ -3,7 +3,7 @@ from flask.ext.login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-class User(UserMixin, db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
@@ -13,6 +13,9 @@ class User(UserMixin, db.Model):
     company = db.Column(db.String(100))
     phone_number = db.Column(db.String(15))
     ssn = db.Column(db.String(10))
+
+    projects = db.relationship('Project', backref='users',
+                               lazy='dynamic', cascade='all,delete')
 
     @property
     def password(self):
@@ -29,14 +32,13 @@ class User(UserMixin, db.Model):
     def generate_fake(cls):
         from faker import Factory
         faker = Factory.create()
-        fake = User(
-            email=faker.email(),
-            password='123123',
-            name=faker.name(),
-            company=faker.company(),
-            phone_number=faker.phone_number(),
-            ssn=faker.profile()["ssn"]
-        )
+        fake = User()
+        fake.email = faker.email()
+        fake.password = '123123'
+        fake.name = faker.name()
+        fake.company = faker.company()
+        fake.phone_number = faker.phone_number()
+        fake.ssn = faker.profile()["ssn"]
 
         db.session.add(fake)
         db.session.commit()

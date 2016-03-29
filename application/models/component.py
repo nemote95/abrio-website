@@ -9,7 +9,7 @@ class Component(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     deploy_version = db.Column(db.String)
-    owner = db.Column(db.Integer, db.ForeignKey('users.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def generate_token(self):
         s = Serializer(current_app.config['SECRET_KEY'])
@@ -38,7 +38,7 @@ class Component(db.Model):
         fake = Component(
             name='Fake Component',
             deploy_version=randint(0, 10),
-            owner=user.id
+            owner_id=user.id
         )
         db.session.add(fake)
         db.session.commit()
