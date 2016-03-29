@@ -7,8 +7,8 @@ from flask import current_app
 class Component(db.Model):
     __tablename__ = 'components'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    deploy_version = db.Column(db.String)
+    name = db.Column(db.String(64))
+    deploy_version = db.Column(db.String(16))
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def generate_token(self):
