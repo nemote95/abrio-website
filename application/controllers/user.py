@@ -1,5 +1,6 @@
 # python imports
 from sqlalchemy.orm.exc import NoResultFound
+import re
 # flask imports
 from flask import Blueprint, render_template, redirect, request, url_for, flash, abort
 from flask.ext.login import login_user, login_required, logout_user, current_user
@@ -16,10 +17,11 @@ user = Blueprint("user", __name__)
 
 @user.before_app_request
 def before_request():
+    allowed_pattern = re.compile(r'(user\.|static|main\.).*')
+    match=re.match(allowed_pattern, str(request.endpoint))
     if current_user.is_authenticated and \
             not current_user.confirmed \
-            and request.endpoint[:5] != 'user.' \
-            and request.endpoint != 'static':
+            and not match:
         return redirect(url_for('user.unconfirmed'))
 
 
@@ -28,6 +30,16 @@ def unconfirmed():
     if current_user.is_anonymous or current_user.confirmed:
         return redirect(url_for('main.index'))
     return render_template('user/unconfirmed.html')
+
+
+@user.route('/resend_confirm')
+@login_required
+def resend_confirmation():
+    token = current_user.generate_confirmation_token()
+    email.send(current_user.email, 'Confirm Your Account',
+               render_template('user/email/confirm.html', user=current_user, token=token))
+    flash('A confirmation email has been sent to you by email.')
+    return redirect(url_for('main.index'))
 
 
 @user.route('/register', methods=['GET', 'POST'])
