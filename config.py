@@ -13,13 +13,21 @@ class DefaultConfig(object):
     TEMPLATE = ''
     SITE_NAME = 'Abrio'
 
+    # Database Configurations
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') or 'sqlite:///db.sqlite'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
+    # Upload Configurations
     UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER') or 'uploads/'
     FAKE_UPLOAD = 'fake upload/sample.jar'
     UPLOAD_DIRECTORIES = ['components']
     ALLOWED_EXTENSIONS = {'jar'}
+
+    # Email Configurations
+    REQUEST_URL = os.environ.get('REQUEST_URL')
+    MAILGUN_API_KEY = os.environ.get('MAILGUN_API_KEY')
+    NO_REPLY_MAIL_ADDRESS = os.environ.get('NO_REPLY_MAIL_ADDRESS')
+    NO_REPLY_MAIL_NAME = 'Abrio No-Reply'
 
     # Blueprint need to be installed entered here
     INSTALLED_CONTROLLERS = (

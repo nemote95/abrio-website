@@ -5,7 +5,7 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash,
 from flask.ext.login import login_user, login_required, logout_user, current_user
 
 # project imports
-from application.extensions import db
+from application.extensions import db, email
 from application.forms.user import RegistrationForm, LoginForm, EditProfileForm
 from application.models.user import User
 
@@ -24,9 +24,11 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         token = new_user.generate_confirmation_token()
+        email.send(new_user.email, 'Confirm Your Account',
+                   render_template('user/email/confirm.html', user=new_user, token=token))
         flash('A confirmation email has been sent to you by email.')
         return redirect(url_for('main.index'))
-    return render_template('user/register.html', form=form), 201
+    return render_template('user/register.html', form=form)
 
 
 @user.route('/confirm/<token>')
