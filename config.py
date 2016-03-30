@@ -16,7 +16,7 @@ class DefaultConfig(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') or 'sqlite:///db.sqlite'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
-    UPLOAD_FOLDER = 'uploads/'
+    UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER') or 'uploads/'
     FAKE_UPLOAD = 'fake upload/sample.jar'
     UPLOAD_DIRECTORIES = ['components']
     ALLOWED_EXTENSIONS = {'jar'}

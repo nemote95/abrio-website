@@ -8,6 +8,7 @@ from config import DefaultConfig
 
 def configure_app(app, configuration=DefaultConfig):
     app.config.from_object(configuration)
+    app.config.from_pyfile('environ.py', silent=True)
 
 
 def configure_extensions(app):
