@@ -14,6 +14,22 @@ __all__ = ["user"]
 user = Blueprint("user", __name__)
 
 
+@user.before_app_request
+def before_request():
+    if current_user.is_authenticated and \
+            not current_user.confirmed \
+            and request.endpoint[:5] != 'user.' \
+            and request.endpoint != 'static':
+        return redirect(url_for('user.unconfirmed'))
+
+
+@user.route('/unconfirmed')
+def unconfirmed():
+    if current_user.is_anonymous or current_user.confirmed:
+        return redirect(url_for('main.index'))
+    return render_template('user/unconfirmed.html')
+
+
 @user.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
