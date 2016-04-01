@@ -39,6 +39,7 @@ class DefaultConfig(object):
 
     INSTALLED_API = (
         'component',
+        'project'
     )
 
     API_VERSION = '1'
