@@ -18,7 +18,7 @@ user = Blueprint("user", __name__)
 @user.before_app_request
 def before_request():
     allowed_pattern = re.compile(r'(user\.|static|main\.).*')
-    match=re.match(allowed_pattern, str(request.endpoint))
+    match = re.match(allowed_pattern, str(request.endpoint))
     if current_user.is_authenticated and \
             not current_user.confirmed \
             and not match:

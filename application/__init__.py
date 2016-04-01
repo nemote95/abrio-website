@@ -38,7 +38,10 @@ def configure_error_handlers(app):
 def configure_controllers(app):
     controllers = app.config['INSTALLED_CONTROLLERS']
     for controller in controllers:
-        bp = __import__('application.controllers.%s' % controller, fromlist=[controller])
+        if controller == 'main':
+            bp = __import__('application.controllers.%s' % controller, fromlist=[controller])
+        else:
+            bp = __import__('application.controllers.%s.web' % controller, fromlist=['.web'])
 
         for route in bp.__all__:
             route_obj = getattr(bp, route)
@@ -49,7 +52,7 @@ def configure_APIs(app):
     apis = app.config['INSTALLED_API']
     version = app.config['API_VERSION']
     for api in apis:
-        bp = __import__('application.controllers.%s_api%s' % (api,version), fromlist=[api])
+        bp = __import__('application.controllers.%s.api%s' % (api, version), fromlist=[api])
 
         for route in bp.__all__:
             route_obj = getattr(bp, route)

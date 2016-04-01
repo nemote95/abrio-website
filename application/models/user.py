@@ -44,7 +44,7 @@ class User(db.Model, UserMixin):
         if data.get('confirm') != self.id:
             return False
         self.confirmed = True
-        db.session.add(self)
+        db.session.commit()
         return True
 
     @classmethod

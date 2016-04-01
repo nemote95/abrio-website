@@ -21,4 +21,4 @@ class Logic(db.Model):
 
     def __repr__(self):
         return '<Logic project:%d component.No1:%d component.No2:%d message type:%r>' % (
-            self.project_id, self.component_id1, self.component_id2, self.message_type)
+            self.project_id, self.component_1_id, self.component_2_id, self.message_type)

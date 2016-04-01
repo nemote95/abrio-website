@@ -8,5 +8,5 @@ class CreateProjectForm(Form):
 class LogicForm(Form):
     component1 = SelectField('Component No1', coerce=int, validators=[validators.DataRequired()])
     component2 = SelectField('Component No2', coerce=int, validators=[validators.DataRequired()])
-    message_type = SelectField('Message Types', choices=[('type_a', 'type_a'), ('type_b', 'type_b')],
+    message_type = SelectField('Message Types', choices=[('BasicEvent', 'BasicEvent'), ('type_b', 'type_b')],
                                validators=[validators.DataRequired()])

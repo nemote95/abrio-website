@@ -11,14 +11,14 @@ from application.forms.component import CreateComponentForm, UploadForm, EditFor
 from application.extensions import db
 
 __all__ = ['component']
-component = Blueprint('component', __name__,url_prefix='/component')
+component = Blueprint('component', __name__, url_prefix='/component')
 
 
 @component.route('/list', methods=['GET'])
 @login_required
 def list_components():
     form = CreateComponentForm(request.form)
-    c = Component.query.filter_by(owner=current_user.id).all()
+    c = Component.query.filter_by(owner_id=current_user.id).all()
     return render_template('component/list.html', components=c, form=form)
 
 
@@ -27,7 +27,7 @@ def list_components():
 def create():
     form = CreateComponentForm(request.form)
     if form.validate():
-        new_component = Component(name=form.name.data, owner=current_user.id)
+        new_component = Component(name=form.name.data, owner_id=current_user.id)
         db.session.add(new_component)
         db.session.commit()
         return redirect(url_for('component.list_components'))
@@ -39,7 +39,7 @@ def create():
 @login_required
 def view(cid):
     c = Component.query.filter_by(id=cid).one_or_none()
-    if current_user.id != c.owner:
+    if current_user.id != c.owner_id:
         return abort(403)
     upload_form = UploadForm()
     edit_form = EditForm()
@@ -53,7 +53,7 @@ def view(cid):
 def upload(cid):
     form = UploadForm()
     c = Component.query.filter_by(id=cid).one_or_none()
-    if current_user.id != c.owner:
+    if current_user.id != c.owner_id:
         return abort(403)
     if form.validate_on_submit():
         filename = secure_filename(form.file.data.filename)
@@ -78,7 +78,7 @@ def edit(cid):
     form = EditForm(request.form)
     regex = re.compile(r'\d+_(v(.+)\..+)')
     form.deploy_version.choices = [(regex.match(f).group(2), regex.match(f).group(1)) for f in c.component_files()]
-    if current_user.id != c.owner:
+    if current_user.id != c.owner_id:
         return abort(403)
     if form.validate():
         if form.deploy_version.data:
@@ -96,10 +96,10 @@ def edit(cid):
 @login_required
 def delete(cid):
     c = Component.query.filter_by(id=cid).one_or_none()
-    if current_user.id != c.owner:
+    if current_user.id != c.owner_id:
         return abort(403)
     for f in c.component_files():
-        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'],'components', f))
+        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], 'components', f))
     db.session.delete(c)
     db.session.commit()
     return redirect(url_for('component.list_components'))
