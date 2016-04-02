@@ -5,10 +5,12 @@
     <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/bulma.min.css") }}>
     <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/login.css") }}>
     <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <meta charset="utf-8">
 
 </head>
 <body>
+
     <header class="header">
         <div class="container">
             <div class="header-left">
@@ -17,12 +19,12 @@
                 </a>
             </div>
             <div class="header-right" style="direction: rtl;">
-                <a class="header-item logo" href="#">
-                    <img src={{ url_for('static',filename="medias/abrio-blue.png") }}>
+                <div class="header-item logo" >
+                    <img src={{ url_for('static',filename="medias/abrio-transparent.png") }}>
                     <span class="header-banner">
                      اَبریو
                     </span>
-                </a>
+                </div>
                 
                 <a class="header-item" href="#">خانه</a>
             </div>
@@ -46,29 +48,33 @@
                                 </div>    
                     {% endif %}
             {% endwith %}
-        
+        <div class="columns">
+            <div class="column is-4 is-offset-4 title " align="center">ورود</div>
+        </div>
         <div class="columns">
         <form class="column is-4 is-offset-4 border" method="post">
-            <legend><h1>ورود</h1></legend>
+            <label class="label">پست الکترونیکی</label>
             <p class="control has-icon">
-                <input class="input" type="email" name="email" placeholder="پست الکترونیکی">
+                <input class="input" type="email" name="email">
                 <i class="fa fa-envelope"></i>
             </p>
+            <label class="label">رمز عبور</label>
             <p class="control has-icon">
-                <input class="input" type="password" name="password" placeholder="رمز عبور">
+                <input class="input" type="password" name="password" >
                 <i class="fa fa-lock"></i>
             </p>
             
             <p class="control">
-                <button class="button is-danger">
+                <button class="button is-success">
                     ورود
                  </button>
             </p>
-            <p class="link">
-                حساب کاربری اَبریو ندارید ؟ <a href="/register">همین الان ثبت نام کنید</a>
-            </p>    
+              
         </form>
         
+    </div>
+    <div class="columns">
+        <a href="\register" class="notice column is-4 is-offset-4 ">یک حساب کاربری بسازید</a>
     </div>
     </div>
          <footer class="footer">
