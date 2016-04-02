@@ -36,6 +36,7 @@ footer{
  	line-height: 35px;
  	color:#f1f1f1;
  	font-size: 1.2em;
+ 	text-align: center;
  }
  a.notice:hover{
  	color: #ccc;

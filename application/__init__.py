@@ -1,3 +1,5 @@
+# python imports
+import os
 # flask imports
 from flask import Flask, render_template
 # project imports
@@ -41,10 +43,30 @@ def configure_controllers(app):
             app.register_blueprint(route_obj)
 
 
+def configure_APIs(app):
+    apis = app.config['INSTALLED_API']
+    version = app.config['API_VERSION']
+    for api in apis:
+        bp = __import__('application.controllers.%s_api%s' % (api,version), fromlist=[api])
+
+        for route in bp.__all__:
+            route_obj = getattr(bp, route)
+            app.register_blueprint(route_obj)
+
+
+def configure_upload_directories(app):
+    for dir in app.config['UPLOAD_DIRECTORIES']:
+        path = os.path.join(app.config['UPLOAD_FOLDER'], dir)
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+
 def create_app(config_name):
     app = Flask(__name__)
     configure_app(app)
     configure_controllers(app)
+    configure_APIs(app)
     configure_extensions(app)
     configure_error_handlers(app)
+    configure_upload_directories(app)
     return app

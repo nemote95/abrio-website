@@ -32,7 +32,7 @@ def login():
         new_user = User.query.filter_by(email=form.email.data).first()
         if new_user is not None and new_user.verify_password(form.password.data):
             login_user(new_user)
-            return redirect(request.args.get('next') or url_for('main.index'))
+            return redirect(request.args.get('next') or url_for('main.panel'))
         flash('Invalid username or password.')
     return render_template('user/login.html', form=form)
 

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List Of Projects</title>
+</head>
+<body>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+{% from "_fieldrender.html" import render_field %}
+<form method=post action="{{url_for('project.create')}}">
+    {{ render_field(form.name) }}
+    <p><input type=submit value="Create">
+</form>
+
+{% for project in projects%}
+    <a href="{{url_for('project.view',pid=project.id)}}">name : {{project.name}}</a>
+{% endfor %}
+</body>
+</html>
