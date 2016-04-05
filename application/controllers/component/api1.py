@@ -37,6 +37,6 @@ def upload_component():
         jar_file.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
                                    'components', '%s_v%s.%s' % (str(component.id), version, file_type)))
         db.session.commit()
-        return 'successfully uploaded', 200
+        return jsonify(), 200
     else:
         return abort(422)

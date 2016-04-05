@@ -1,5 +1,5 @@
 # flask imports
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 # project imports
 from application.models.logic import Logic
 from application.extensions import db
@@ -20,4 +20,4 @@ def define_logic():
         db.session.add(new_logic)
         db.session.commit()
 
-    return 'Successfully Created', 201
+    return jsonify(), 201
