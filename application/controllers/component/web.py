@@ -90,16 +90,3 @@ def edit(cid):
         return redirect(url_for('component.view', cid=cid))
     flash('invalid form')
     return redirect(url_for('component.view', cid=cid))
-
-
-@component.route('/delete/<int:cid>', methods=['POST'])
-@login_required
-def delete(cid):
-    c = Component.query.filter_by(id=cid).one_or_none()
-    if current_user.id != c.owner_id:
-        return abort(403)
-    for f in c.component_files():
-        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'], 'components', f))
-    db.session.delete(c)
-    db.session.commit()
-    return redirect(url_for('component.list_components'))

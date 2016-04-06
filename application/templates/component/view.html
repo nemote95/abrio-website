@@ -21,10 +21,6 @@ info:
 {% else %}
     <p> no deploy version has been set</p>
 {% endif %}
-delete:<br>
-<form method=post action="{{url_for('component.delete',cid=component.id)}}" enctype="multipart/form-data">
-    <input type="submit" value="Delete">
-</form>
 edit:<br>
 {% from "_fieldrender.html" import render_field %}
 <form method=post action="{{url_for('component.edit',cid=component.id)}}" enctype="multipart/form-data">
