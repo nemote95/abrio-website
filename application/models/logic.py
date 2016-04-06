@@ -2,7 +2,7 @@ from application.extensions import db
 
 
 class Logic(db.Model):
-    __tablename__ = 'Logic'
+    __tablename__ = 'logic'
     id = db.Column(db.Integer, primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
     component_1_id = db.Column(db.Integer, db.ForeignKey('components.id'))
