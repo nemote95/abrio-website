@@ -9,6 +9,7 @@ from werkzeug import secure_filename
 from application.models.component import Component
 from application.forms.component import CreateComponentForm, UploadForm, EditForm
 from application.extensions import db
+from application.decorators import permission
 
 __all__ = ['component']
 component = Blueprint('component', __name__, url_prefix='/component')
@@ -37,31 +38,28 @@ def create():
 
 @component.route('/view/<int:cid>', methods=['GET'])
 @login_required
-def view(cid):
-    c = Component.query.filter_by(id=cid).one_or_none()
-    if current_user.id != c.owner_id:
-        return abort(403)
+@permission(Component, 'cid')
+def view(cid, obj=None):
     upload_form = UploadForm()
     edit_form = EditForm()
     regex = re.compile(r'\d+_(v(.+)\..+)')
-    edit_form.deploy_version.choices = [(regex.match(f).group(2), regex.match(f).group(1)) for f in c.component_files()]
-    return render_template('component/view.html', upload_form=upload_form, edit_form=edit_form, component=c)
+    edit_form.deploy_version.choices = [(regex.match(f).group(2), regex.match(f).group(1)) for f in
+                                        obj.component_files()]
+    return render_template('component/view.html', upload_form=upload_form, edit_form=edit_form, component=obj)
 
 
 @component.route('/upload/<int:cid>', methods=['POST'])
 @login_required
-def upload(cid):
+@permission(Component, 'cid')
+def upload(cid, obj=None):
     form = UploadForm()
-    c = Component.query.filter_by(id=cid).one_or_none()
-    if current_user.id != c.owner_id:
-        return abort(403)
     if form.validate_on_submit():
         filename = secure_filename(form.file.data.filename)
         file_type = filename.rsplit('.', 1)[1]
         if file_type in current_app.config['ALLOWED_EXTENSIONS']:
             form.file.data.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
                                              'components', '%s_v%s.%s' % (str(cid), form.version.data, file_type)))
-            c.deploy_version = form.version.data
+            obj.deploy_version = form.version.data
             db.session.commit()
             return redirect(url_for('component.view', cid=cid))
         else:
@@ -73,19 +71,17 @@ def upload(cid):
 
 @component.route('/edit/<int:cid>', methods=['POST'])
 @login_required
-def edit(cid):
-    c = Component.query.filter_by(id=cid).one_or_none()
+@permission(Component, 'cid')
+def edit(cid, obj=None):
     form = EditForm(request.form)
     regex = re.compile(r'\d+_(v(.+)\..+)')
-    form.deploy_version.choices = [(regex.match(f).group(2), regex.match(f).group(1)) for f in c.component_files()]
-    if current_user.id != c.owner_id:
-        return abort(403)
+    form.deploy_version.choices = [(regex.match(f).group(2), regex.match(f).group(1)) for f in obj.component_files()]
     if form.validate():
         if form.deploy_version.data:
-            c.deploy_version = form.deploy_version.data
+            obj.deploy_version = form.deploy_version.data
             db.session.commit()
         if form.name.data:
-            c.name = form.name.data
+            obj.name = form.name.data
             db.session.commit()
         return redirect(url_for('component.view', cid=cid))
     flash('invalid form')

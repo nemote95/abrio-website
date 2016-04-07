@@ -10,6 +10,7 @@ from application.models.component import Component
 from application.models.logic import Logic
 from application.forms.project import CreateProjectForm, LogicForm
 from application.extensions import db, redis
+from application.decorators import permission
 
 __all__ = ['project']
 project = Blueprint('project', __name__, url_prefix='/project')
@@ -38,33 +39,29 @@ def create():
 
 @project.route('/view/<int:pid>', methods=['GET'])
 @login_required
-def view(pid):
-    p = Project.query.filter_by(id=pid).one_or_none()
-    if current_user.id != p.owner_id:
-        return abort(403)
+@permission(Project, 'pid')
+def view(pid, obj=None):
     logic_form = LogicForm(request.form)
     logic_form.component1.choices = [(c.id, c.name) for c in Component.query.filter_by(owner_id=current_user.id).all()]
     logic_form.component2.choices = [(c.id, c.name) for c in Component.query.filter_by(owner_id=current_user.id).all()]
     project_logic = Logic.query.filter_by(project_id=pid).all()
     logic_view = [(Component.query.filter_by(id=l.component_1_id).one_or_none(),
                    Component.query.filter_by(id=l.component_2_id).one_or_none(), l.message_type) for l in project_logic]
-    running = redis.exists('abr:%s' % p.private_key)
-    return render_template('project/view.html', project=p, logic_form=logic_form, logic_view=logic_view,
+    running = redis.exists('abr:%s' % obj.private_key)
+    return render_template('project/view.html', project=obj, logic_form=logic_form, logic_view=logic_view,
                            running=running)
 
 
 @project.route('/define_logic/<int:pid>', methods=['POST'])
 @login_required
-def define_logic(pid):
-    p = Project.query.filter_by(id=pid).one_or_none()
-    if current_user.id != p.owner_id:
-        return abort(403)
+@permission(Project, 'pid')
+def define_logic(pid, obj=None):
     logic_form = LogicForm(request.form)
     logic_form.component1.choices = [(c.id, c.name) for c in Component.query.filter_by(owner_id=current_user.id).all()]
     logic_form.component2.choices = [(c.id, c.name) for c in Component.query.filter_by(owner_id=current_user.id).all()]
     if logic_form.validate():
         try:
-            new_logic = Logic(project_id=p.id, component_1_id=logic_form.component1.data,
+            new_logic = Logic(project_id=obj.id, component_1_id=logic_form.component1.data,
                               component_2_id=logic_form.component2.data, message_type=logic_form.message_type.data)
             db.session.add(new_logic)
             db.session.commit()
@@ -77,12 +74,10 @@ def define_logic(pid):
 
 @project.route('/run/<int:pid>', methods=['POST'])
 @login_required
-def run_project(pid):
-    p = Project.query.filter_by(id=pid).one_or_none()
-    if current_user.id != p.owner_id:
-        return abort(403)
-    if redis.exists('abr:%s' % p.private_key):
-        redis.delete('abr:%s' % p.private_key)
+@permission(Project, 'pid')
+def run_project(pid, obj=None):
+    if redis.exists('abr:%s' % obj.private_key):
+        redis.delete('abr:%s' % obj.private_key)
     else:
-        redis.set('abr:%s' % p.private_key, pid)
+        redis.set('abr:%s' % obj.private_key, pid)
     return redirect(url_for('project.view', pid=pid))
