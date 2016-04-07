@@ -31,7 +31,7 @@ def create():
         new_component = Component(name=form.name.data, owner_id=current_user.id)
         db.session.add(new_component)
         db.session.commit()
-        return redirect(url_for('component.list_components'))
+        return redirect(url_for('component.view',cid=new_component.id))
     flash('creation failed')
     return redirect(url_for('component.list_components'))
 

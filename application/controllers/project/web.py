@@ -32,7 +32,7 @@ def create():
         new_project = Project(name=form.name.data, owner_id=current_user.id, private_key=str(uuid4()))
         db.session.add(new_project)
         db.session.commit()
-        return redirect(url_for('project.list_projects'))
+        return redirect(url_for('project.view',pid=new_project.id))
     flash('creation failed')
     return redirect(url_for('project.list_projects'))
 
