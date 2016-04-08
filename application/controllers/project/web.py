@@ -67,6 +67,7 @@ def define_logic(pid, obj=None):
         db.session.add(new_logic)
         try:
             db.session.commit()
+            return redirect(url_for('project.view', pid=pid))
         except:
             db.session.rollback()
             flash('creation failed')
