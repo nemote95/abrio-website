@@ -5,6 +5,15 @@
     <title>Unconfirmed Account</title>
 </head>
 <body>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
 <p>You have not confirmed your account yet.</p>
 <p>
     Before you can access this site you need to confirm your account.

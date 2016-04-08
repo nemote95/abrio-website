@@ -1,5 +1,4 @@
 # python imports
-from sqlalchemy.exc import IntegrityError
 from uuid import uuid4
 # flask imports
 from flask import Blueprint, request, render_template, redirect, url_for, flash, abort
@@ -31,8 +30,11 @@ def create():
     if form.validate():
         new_project = Project(name=form.name.data, owner_id=current_user.id, private_key=str(uuid4()))
         db.session.add(new_project)
-        db.session.commit()
-        return redirect(url_for('project.view',pid=new_project.id))
+        try:
+            db.session.commit()
+            return redirect(url_for('project.view', pid=new_project.id))
+        except:
+            db.session.rollback()
     flash('creation failed')
     return redirect(url_for('project.list_projects'))
 
@@ -60,14 +62,15 @@ def define_logic(pid, obj=None):
     logic_form.component1.choices = [(c.id, c.name) for c in Component.query.filter_by(owner_id=current_user.id).all()]
     logic_form.component2.choices = [(c.id, c.name) for c in Component.query.filter_by(owner_id=current_user.id).all()]
     if logic_form.validate():
-        try:
-            new_logic = Logic(project_id=obj.id, component_1_id=logic_form.component1.data,
+        new_logic = Logic(project_id=obj.id, component_1_id=logic_form.component1.data,
                               component_2_id=logic_form.component2.data, message_type=logic_form.message_type.data)
-            db.session.add(new_logic)
+        db.session.add(new_logic)
+        try:
             db.session.commit()
-        except IntegrityError:
-            flash('you have already defined this logic')
-        return redirect(url_for('project.view', pid=pid))
+        except:
+            db.session.rollback()
+            flash('creation failed')
+            return redirect(url_for('project.view', pid=pid))
     flash('invalid logic')
     return redirect(url_for('project.view', pid=pid))
 

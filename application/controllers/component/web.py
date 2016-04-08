@@ -29,10 +29,13 @@ def create():
     form = CreateComponentForm(request.form)
     if form.validate():
         new_component = Component(name=form.name.data, owner_id=current_user.id)
-        db.session.add(new_component)
-        db.session.commit()
-        return redirect(url_for('component.view',cid=new_component.id))
-    flash('creation failed')
+        try:
+            db.session.add(new_component)
+            db.session.commit()
+            return redirect(url_for('component.view', cid=new_component.id))
+        except:
+            db.session.rollback()
+            flash('creation failed')
     return redirect(url_for('component.list_components'))
 
 
@@ -79,10 +82,9 @@ def edit(cid, obj=None):
     if form.validate():
         if form.deploy_version.data:
             obj.deploy_version = form.deploy_version.data
-            db.session.commit()
         if form.name.data:
             obj.name = form.name.data
-            db.session.commit()
+        db.session.commit()
         return redirect(url_for('component.view', cid=cid))
     flash('invalid form')
     return redirect(url_for('component.view', cid=cid))
