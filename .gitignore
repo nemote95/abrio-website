@@ -91,6 +91,7 @@ pip-selfcheck.json
 # .idea/uiDesigner.xml
 
 # Gradle:
+/uploads/components
 # .idea/gradle.xml
 # .idea/libraries
 

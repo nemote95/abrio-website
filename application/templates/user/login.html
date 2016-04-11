@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>ورود</title>
+    <title>Login</title>
     <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/bulma.min.css") }}>
     <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/login.css") }}>
     <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <meta charset="utf-8">
 
 </head>
@@ -12,21 +13,19 @@
 <header class="header">
     <div class="container">
         <div class="header-left">
-            <a class="header-item" href="/register">
-
+            <a class="header-item" href="{{ url_for('user.register') }}">
+                ثبت نام
             </a>
         </div>
         <div class="header-right" style="direction: rtl;">
-            <a class="header-item logo" href="#">
-                <img src={{ url_for('static',filename="medias/abrio-blue.png") }}>
-                    <span class="header-banner">
-                     اَبریو
-                    </span>
-            </a>
-
+            <div class="header-item logo" >
+                <img src={{ url_for('static',filename="medias/abrio-transparent.png") }}>
+                <span class="header-banner">
+                 اَبریو
+                </span>
+            </div>
             <a class="header-item" href="#">خانه</a>
         </div>
-
     </div>
 </header>
 <div class="hero is-large">
@@ -46,45 +45,38 @@
             </div>
         {% endif %}
     {% endwith %}
-
     <div class="columns">
-        <form class="column is-4 is-offset-4 border" action="{{url_for('user.login')}}" method="post">
-            <legend><h1>ورود</h1></legend>
+        <div class="column is-4 is-offset-4 title " align="center">ورود</div>
+    </div>
+    <div class="columns">
+        <form class="column is-4 is-offset-4 border" method="post">
+            <label class="label">پست الکترونیکی</label>
             <p class="control has-icon">
-                {{form.email(class_="input",placeholder="پست الکترونیکی")}}
+                {{form.email(class_="input")}}
                 <i class="fa fa-envelope"></i>
             </p>
             {% for error in form.email.errors %}
-                    {{ error }}
-                {% endfor %}
+                {{ error }}
+            {% endfor %}
+            <label class="label">رمز عبور</label>
             <p class="control has-icon">
-                {{form.password(class_="input",placeholder="رمز عبور")}}
+                {{form.password(class_="input")}}
                 <i class="fa fa-lock"></i>
             </p>
             {% for error in form.password.errors %}
-                    {{ error }}
-                {% endfor %}
+                {{ error }}
+            {% endfor %}
             {{form.csrf_token}}
             <p class="control">
-                <button type="submit" class="button is-danger">
+                <button class="button is-success" type="submit">
                     ورود
-                 </button>
-            </p>
-            <p class="link">
-                حساب کاربری اَبریو ندارید ؟ <a href="{{url_for('user.register')}}">همین الان ثبت نام کنید</a>
+                </button>
             </p>
         </form>
-
+    </div>
+    <div class="columns">
+        <a href="{{ url_for('user.register') }}" class="notice column is-4 is-offset-4 ">یک حساب کاربری بسازید</a>
     </div>
 </div>
-<footer class="footer">
-    <div class="container">
-        <div class="content is-centered">
-            <p><strong>اَبریو</strong> پشتتون رو خالی نمیکنه :)</p>
-        </div>
-    </div>
-</footer>
-
-
 </body>
 </html>

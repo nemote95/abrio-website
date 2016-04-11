@@ -5,28 +5,23 @@
     <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/bulma.min.css") }}>
     <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/login.css") }}>
     <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <meta charset="utf-8">
-
 </head>
 <body>
 <header class="header">
     <div class="container">
         <div class="header-left">
-            <a class="header-item" href="{{url_for('user.login')}}">
-                <button class="button is-danger">ورود</button>
-            </a>
         </div>
         <div class="header-right" style="direction: rtl;">
             <a class="header-item logo" href="/">
-                <img src={{ url_for('static',filename="medias/abrio-blue.png") }}>
-                        <span class="header-banner">
-                         اَبریو
-                        </span>
+                <img src={{ url_for('static',filename="medias/abrio-transparent.png") }}>
+                <span class="header-banner">
+                 اَبریو
+                </span>
             </a>
-
             <a class="header-item" href="#">خانه</a>
         </div>
-
     </div>
 </header>
 <div class="hero is-large">
@@ -47,46 +42,45 @@
         {% endif %}
     {% endwith %}
     <div class="columns">
+        <div class="column is-4 is-offset-4 title" align="center">ثبت نام</div>
+    </div>
+    <div class="columns">
         <form class="border column is-4 is-offset-4" action="{{url_for('user.register')}}" method="post">
-            <legend><h1>ثبت نام</h1></legend>
+            <label class="label">پست الکترونیکی</label>
             <p class="control has-icon">
-                {{form.email(class_="input",placeholder="پست الکترونیکی")}}
+                {{form.email(class_="input")}}
                 <i class="fa fa-envelope"></i>
             </p>
-                {% for error in form.email.errors %}
-                    {{ error }}
-                {% endfor %}
+            {% for error in form.email.errors %}
+                {{ error }}
+            {% endfor %}
+            <label class="label">رمز عبور</label>
             <p class="control has-icon">
-                {{form.password(class_="input",placeholder="رمز عبور")}}
+                {{form.password(class_="input")}}
                 <i class="fa fa-lock"></i>
             </p>
             {% for error in form.password.errors %}
-                    {{ error }}
-                {% endfor %}
+                {{ error }}
+            {% endfor %}
+            <label class="label">تکرار رمز عبور</label>
             <p class="control has-icon">
-                {{form.confirm(class_="input",placeholder="تکرار رمز عبور")}}
+                {{form.confirm(class_="input")}}
                 <i class="fa fa-lock"></i>
             </p>
             {% for error in form.confirm.errors %}
-                    {{ error }}
-                {% endfor %}
+                {{ error }}
+            {% endfor %}
             {{form.csrf_token}}
             <p class="control">
-                            <button class="button is-success" type="submit">
-ثبت نام
-                 </button>
+                <button class="button is-success" type="submit">
+                    ثبت نام
+                </button>
             </p>
         </form>
-
     </div>
 </div>
-<footer class="footer">
-    <div class="container">
-        <div class="content is-centered">
-            <p><strong>اَبریو</strong> پشتتون رو خالی نمیکنه :)</p>
-        </div>
-    </div>
-</footer>
-
+<div class="columns">
+    <a href="{{url_for('user.login')}}" class="notice column is-4 is-offset-4 ">حساب کاربری دارید ؟</a>
+</div>
 </body>
 </html>

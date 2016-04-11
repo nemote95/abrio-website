@@ -8,7 +8,7 @@ __all__ = ['api']
 api = Blueprint('project.api1', __name__, url_prefix='/api/v1/project')
 
 
-@api.route('/define_logic', methods=['POST'])
+@api.route('/logic', methods=['POST'])
 def define_logic():
     project_id = request.json['project_id']
     relations = request.json['relations']
