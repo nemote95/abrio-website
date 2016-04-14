@@ -9,6 +9,7 @@ class Component(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     deploy_version = db.Column(db.String(16))
+    private = db.Column(db.Boolean,default=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def generate_token(self):

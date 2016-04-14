@@ -1,10 +1,11 @@
-from wtforms import Form, StringField, SelectField, validators
+from wtforms import Form, StringField, SelectField, BooleanField, validators
 from flask.ext.wtf import Form as WTFForm
 from flask.ext.wtf.file import FileField, FileRequired
 
 
 class CreateComponentForm(Form):
     name = StringField('Component Name', [validators.DataRequired()])
+    private = BooleanField('private', [validators.optional()])
 
 
 class UploadForm(WTFForm):

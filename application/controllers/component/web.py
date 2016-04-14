@@ -28,7 +28,7 @@ def list_components():
 def create():
     form = CreateComponentForm(request.form)
     if form.validate():
-        new_component = Component(name=form.name.data, owner_id=current_user.id)
+        new_component = Component(name=form.name.data, owner_id=current_user.id, private=form.private.data)
         try:
             db.session.add(new_component)
             db.session.commit()

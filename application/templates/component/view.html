@@ -53,6 +53,21 @@
 
                 </div>
             </div>
+            <div class="columns detail">
+                <div class="column is-10 is-offset-1">
+                    {% if component.private %}
+                    <div align="right" dir="rtl">
+                        خصوصی
+                    </div>
+
+                    {% else %}
+                    <div align="right" dir="rtl">
+                        عمومی
+
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
             <div class="columns">
                 <div align="right" class="column is-10 is-offset-1">
                     <button id="editbutton" class=" button is-primary" onclick="edit()">ویرایش</button>
@@ -117,6 +132,7 @@
 		$('#editbutton').hide();
 		$('#savebutton').show();
 	};
+
 
 
 </script>
@@ -263,6 +279,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
 			padding: 1em;
 			border-bottom: 1px solid #e3e3e3;
 		}
+
 
 </style>
 </html>
