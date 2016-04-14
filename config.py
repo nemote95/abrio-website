@@ -23,6 +23,10 @@ class DefaultConfig(object):
     UPLOAD_DIRECTORIES = ['components']
     ALLOWED_EXTENSIONS = {'jar'}
 
+    # Download SDK
+    SDK_DIRECTORY = os.environ.get('SDK_DIRECTORY') or 'sdk/'
+    SDK_FILENAME = 'new'
+
     # Email Configurations
     REQUEST_URL = os.environ.get('REQUEST_URL')
     MAILGUN_API_KEY = os.environ.get('MAILGUN_API_KEY')
