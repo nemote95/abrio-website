@@ -22,11 +22,11 @@
     {% endwith %}
     <ul class="nav navbar-nav navbar-right">
         {% if current_user.is_authenticated %}
-            <li><a href="{{ url_for('main.panel') }}">My Pannel</a></li>
-            <li><a href="{{ url_for('user.logout') }}">Sign Out</a></li>
+            <li><a href="{{ url_for('main.panel') }}">پنل من</a></li>
+            <li><a href="{{ url_for('user.logout') }}">خروج</a></li>
         {% else %}
-            <li><a href="{{ url_for('user.login') }}">Sign In</a></li>
-            <li><a href="{{ url_for('user.register') }}">Sign Up</a></li>
+            <li><a href="{{ url_for('user.login') }}">ورود</a></li>
+            <li><a href="{{ url_for('user.register') }}">ثبت نام</a></li>
         {% endif %}
     </ul>
     <div class="hero-content">
