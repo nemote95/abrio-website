@@ -9,7 +9,7 @@ class Component(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     deploy_version = db.Column(db.String(16))
-    private = db.Column(db.Boolean,default=True)
+    private = db.Column(db.Boolean, default=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def generate_token(self):
@@ -46,7 +46,7 @@ class Component(db.Model):
         for i in range(int(fake.deploy_version)):
             copyfile(current_app.config['FAKE_UPLOAD'], os.path.join(current_app.config['UPLOAD_FOLDER'], 'components',
                                                                      '%s_v%s.%s' % (
-                                                                     str(fake.id), i, 'jar')))
+                                                                         str(fake.id), i, 'jar')))
         return fake
 
     def __repr__(self):
