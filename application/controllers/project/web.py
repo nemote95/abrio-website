@@ -45,7 +45,7 @@ def create():
 @permission(Project, 'pid')
 def view(pid, obj=None):
     components_choices = [{'id': c.id, 'name': c.name} for c in Component.query.filter(
-        or_(Component.owner_id == current_user.id, Component.private==False)).all()]
+        or_(Component.owner_id == current_user.id, Component.private ==False)).all()]
     project_logic = Logic.query.filter_by(project_id=pid).all()
     logic_view = [(Component.query.filter_by(id=l.component_1_id).one_or_none(),
                    Component.query.filter_by(id=l.component_2_id).one_or_none(), l.message_type) for l in project_logic]
