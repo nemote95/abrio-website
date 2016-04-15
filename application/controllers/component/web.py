@@ -21,7 +21,7 @@ component = Blueprint('component', __name__, url_prefix='/component')
 def list_components():
     create_form = CreateComponentForm(request.form)
     search_form = SearchForm(request.form)
-    c = Component.query.filter(or_(Component.owner_id==current_user.id, Component.private==False)).all()
+    c = Component.query.filter(or_(Component.owner_id == current_user.id, Component.private == False)).all()
     return render_template('component/list.html', components=c, create_form=create_form, search_form=search_form)
 
 
@@ -99,7 +99,7 @@ def search():
     search_form = SearchForm(request.form)
     if request.method == 'POST' and search_form.validate():
         c = Component.query.filter(and_(Component.name.contains(search_form.name.data),
-                                        or_(Component.private==False, Component.owner_id == current_user.id))).all()
+                                        or_(Component.private == False, Component.owner_id == current_user.id))).all()
     else:
-        c=Component.query.filter_by(owner_id=current_user.id).all()
+        c = Component.query.filter_by(owner_id=current_user.id).all()
     return render_template('component/list.html', components=c, create_form=create_form, search_form=search_form)

@@ -1,4 +1,5 @@
 # python imports
+from requests import ConnectionError
 from sqlalchemy.orm.exc import NoResultFound
 import re
 # flask imports
@@ -57,7 +58,7 @@ def register():
             email.send(new_user.email, 'Confirm Your Account',
                        render_template('user/email/confirm.html', user=new_user, token=token))
             db.session.commit()
-        except:
+        except ConnectionError:
             flash('sending confirmation email failed,try again')
             db.session.rollback()
             return render_template('user/register.html', form=form)
