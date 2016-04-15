@@ -9,7 +9,11 @@ def permission(model, name):
         def inner(*args, **kwargs):
             obj = model.query.get(kwargs[name])
             if obj:
-                if obj.owner_id == current_user.id or (hasattr(obj, 'private') and not obj.private):
+                print func.__name__
+                if obj.owner_id == current_user.id:
+                    kwargs['obj'] = obj
+                    return func(*args, **kwargs)
+                elif hasattr(obj, 'private') and not obj.private and func.__name__=='view':
                     kwargs['obj'] = obj
                     return func(*args, **kwargs)
                 return abort(403)
