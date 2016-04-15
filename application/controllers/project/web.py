@@ -1,5 +1,6 @@
 # python imports
 from uuid import uuid4
+from sqlalchemy import or_
 # flask imports
 from flask import Blueprint, request, render_template, redirect, url_for, flash, abort
 from flask.ext.login import current_user, login_required
@@ -43,13 +44,14 @@ def create():
 @login_required
 @permission(Project, 'pid')
 def view(pid, obj=None):
-    components_choices = [{'id': c.id, 'name': c.name} for c in Component.query.filter_by(owner_id=current_user.id).all()]
+    components_choices = [{'id': c.id, 'name': c.name} for c in Component.query.filter(
+        or_(Component.owner_id == current_user.id, Component.private==False)).all()]
     project_logic = Logic.query.filter_by(project_id=pid).all()
     logic_view = [(Component.query.filter_by(id=l.component_1_id).one_or_none(),
                    Component.query.filter_by(id=l.component_2_id).one_or_none(), l.message_type) for l in project_logic]
     running = redis.exists('abr:%s' % obj.private_key)
     return render_template('project/view.html', project=obj, logic_view=logic_view,
-                           components_choices=components_choices , running=running)
+                           components_choices=components_choices, running=running)
 
 
 @project.route('/define_logic/<int:pid>', methods=['POST'])

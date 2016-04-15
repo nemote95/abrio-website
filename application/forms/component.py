@@ -16,3 +16,7 @@ class UploadForm(WTFForm):
 class EditForm(Form):
     name = StringField('Component Name', validators=[validators.optional()])
     deploy_version = SelectField('deploy version', validators=[validators.optional()])
+
+
+class SearchForm(Form):
+    name = StringField('Component Name', [validators.DataRequired()])

@@ -1,13 +1,14 @@
 # python imports
 import os
 import re
+from sqlalchemy import or_, and_
 # flask imports
 from flask import Blueprint, request, render_template, redirect, url_for, flash, abort, current_app
 from flask.ext.login import current_user, login_required
 from werkzeug import secure_filename
 # project imports
 from application.models.component import Component
-from application.forms.component import CreateComponentForm, UploadForm, EditForm
+from application.forms.component import CreateComponentForm, UploadForm, EditForm, SearchForm
 from application.extensions import db
 from application.decorators import permission
 
@@ -18,9 +19,10 @@ component = Blueprint('component', __name__, url_prefix='/component')
 @component.route('/list', methods=['GET'])
 @login_required
 def list_components():
-    form = CreateComponentForm(request.form)
-    c = Component.query.filter_by(owner_id=current_user.id).all()
-    return render_template('component/list.html', components=c, form=form)
+    create_form = CreateComponentForm(request.form)
+    search_form = SearchForm(request.form)
+    c = Component.query.filter(or_(Component.owner_id==current_user.id, Component.private==False)).all()
+    return render_template('component/list.html', components=c, create_form=create_form, search_form=search_form)
 
 
 @component.route('/create', methods=['POST'])
@@ -88,3 +90,16 @@ def edit(cid, obj=None):
         return redirect(url_for('component.view', cid=cid))
     flash('invalid form')
     return redirect(url_for('component.view', cid=cid))
+
+
+@component.route('/search', methods=['GET', 'POST'])
+@login_required
+def search():
+    create_form = CreateComponentForm(request.form)
+    search_form = SearchForm(request.form)
+    if request.method == 'POST' and search_form.validate():
+        c = Component.query.filter(and_(Component.name.contains(search_form.name.data),
+                                        or_(Component.private==False, Component.owner_id == current_user.id))).all()
+    else:
+        c=Component.query.filter_by(owner_id=current_user.id).all()
+    return render_template('component/list.html', components=c, create_form=create_form, search_form=search_form)
