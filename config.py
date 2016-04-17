@@ -25,7 +25,7 @@ class DefaultConfig(object):
 
     # Download SDK
     SDK_DIRECTORY = os.environ.get('SDK_DIRECTORY') or 'sdk/'
-    SDK_FILENAME = 'new'
+    SDK_FILENAME = 'sdk.tar.gz'
 
     # Email Configurations
     REQUEST_URL = os.environ.get('REQUEST_URL')
