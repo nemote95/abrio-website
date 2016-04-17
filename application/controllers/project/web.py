@@ -31,12 +31,8 @@ def create():
     if form.validate():
         new_project = Project(name=form.name.data, owner_id=current_user.id, private_key=str(uuid4()))
         db.session.add(new_project)
-        try:
-            db.session.commit()
-            return redirect(url_for('project.view', pid=new_project.id))
-        except:
-            db.session.rollback()
-    flash('creation failed')
+        db.session.commit()
+        return redirect(url_for('project.view', pid=new_project.id))
     return redirect(url_for('project.list_projects'))
 
 

@@ -31,13 +31,9 @@ def create():
     form = CreateComponentForm(request.form)
     if form.validate():
         new_component = Component(name=form.name.data, owner_id=current_user.id, private=form.private.data)
-        try:
-            db.session.add(new_component)
-            db.session.commit()
-            return redirect(url_for('component.view', cid=new_component.id))
-        except:
-            db.session.rollback()
-            flash('creation failed')
+        db.session.add(new_component)
+        db.session.commit()
+        return redirect(url_for('component.view', cid=new_component.id))
     return redirect(url_for('component.list_components'))
 
 
