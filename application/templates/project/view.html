@@ -86,8 +86,20 @@
                             <form method="post" action="{{url_for('project.define_logic',pid=project.id)}}">
                                 <button type="submit" class="button is-danger">تعریف روابط افزونه ها</button>
                                 {{logic_form.component1(class="select")}}
+                                {% for error in logic_form.component1.errors %}
+                                <br>
+                                {{ error }}
+                                {% endfor %}
                                 {{logic_form.component2(class="select")}}
+                                {% for error in logic_form.component2.errors %}
+                                <br>
+                                {{ error }}
+                                {% endfor %}
                                 {{logic_form.message_type(class="select")}}
+                                {% for error in logic_form.message_type.errors %}
+                                <br>
+                                {{ error }}
+                                {% endfor %}
                             </form>
                             <br>
                             <div class="columns info">
@@ -163,6 +175,9 @@
       }
     });
   });
+
+
+
 
 
 
@@ -311,6 +326,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
 			padding: 1em;
 			border-bottom: 1px solid #e3e3e3;
 		}
+
+
+
 
 
 

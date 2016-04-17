@@ -38,7 +38,11 @@
                 <div class="columns">
                     <div class="column rtl is-4"><input type="submit" class="button is-success" value="جستجو">
                     </div>
-                    <div class="column rtl is-6">{{search_form.name(class="input") }}</div>
+                    <div class="column rtl is-6">{{search_form.name(class="input") }}
+                    {% for error in search_form.name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                        </div>
                 </div>
                 {{search_form.csrf_token}}
             </form>
@@ -48,6 +52,10 @@
                                                         value="ایجاد کامپوننت جدید"></div>
                     {{create_form.private()}}خصوصی
                     <div class="column rtl is-6">{{create_form.name(class="input",placeholder="نام کامپوننت") }}
+                        {% for error in create_form.name.errors %}
+                        <br>
+                        {{ error }}
+                    {% endfor %}
                     </div>
                 </div>
                 {{create_form.csrf_token}}
@@ -125,6 +133,7 @@
 		$(this).find('.hover').animate({"width":"0%"},function(){});
 	});
 	
+
 
 
 
@@ -249,6 +258,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
 			padding: 1em;
 			border-bottom: 1px solid #e3e3e3;
 		}
+
 
 
 
