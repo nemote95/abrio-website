@@ -2,7 +2,10 @@ from models.component import Component
 from models.logic import Logic
 from models.project import Project
 from models.user import User
-from application.extensions import db
+from application.extensions import db, redis
+
+PROJECT_TEST_TOKEN = '123456'
+PROJECT_CHAT_TOKEN = '123123'
 
 
 def generate_fake():
@@ -38,6 +41,7 @@ def generate_development_data():
 
     db.session.add(project)
     db.session.commit()
+    redis.setnx('abr:'+PROJECT_TEST_TOKEN, project.id)
 
     component1 = Component()
     component1.name = 'First Component'
@@ -82,3 +86,27 @@ def generate_development_data():
     db.session.add(logic3)
     db.session.commit()
 
+    project2 = Project()
+    project2.name = 'chat'
+    project2.owner = user
+
+    db.session.add(project2)
+    db.session.commit()
+    redis.setnx('abr:'+PROJECT_CHAT_TOKEN, project2.id)
+
+    component3 = Component()
+    component3.name = 'Chat component'
+    component3.deploy_version = str(randint(0, 10))
+    component3.owner = user
+
+    db.session.add(component3)
+    db.session.commit()
+
+    logic4 = Logic()
+    logic4.project_id = project2.id
+    logic4.component_1_id = None
+    logic4.component_2_id = component3.id
+    logic4.message_type = 'BasicEvent'
+
+    db.session.add(logic4)
+    db.session.commit()
