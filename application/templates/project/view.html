@@ -57,13 +57,13 @@
                     </div>
                     <div align="right" dir="rtl">
                         <form action="{{url_for('project.run_project',pid=project.id)}}" method="POST">
-                        {% if running %}
-                        <input class="button is-danger" type="submit" value="Stop">
-                        {%else%}
-                        <input class="button is-success" type="submit" value="Run">
-                        {% endif %}
+                            {% if running %}
+                            <input class="button is-danger" type="submit" value="Stop">
+                            {%else%}
+                            <input class="button is-success" type="submit" value="Run">
+                            {% endif %}
                         </form>
-                        </div>
+                    </div>
                 </div>
             </div>
             <div class="columns components">
@@ -75,17 +75,31 @@
                             </div>
                             <div class="search columns"><span class="column is-2"><button class="button is-primary"><i
                                     class="fa fa-search"></i></button></span><span class="column is-10"><input
-                                    class="input" type="text"></input></span></div>
+                                    class="input" type="text"></span></div>
                             {% for component in components_choices %}
-                            <li class="ui-state-default"><a href="{{url_for('component.view',cid=component['id'])}}">{{component['name']}}</a></li>
+                            <li class="ui-state-default"><a href="{{url_for('component.view',cid=component[0])}}">{{component[1]}}</a>
+                            </li>
                             {% endfor %}
 
                         </ul>
                         <ul id="sortable2" class="column is-8 droptrue">
+                            <form method="post" action="{{url_for('project.define_logic',pid=project.id)}}">
+                                <button type="submit" class="button is-danger">تعریف روابط افزونه ها</button>
+                                {{logic_form.component1(class="select")}}
+                                {{logic_form.component2(class="select")}}
+                                {{logic_form.message_type(class="select")}}
+                            </form>
+                            <br>
                             <div class="columns info">
-                                <div class="column is-3"><a href="#" class="button is-danger">تعریف روابط افزونه ها</a>
+                                <div class="column is-9">
+                                    {% for c1,c2,m in logic_view %}
+                                    <br>
+                                    <a class="button is-success">{{c1.name}}</a>
+                                    {{m}}
+                                    <a class="button is-success">{{c2.name}}</a>
+                                    <br>
+                                    {% endfor %}
                                 </div>
-                                <div class="column is-9">افزونه های استفاده شده</div>
                             </div>
 
                         </ul>
@@ -118,6 +132,7 @@
 
 </div>
 
+</script>
 <footer class="footer">
     <div class="container">
         <div class="content is-centered">
@@ -135,6 +150,7 @@
 	});
 
 
+
 </script>
 <script type="text/javascript">
 	$(function() {
@@ -147,6 +163,11 @@
       }
     });
   });
+
+
+
+
+
 
 
 </script>
@@ -290,6 +311,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
 			padding: 1em;
 			border-bottom: 1px solid #e3e3e3;
 		}
+
+
+
+
 
 
 </style>

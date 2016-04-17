@@ -44,13 +44,16 @@ def create():
 @login_required
 @permission(Project, 'pid')
 def view(pid, obj=None):
-    components_choices = [{'id': c.id, 'name': c.name} for c in Component.query.filter(
-        or_(Component.owner_id == current_user.id, Component.private ==False)).all()]
+    logic_form=LogicForm(request.form)
+    components_choices = [(c.id, c.name) for c in Component.query.filter(
+        or_(Component.owner_id == current_user.id, Component.private == False)).all()]
+    logic_form.component2.choices = components_choices
+    logic_form.component1.choices = components_choices
     project_logic = Logic.query.filter_by(project_id=pid).all()
     logic_view = [(Component.query.filter_by(id=l.component_1_id).one_or_none(),
                    Component.query.filter_by(id=l.component_2_id).one_or_none(), l.message_type) for l in project_logic]
     running = redis.exists('abr:%s' % obj.private_key)
-    return render_template('project/view.html', project=obj, logic_view=logic_view,
+    return render_template('project/view.html', project=obj, logic_view=logic_view,logic_form=logic_form,
                            components_choices=components_choices, running=running)
 
 
@@ -59,8 +62,11 @@ def view(pid, obj=None):
 @permission(Project, 'pid')
 def define_logic(pid, obj=None):
     logic_form = LogicForm(request.form)
-    logic_form.component1.choices = [(c.id, c.name) for c in Component.query.filter_by(owner_id=current_user.id).all()]
-    logic_form.component2.choices = [(c.id, c.name) for c in Component.query.filter_by(owner_id=current_user.id).all()]
+    components_choices = [(c.id, c.name) for c in Component.query.filter(
+        or_(Component.owner_id == current_user.id, Component.private == False)).all()]
+    logic_form.component2.choices = components_choices
+    logic_form.component1.choices = components_choices
+
     if logic_form.validate():
         new_logic = Logic(project_id=obj.id, component_1_id=logic_form.component1.data,
                           component_2_id=logic_form.component2.data, message_type=logic_form.message_type.data)
