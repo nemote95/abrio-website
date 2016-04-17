@@ -1,14 +1,257 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>View Profile</title>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/jquery-ui.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/bulma.min.css') }}">
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css')}}">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-ui.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/hoverIntent.min.js')}}"></script>
 </head>
 <body>
-<ul>
-<li>Name : {{user_page.name}}</li>
-<li>Company : {{user_page.company}}</li>
-<li>Phone Number : {{user_page.phone_number}}</li>
-    </ul>
+<header class="header">
+    <div class="container">
+        <div class="header-left">
+
+        </div>
+        <div class="header-right" style="direction: rtl;">
+            <a class="header-item logo" href="{{url_for('main.index')}}">
+                <img src="{{ url_for('static', filename='abrio-blue.png')}}">
+                    <span class="header-banner">
+                     اَبریو
+                    </span>
+            </a>
+
+            <a class="header-item" href="{{url_for('main.panel')}}">خانه</a>
+        </div>
+
+    </div>
+</header>
+<div class="hero is-large">
+
+    <div class="columns">
+        <div class="column is-8 is-offset-1 main">
+            <br>
+            <div class="columns">
+                <div class="column rtl is-3">
+                    <a href="{{url_for('project.list_projects')}}"></a>
+                </div>
+                <div class="column rtl is-8">
+                    <h1 class="title">{{user_page.name}}</h1>
+                </div>
+            </div>
+            <div class="columns detail">
+                <div class="column is-10 is-offset-1">
+                    <div align="right" dir="rtl"><span>شرکت : {{user_page.company}}</span> <span style="margin-right:1em;"><a
+                            href="#"></a></span></div>
+                    <div align="right" dir="rtl">
+                        <span>Phone Number : {{user_page.phone_number}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column is-3 sidemenu ">
+
+            <ul class="submenu">
+                <a href="{{url_for('user.info',uid=current_user.id)}}">
+                    <li class="selected">مشخصات من
+                        <div class="hover"></div>
+                    </li>
+                </a>
+
+                <a href="{{url_for('project.list_projects')}}">
+                    <li >پروژه های من</li>
+                </a>
+                <a href="{{url_for('component.list_components')}}">
+                    <li>کامپوننت های من
+                        <div class="hover"></div>
+                    </li>
+                </a>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="content is-centered">
+            <p><strong>اَبریو</strong> پشتتون رو خالی نمیکنه :)</p>
+        </div>
+    </div>
+</footer>
+
 </body>
+<script type="text/javascript">
+	$('.submenu li ').hoverIntent(function(){
+		$(this).find('.hover').animate({"width":"100%"},function(){});
+	},function(){
+		$(this).find('.hover').animate({"width":"0%"},function(){});
+	});
+
+
+</script>
+<script type="text/javascript">
+	$(function() {
+    $( "ul.droptrue" ).sortable({
+    	items : "li:not('.info')",
+      connectWith: "ul",
+      change:function(){
+        $('button.accfood').removeAttr('disabled');
+
+      }
+    });
+  });
+
+
+</script>
+<style type="text/css">
+
+	.sort ul{
+		background-color: #fff;
+		border:1px solid #e3e3e3;
+		padding: 1em;
+	}
+	.sort ul:first-child{
+		border-radius: 4px 0px 0px 4px;
+	}
+	.sort ul:last-child{
+		border-radius: 0px 4px 4px 0px;
+	}
+	.sort ul li{
+		background-color: #fff;
+		border : 1px solid #e3e3e3;
+		border-radius: 4px ;
+		margin-top: 0.5em;
+		margin-bottom: 0.5em;
+		padding: 1em;
+		cursor: pointer;
+	}
+	#sortable2 li{
+		background-color:#27ae60;
+		border-color: #2ecc71;
+		color: #fff;
+	}
+	.detail div{
+		margin-bottom: 1em;
+		padding-right: 3em;
+	}
+	.exp{
+		color: #e74c3c;
+	}
+	.start{
+		color: #2ecc71;
+	}
+	.hover{
+		position: absolute;
+		text-align: right;
+		direction: rtl;
+		margin-top: -5em;
+		width: 0%;
+		height: 5em;
+		background-color: rgba(255,255,255,0.3);
+		/*background-color: rgba(24,153,211,0.2);*/
+		cursor:pointer;
+		z-index: 0;
+	}
+	.project{
+		text-align: right;
+		background-color: #f1f1f1;
+		border:1px solid #e3e3e3;
+		border-radius: 4px;
+		padding: 2em;
+		margin-top: 1em;
+		margin-bottom: 1em;
+	}
+	.project .name{
+		font-size: 1.2em;
+		color : #454545;
+		margin-bottom: 1em;
+	}
+	.project .button{
+		width: 100%;
+		vertical-align: middle;
+		margin-top: 1em;
+		background-color: transparent;
+		border:1px solid #1899d3;
+		color:#1899d3;
+	}
+	.main,.sidemenu{
+		min-height: 85vh;
+	}
+		.sidemenu{
+			/*background:linear-gradient(141deg, #4DABA5 0%, #56B4BF 51%, #5DA9C6 75%);
+			background:-webkit-linear-gradient(141deg, #4DABA5 0%, #56B4BF 51%, #5DA9C6 75%);
+			background:-moz-linear-gradient(141deg, #4DABA5 0%, #56B4BF 51%, #5DA9C6 75%);
+			background:-o-linear-gradient(141deg, #4DABA5 0%, #56B4BF 51%, #5DA9C6 75%);*/
+
+
+
+background: #e3e3e3;
+background: -moz-linear-gradient(-45deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
+background: -webkit-gradient(left top, right bottom, color-stop(0%, #e3e3e3), color-stop(46%, #e3e3e3), color-stop(83%, #b6d3df), color-stop(96%, #89c2dc), color-stop(100%, #89c2dc));
+background: -webkit-linear-gradient(-45deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
+background: -o-linear-gradient(-45deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
+background: -ms-linear-gradient(-45deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
+background: linear-gradient(135deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', endColorstr='#89c2dc', GradientType=1 );
+			padding-left: 0px;
+			border-left:2px solid #1899d3 ;
+
+		}
+		.submenu{
+			z-index: 1;
+			min-height : 100%;
+			padding: 0;
+			color: #454545;
+		}
+		.submenu a{
+			color: inherit;
+		}
+
+		.submenu li{
+			margin-bottom: 0em;
+			min-height: 5em;
+			border-bottom: 1px solid rgba(0,0,0,0.1);
+			vertical-align: middle;
+			line-height: 5em;
+		}
+		.selected{
+			background-color: rgba(255,255,255,1);
+			border-right: 10px solid #1899d3 ;
+			padding-right: 30px;
+			color:#1899d3;
+			margin-left: -2px;
+			border-top:	2px solid #1899d3 ;
+			border-bottom:	2px solid #1899d3  !important;
+
+		}
+		.submenu li:before  {
+			content: "<";
+			vertical-align: bottom;
+			margin-right: 1em;
+
+		}
+		table{
+			border : 1px solid #e3e3e3;
+			margin-top: 3em;
+		}
+		table th{
+			background-color: #e3e3e3;
+			padding:1em;
+		}
+		table td{
+
+			padding: 1em;
+			border-bottom: 1px solid #e3e3e3;
+		}
+
+
+</style>
 </html>

@@ -44,9 +44,9 @@
             </form>
             <form method=post action="{{url_for('component.create')}}">
                 <div class="columns">
-                    <div class="column rtl is-4"><input type="submit" class="button is-danger"
+                    <div class="column rtl is-2"><input type="submit" class="button is-danger"
                                                         value="ایجاد کامپوننت جدید"></div>
-                    {{create_form.private()}}خصوصی
+                    <div class="columns rtl is-2">{{create_form.private()}}خصوصی</div>
                     <div class="column rtl is-6">{{create_form.name(class="input",placeholder="نام کامپوننت") }}
                     </div>
                 </div>
