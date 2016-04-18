@@ -10,6 +10,40 @@
     <source src={{ url_for('static', filename="medias/bg.mp4") }} type="video/mp4">
 </video>
 <section class="hero is-primary is-fullheight">
+	<div class="hero-header">
+	    <header class="header">
+	      <div class="container">
+	        <div class="header-left">
+	          <a class="header-item" href="#">
+	            <img src={{ url_for('static',filename="medias/abrio-transparent.png") }} alt="Logo">
+	          </a>
+	        </div>
+	        <span class="header-toggle">
+	          <span></span>
+	          <span></span>
+	          <span></span>
+	        </span>
+	        <div class="header-right header-menu">
+	         
+	        	{% if current_user.is_authenticated %}
+            		<span class="header-item">
+            			<a class="button is-primary is-inverted" href="{{ url_for('main.panel') }}">پنل من</a>
+            		</span>
+            		<span class="header-item">
+            			<a href="{{ url_for('user.logout') }}">خروج</a>
+            		</span>
+        		{% else %}
+            		<span class="header-item">
+            			<a  href="{{ url_for('user.login') }}">ورود</a>
+            		</span>
+            		<span class="header-item">
+            			<a class="button is-primary is-inverted" href="{{ url_for('user.register') }}">ثبت نام</a>
+            		</span>
+        		{% endif %}
+	        </div>
+	      </div>
+	    </header>
+	  </div>
     <!-- Hero content: will be in the middle -->
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -20,15 +54,7 @@
             </ul>
         {% endif %}
     {% endwith %}
-    <ul class="nav navbar-nav navbar-right">
-        {% if current_user.is_authenticated %}
-            <li><a href="{{ url_for('main.panel') }}">پنل من</a></li>
-            <li><a href="{{ url_for('user.logout') }}">خروج</a></li>
-        {% else %}
-            <li><a href="{{ url_for('user.login') }}">ورود</a></li>
-            <li><a href="{{ url_for('user.register') }}">ثبت نام</a></li>
-        {% endif %}
-    </ul>
+    
     <div class="hero-content">
         <div class="title container">
             <img src={{ url_for('static',filename="medias/abrio-transparent.png") }}>
@@ -46,6 +72,15 @@
 </section>
 </body>
 <style type="text/css">
+@font-face{
+    font-family: 'Yekan';
+    src: url('../static/font/BYekan.eot?#iefix') format('embedded-opentype'),
+    url('../static/font/BYekan.woff') format('woff'),
+    url('../static/font/BYekan.ttf') format('truetype');
+}
+	body *{
+		font-family: 'Yekan';
+	}
     .title{
         font-family:Nunito;
         font-size: 72px;

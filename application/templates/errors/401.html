@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <title>401</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/bulma.min.css') }}">
 </head>
 <body>
-401-abrio does not know you :(
-<br>please <a href="{{url_for('user.login')}}">login</a> or <a href="{{url_for('user.register')}}">register</a>
+<div class="hero is-primary is-fullheight">
+	<div class="hero-content">
+	<div class="title">
+		 <img src={{ url_for('static',filename="medias/abrio-transparent.png") }} alt="Logo">
+		401-abrio does not know you :(
+		<br>please <a href="{{url_for('user.login')}}">login</a> or <a href="{{url_for('user.register')}}">register</a>
+	</div>
+	</div>
+</div>
 </body>
 </html>
