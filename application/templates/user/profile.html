@@ -37,23 +37,30 @@
     <div class="columns">
         <div class="column is-8 is-offset-1 main">
             <br>
-            <div class="columns">
-                <div class="column rtl is-3">
-                    <a href="{{url_for('project.list_projects')}}"></a>
-                </div>
-                <div class="column rtl is-8">
-                    <h1 class="title">{{user_page.name}}</h1>
-                </div>
-            </div>
-            <div class="columns detail">
-                <div class="column is-10 is-offset-1">
-                    <div align="right" dir="rtl"><span>شرکت : {{user_page.company}}</span> <span style="margin-right:1em;"><a
-                            href="#"></a></span></div>
-                    <div align="right" dir="rtl">
-                        <span>Phone Number : {{user_page.phone_number}}</span>
-                    </div>
-                </div>
-            </div>
+            
+
+
+
+           	<div class="columns">
+		    		<div class="column rtl is-3">
+		    			
+		    		</div>
+		    		<div class="column rtl is-8">
+		    			<h1 class="title"><img class="avatar" src="http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-ginger-guy.png"> {{user_page.name}}</h1>
+		    		</div>
+		    	</div>
+		    	<div class="columns detail">
+		    		<div class="column is-10 is-offset-1">
+		    				
+		    				<div  align="right" dir="rtl">
+		    					<span><i class="fa fa-briefcase"> </i> شرکت : </span><span class="start">{{user_page.company}}</span>
+		    				</div>
+		    				<div  align="right" dir="rtl">
+		    					<span><i class="fa fa-phone"></i> شماره تلفن : </span><span class="exp">{{user_page.phone_number}}</span>
+		    				</div>
+		    		</div>
+		    	</div>
+
         </div>
 
         <div class="column is-3 sidemenu ">
