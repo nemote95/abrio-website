@@ -9,7 +9,6 @@ def permission(model, name):
         def inner(*args, **kwargs):
             obj = model.query.get(kwargs[name])
             if obj:
-                print func.__name__
                 if obj.owner_id == current_user.id:
                     kwargs['obj'] = obj
                     return func(*args, **kwargs)

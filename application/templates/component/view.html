@@ -42,14 +42,17 @@
                     <a href="{{url_for('component.list_components')}}">بازگشت ></a>
                 </div>
                 <div class="column rtl is-8">
-                    <h1 class="title">نام کامپوننت : <input type="text" value="{{component.name}}" disabled></h1>
+                    <h1 class="title">نام کامپوننت : <input id="name" type="text" value="{{component.name}}" disabled></h1>
                 </div>
             </div>
             <div class="columns detail">
                 <div class="column is-10 is-offset-1">
-                    <div align="right" dir="rtl"><span>نسخه کامپوننت : <input type="text"
-                                                                              value="{{component.deploy_version}}"
-                                                                              disabled></input></span></div>
+                    <div align="right" dir="rtl"><span>نسخه کامپوننت :<select
+                            id="selectversion" disabled>
+                        {% for version in component.component_files() %}
+                        <option value="{{version}}">{{version}}</option>
+                        {% endfor %}
+                    </select></span></div>
 
                 </div>
             </div>
@@ -132,9 +135,30 @@
 	});
 	function edit(){
 		$('input:disabled').removeAttr('disabled');
+		$('select:disabled').removeAttr('disabled');
 		$('#editbutton').hide();
 		$('#savebutton').show();
 	};
+
+	function save(){
+	    var cid = {{component.id}}
+	    var e = document.getElementById("selectversion");
+        var version = e.options[e.selectedIndex].value;
+        var name = document.getElementById("name").value;
+		var arr = { id: cid, name: name, version: version };
+        $.ajax({
+        url: '/api/v1/component/edit',
+        type: 'POST',
+        data: JSON.stringify(arr),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function(msg) {
+        }
+    });
+	};
+
+
 
 
 
@@ -233,8 +257,8 @@ background: -ms-linear-gradient(-45deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #8
 background: linear-gradient(135deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', endColorstr='#89c2dc', GradientType=1 );
 			padding-left: 0px;
-			border-left:2px solid #1899d3 ; 
-			
+			border-left:2px solid #1899d3 ;
+
 		}
 		.submenu{
 			z-index: 1;
@@ -259,15 +283,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
 			padding-right: 30px;
 			color:#1899d3;
 			margin-left: -2px;
-			border-top:	2px solid #1899d3 ; 
-			border-bottom:	2px solid #1899d3  !important; 
+			border-top:	2px solid #1899d3 ;
+			border-bottom:	2px solid #1899d3  !important;
 
 		}
 		.submenu li:before  {
 			content: "<";
 			vertical-align: bottom;
 			margin-right: 1em;
-			
+
 		}
 		table{
 			border : 1px solid #e3e3e3;
@@ -282,6 +306,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
 			padding: 1em;
 			border-bottom: 1px solid #e3e3e3;
 		}
+
 
 
 </style>

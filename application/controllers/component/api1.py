@@ -42,3 +42,16 @@ def upload_component():
         return jsonify(), 200
     else:
         return abort(422)
+
+
+@api.route('/edit', methods=['POST'])
+def edit_component():
+    cid = request.json['id']
+    name = request.json['name']
+    version = request.json['version']
+    new_component = Component.query.get(cid)
+    new_component.deploy_version = version
+    new_component.name = name
+    print new_component.name, new_component.deploy_version
+    db.session.commit()
+    return jsonify(), 201
