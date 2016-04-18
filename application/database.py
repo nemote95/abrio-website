@@ -10,9 +10,10 @@ manager = Manager(usage="Perform database operations")
 def drop():
     """Drops database tables"""
     if prompt_bool("Are you sure you want to lose all your data"):
+        from application.models.logic import Logic
+        db.metadata.drop_all(db.engine, tables=[Logic.__table__])
         db.drop_all()
         redis.flushall()
-
 
 @manager.command
 def create():
