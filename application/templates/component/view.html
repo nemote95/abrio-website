@@ -128,6 +128,8 @@
 
 </body>
 <script type="text/javascript">
+    $(document).ajaxStop(function(){
+    window.location.reload();});
 	$('.submenu li ').hoverIntent(function(){
 		$(this).find('.hover').animate({"width":"100%"},function(){});
 	},function(){

@@ -83,25 +83,21 @@
 
                         </ul>
                         <ul id="sortable2" class="column is-8 droptrue">
-                            <form method="post" action="{{url_for('project.define_logic',pid=project.id)}}">
-                                <button type="submit" class="button is-danger">تعریف روابط افزونه ها</button>
-                                {{logic_form.component1(class="select")}}
-                                {% for error in logic_form.component1.errors %}
-                                <br>
-                                {{ error }}
+                            <button type="submit" class="button is-danger" onclick="define()">تعریف روابط افزونه ها
+                            </button>
+                            <select id="component_1">
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
                                 {% endfor %}
-                                {{logic_form.component2(class="select")}}
-                                {% for error in logic_form.component2.errors %}
-                                <br>
-                                {{ error }}
+                            </select>
+                            <select id="component_2">
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
                                 {% endfor %}
-                                {{logic_form.message_type(class="select")}}
-                                {% for error in logic_form.message_type.errors %}
-                                <br>
-                                {{ error }}
-                                {% endfor %}
-                            </form>
-                            <br>
+                            </select>
+                            <select id="message_type">
+                                <option value="BasicEvent">BasicEvent</option>
+                            </select>
                             <div class="columns info">
                                 <div class="column is-9">
                                     {% for c1,c2,m in logic_view %}
@@ -165,6 +161,8 @@
 
 </script>
 <script type="text/javascript">
+    $(document).ajaxStop(function(){
+    window.location.reload();});
 	$(function() {
     $( "ul.droptrue" ).sortable({
     	items : "li:not('.info')",
@@ -175,6 +173,34 @@
       }
     });
   });
+  function define(){
+	    var project_id = {{project.id}}
+	    var e = document.getElementById("component_1");
+        var component_1_id = e.options[e.selectedIndex].value;
+        var e = document.getElementById("component_2");
+        var component_2_id = e.options[e.selectedIndex].value;
+        var e = document.getElementById("message_type");
+        var message_type = e.options[e.selectedIndex].value;
+
+        var arr = { project_id: project_id,
+                    relations:
+                        [
+                        {component_1_id: component_1_id, component_2_id: component_2_id, message_type: message_type}
+                        ]
+                     };
+        $.ajax({
+        url: '/api/v1/project/logic',
+        type: 'POST',
+        data: JSON.stringify(arr),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function(msg) {
+        }
+    });
+	};
+
+
 
 
 
@@ -326,6 +352,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
 			padding: 1em;
 			border-bottom: 1px solid #e3e3e3;
 		}
+
+
 
 
 
