@@ -16,7 +16,7 @@ __all__ = ['component']
 component = Blueprint('component', __name__, url_prefix='/component')
 
 
-@component.route('/list', methods=['GET'])
+@component.route('/', methods=['GET'])
 @login_required
 def list_components():
     create_form = CreateComponentForm(request.form)
@@ -25,7 +25,7 @@ def list_components():
     return render_template('component/list.html', components=c, create_form=create_form, search_form=search_form)
 
 
-@component.route('/create', methods=['POST'])
+@component.route('/', methods=['POST'])
 @login_required
 def create():
     form = CreateComponentForm(request.form)
@@ -37,7 +37,7 @@ def create():
     return redirect(url_for('component.list_components'))
 
 
-@component.route('/view/<int:cid>', methods=['GET'])
+@component.route('/<int:cid>/view', methods=['GET'])
 @login_required
 @permission(Component, 'cid')
 def view(cid, obj=None):
@@ -49,7 +49,7 @@ def view(cid, obj=None):
     return render_template('component/view.html', upload_form=upload_form, edit_form=edit_form, component=obj)
 
 
-@component.route('/upload/<int:cid>', methods=['POST'])
+@component.route('/<int:cid>/upload', methods=['POST'])
 @login_required
 @permission(Component, 'cid')
 def upload(cid, obj=None):
@@ -70,7 +70,7 @@ def upload(cid, obj=None):
     return redirect(url_for('component.view', cid=cid))
 
 
-@component.route('/edit/<int:cid>', methods=['POST'])
+@component.route('/<int:cid>/edit', methods=['POST'])
 @login_required
 @permission(Component, 'cid')
 def edit(cid, obj=None):

@@ -16,7 +16,7 @@ __all__ = ['project']
 project = Blueprint('project', __name__, url_prefix='/project')
 
 
-@project.route('/list', methods=['GET'])
+@project.route('/', methods=['GET'])
 @login_required
 def list_projects():
     form = CreateProjectForm(request.form)
@@ -24,7 +24,7 @@ def list_projects():
     return render_template('project/list.html', projects=c, form=form)
 
 
-@project.route('/create', methods=['POST'])
+@project.route('/', methods=['POST'])
 @login_required
 def create():
     form = CreateProjectForm(request.form)
@@ -36,7 +36,7 @@ def create():
     return redirect(url_for('project.list_projects'))
 
 
-@project.route('/view/<int:pid>', methods=['GET'])
+@project.route('<int:pid>/view/', methods=['GET'])
 @login_required
 @permission(Project, 'pid')
 def view(pid, obj=None):
