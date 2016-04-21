@@ -2,8 +2,10 @@
 from requests import ConnectionError
 from sqlalchemy.orm.exc import NoResultFound
 import re
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import BadSignature
 # flask imports
-from flask import Blueprint, render_template, redirect, request, url_for, flash, abort
+from flask import Blueprint, render_template, redirect, request, url_for, flash, abort, current_app
 from flask.ext.login import login_user, login_required, logout_user, current_user
 
 # project imports
@@ -68,13 +70,22 @@ def register():
 
 
 @user.route('/confirm/<token>')
-@login_required
 def confirm(token):
-    if current_user.confirmed:
-        return redirect(url_for('main.index'))
-    if current_user.confirm(token):
-        flash('You have confirmed your account. Thanks!')
-    else:
+    s = Serializer(current_app.config['SECRET_KEY'])
+    try:
+        data = s.loads(token)
+        try:
+            current_user = User.query.filter_by(id=data.get('confirm')).one()
+            if not current_user.confirmed:
+                current_user.confirmed = True
+                db.session.commit()
+                flash('You have confirmed your account. Thanks!')
+            else:
+                flash('You have already confirmed your account.')
+            login_user(current_user)
+        except :
+            flash('The confirmation link is invalid or has expired.')
+    except BadSignature:
         flash('The confirmation link is invalid or has expired.')
     return redirect(url_for('main.index'))
 
