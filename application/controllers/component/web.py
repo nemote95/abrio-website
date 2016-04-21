@@ -19,8 +19,8 @@ component = Blueprint('component', __name__, url_prefix='/component')
 @component.route('/', methods=['GET'])
 @login_required
 def list_components():
-    create_form = CreateComponentForm(request.form)
-    search_form = SearchForm(request.form)
+    create_form = CreateComponentForm(request.form, meta={'locales': ['fa']})
+    search_form = SearchForm(request.form, meta={'locales': ['fa']})
     c = Component.query.filter(or_(Component.owner_id == current_user.id, Component.private == False)).all()
     return render_template('component/list.html', components=c, create_form=create_form, search_form=search_form)
 
@@ -28,7 +28,7 @@ def list_components():
 @component.route('/', methods=['POST'])
 @login_required
 def create():
-    form = CreateComponentForm(request.form)
+    form = CreateComponentForm(request.form, meta={'locales': ['fa']})
     if form.validate():
         new_component = Component(name=form.name.data, owner_id=current_user.id, private=form.private.data)
         db.session.add(new_component)
@@ -41,8 +41,8 @@ def create():
 @login_required
 @permission(Component, 'cid')
 def view(cid, obj=None):
-    upload_form = UploadForm()
-    edit_form = EditForm()
+    upload_form = UploadForm(meta={'locales': ['fa']})
+    edit_form = EditForm(meta={'locales': ['fa']})
     regex = re.compile(r'\d+_(v(.+)\..+)')
     edit_form.deploy_version.choices = [(regex.match(f).group(2), regex.match(f).group(1)) for f in
                                         obj.component_files()]
@@ -53,7 +53,7 @@ def view(cid, obj=None):
 @login_required
 @permission(Component, 'cid')
 def upload(cid, obj=None):
-    form = UploadForm()
+    form = UploadForm(meta={'locales': ['fa']})
     if form.validate_on_submit():
         filename = secure_filename(form.file.data.filename)
         file_type = filename.rsplit('.', 1)[1]
@@ -74,7 +74,7 @@ def upload(cid, obj=None):
 @login_required
 @permission(Component, 'cid')
 def edit(cid, obj=None):
-    form = EditForm(request.form)
+    form = EditForm(request.form, meta={'locales': ['fa']})
     regex = re.compile(r'\d+_(v(.+)\..+)')
     form.deploy_version.choices = [(regex.match(f).group(2), regex.match(f).group(1)) for f in obj.component_files()]
     if form.validate():
@@ -91,8 +91,8 @@ def edit(cid, obj=None):
 @component.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
-    create_form = CreateComponentForm(request.form)
-    search_form = SearchForm(request.form)
+    create_form = CreateComponentForm(request.form, meta={'locales': ['fa']})
+    search_form = SearchForm(request.form, meta={'locales': ['fa']})
     if request.method == 'POST' and search_form.validate():
         c = Component.query.filter(and_(Component.name.contains(search_form.name.data),
                                         or_(Component.private == False, Component.owner_id == current_user.id))).all()

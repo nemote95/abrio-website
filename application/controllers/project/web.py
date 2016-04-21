@@ -19,7 +19,7 @@ project = Blueprint('project', __name__, url_prefix='/project')
 @project.route('/', methods=['GET'])
 @login_required
 def list_projects():
-    form = CreateProjectForm(request.form)
+    form = CreateProjectForm(request.form, meta={'locales': ['fa']})
     c = Project.query.filter_by(owner_id=current_user.id).all()
     return render_template('project/list.html', projects=c, form=form)
 
@@ -27,7 +27,7 @@ def list_projects():
 @project.route('/', methods=['POST'])
 @login_required
 def create():
-    form = CreateProjectForm(request.form)
+    form = CreateProjectForm(request.form, meta={'locales': ['fa']})
     if form.validate():
         new_project = Project(name=form.name.data, owner_id=current_user.id, private_key=str(uuid4()))
         db.session.add(new_project)
@@ -68,10 +68,10 @@ def delete_logic(lid):
     logic = Logic.query.filter_by(id=lid).one_or_none()
     if not logic:
         return abort(404)
-    p=Project.query.filter_by(id=logic.project_id).one()
-    if p.owner_id==current_user.id:
+    p = Project.query.filter_by(id=logic.project_id).one()
+    if p.owner_id == current_user.id:
         db.session.delete(logic)
         db.session.commit()
-        return redirect(url_for('project.view',pid=p.id))
+        return redirect(url_for('project.view', pid=p.id))
     else:
         return abort(403)

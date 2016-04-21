@@ -51,7 +51,7 @@ def resend_confirmation():
 
 @user.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm(request.form)
+    form = RegistrationForm(request.form, meta={'locales': ['fa']})
     if request.method == 'POST' and form.validate():
         new_user = User(email=form.email.data, password=form.password.data)
         db.session.add(new_user)
@@ -83,7 +83,7 @@ def confirm(token):
             else:
                 flash('You have already confirmed your account.')
             login_user(current_user)
-        except :
+        except:
             flash('The confirmation link is invalid or has expired.')
     except BadSignature:
         flash('The confirmation link is invalid or has expired.')
@@ -92,7 +92,7 @@ def confirm(token):
 
 @user.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm(request.form)
+    form = LoginForm(request.form, meta={'locales': ['fa']})
     if request.method == 'POST' and form.validate():
         new_user = User.query.filter_by(email=form.email.data).first()
         if new_user is not None and new_user.verify_password(form.password.data):
@@ -121,14 +121,14 @@ def info(uid):
 
 @user.route('/edit_profile')
 def edit_view():
-    form = EditProfileForm(request.form)
+    form = EditProfileForm(request.form, meta={'locales': ['fa']})
     return render_template('user/edit.html', form=form)
 
 
 @user.route('/edit', methods=['Post'])
 @login_required
 def edit_profile():
-    form = EditProfileForm(request.form)
+    form = EditProfileForm(request.form, meta={'locales': ['fa']})
     if form.validate():
         u = User.query.filter_by(id=current_user.id).one()
         if form.company.data:
