@@ -36,7 +36,7 @@ def create():
     return redirect(url_for('project.list_projects'))
 
 
-@project.route('<int:pid>/view/', methods=['GET'])
+@project.route('/<int:pid>/view', methods=['GET'])
 @login_required
 @permission(Project, 'pid')
 def view(pid, obj=None):
@@ -44,12 +44,14 @@ def view(pid, obj=None):
         or_(Component.owner_id == current_user.id, Component.private == False)).all()]
     project_logic = Logic.query.filter_by(project_id=pid).all()
     logic_view = [(Component.query.filter_by(id=l.component_1_id).one_or_none(),
-                   Component.query.filter_by(id=l.component_2_id).one_or_none(), l.message_type) for l in project_logic]
+                   Component.query.filter_by(id=l.component_2_id).one_or_none(),
+                   l.message_type, l.id) for l in project_logic]
     running = redis.exists('abr:%s' % obj.private_key)
-    return render_template('project/view.html', project=obj, logic_view=logic_view,components_choices=components_choices, running=running)
+    return render_template('project/view.html', project=obj, logic_view=logic_view,
+                           components_choices=components_choices, running=running)
 
 
-@project.route('/run/<int:pid>', methods=['POST'])
+@project.route('/<int:pid>/run', methods=['POST'])
 @login_required
 @permission(Project, 'pid')
 def run_project(pid, obj=None):
@@ -58,3 +60,18 @@ def run_project(pid, obj=None):
     else:
         redis.set('abr:%s' % obj.private_key, pid)
     return redirect(url_for('project.view', pid=pid))
+
+
+@project.route('/<int:lid>/delete', methods=['POST'])
+@login_required
+def delete_logic(lid):
+    logic = Logic.query.filter_by(id=lid).one_or_none()
+    if not logic:
+        return abort(404)
+    p=Project.query.filter_by(id=logic.project_id).one()
+    if p.owner_id==current_user.id:
+        db.session.delete(logic)
+        db.session.commit()
+        return redirect(url_for('project.view',pid=p.id))
+    else:
+        return abort(403)

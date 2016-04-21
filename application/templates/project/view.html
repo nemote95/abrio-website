@@ -82,34 +82,100 @@
                             {% endfor %}
 
                         </ul>
+
                         <ul id="sortable2" class="column is-8 droptrue">
-                            <button type="submit" class="button is-danger" onclick="define()">تعریف روابط افزونه ها
-                            </button>
-                            <select id="component_1">
+
+                            <select id="component_2_1">
                                 {% for component in components_choices %}
                                 <option value="{{component[0]}}">{{component[1]}}</option>
                                 {% endfor %}
                             </select>
-                            <select id="component_2">
+                            <select id="component_2_2">
                                 {% for component in components_choices %}
                                 <option value="{{component[0]}}">{{component[1]}}</option>
                                 {% endfor %}
                             </select>
-                            <select id="message_type">
+                            <select id="message_type_2">
                                 <option value="BasicEvent">BasicEvent</option>
                             </select>
+                            <br>
+
+                            <select id="component_3_1">
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="component_3_2">
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="message_type_3">
+                                <option value="BasicEvent">BasicEvent</option>
+                            </select>
+                            <br>
+
+                            <select id="component_4_1">
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="component_4_2">
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="message_type_4">
+                                <option value="BasicEvent">BasicEvent</option>
+                            </select>
+                            <br>
+
+                            <select id="component_5_1">
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="component_5_2">
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="message_type_5">
+                                <option value="BasicEvent">BasicEvent</option>
+                            </select>
+                            <br>
+
+                            <select id="component_6_1">
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="component_6_2">
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="message_type_6">
+                                <option value="BasicEvent">BasicEvent</option>
+                            </select>
+                            <br>
+                            <button type="submit" class="button is-danger" onclick="define()">تعریف روابط افزونه ها
+                            </button>
                             <div class="columns info">
                                 <div class="column is-9">
-                                    {% for c1,c2,m in logic_view %}
+                                    {% for c1,c2,m,lid in logic_view %}
                                     <br>
                                     <a class="button is-success">{{c1.name}}</a>
                                     {{m}}
                                     <a class="button is-success">{{c2.name}}</a>
                                     <br>
+                                    <form action="{{url_for('project.delete_logic',lid=lid)}}"
+                                          method="POST">
+                                        <input class="button is-danger" type="submit" value="حذف">
+                                    </form>
                                     {% endfor %}
                                 </div>
                             </div>
-
                         </ul>
                     </div>
                 </div>
@@ -175,17 +241,49 @@
   });
   function define(){
 	    var project_id = {{project.id}}
-	    var e = document.getElementById("component_1");
-        var component_1_id = e.options[e.selectedIndex].value;
-        var e = document.getElementById("component_2");
-        var component_2_id = e.options[e.selectedIndex].value;
-        var e = document.getElementById("message_type");
-        var message_type = e.options[e.selectedIndex].value;
+	    var e = document.getElementById("component_2_1")
+        var component_1_id_1 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("component_2_2");
+        var component_2_id_1 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("message_type_2");
+        var message_type_1 = e.options[e.selectedIndex].value;
+
+	    var e = document.getElementById("component_3_1")
+        var component_1_id_2 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("component_3_2");
+        var component_2_id_2 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("message_type_3");
+        var message_type_2 = e.options[e.selectedIndex].value;
+
+	    var e = document.getElementById("component_4_1")
+        var component_1_id_3 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("component_4_2");
+        var component_2_id_3 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("message_type_4");
+        var message_type_3 = e.options[e.selectedIndex].value;
+
+	    var e = document.getElementById("component_5_1")
+        var component_1_id_4 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("component_5_2");
+        var component_2_id_4 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("message_type_5");
+        var message_type_4 = e.options[e.selectedIndex].value;
+
+	    var e = document.getElementById("component_6_1")
+        var component_1_id_5 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("component_6_2");
+        var component_2_id_5 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("message_type_6");
+        var message_type_5 = e.options[e.selectedIndex].value;
 
         var arr = { project_id: project_id,
                     relations:
                         [
-                        {component_1_id: component_1_id, component_2_id: component_2_id, message_type: message_type}
+                        {component_1_id: component_1_id_1, component_2_id: component_2_id_1, message_type: message_type_1},
+                        {component_1_id: component_1_id_2, component_2_id: component_2_id_2, message_type: message_type_2},
+                        {component_1_id: component_1_id_3, component_2_id: component_2_id_3, message_type: message_type_3},
+                        {component_1_id: component_1_id_4, component_2_id: component_2_id_4, message_type: message_type_4},
+                        {component_1_id: component_1_id_5, component_2_id: component_2_id_5, message_type: message_type_5}
                         ]
                      };
         $.ajax({
@@ -199,6 +297,7 @@
         }
     });
 	};
+
 
 
 
@@ -352,6 +451,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
 			padding: 1em;
 			border-bottom: 1px solid #e3e3e3;
 		}
+
 
 
 
