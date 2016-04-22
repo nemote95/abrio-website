@@ -42,14 +42,15 @@
                     <a href="{{url_for('component.list_components')}}">بازگشت ></a>
                 </div>
                 <div class="column rtl is-8">
-                    <h1 class="title">نام کامپوننت : <input id="name" type="text" value="{{component.name}}" disabled></h1>
+                    <h1 class="title">نام کامپوننت : <input id="name" type="text" value="{{component.name}}" disabled>
+                    </h1>
                 </div>
             </div>
             <div class="columns detail">
                 <div class="column is-10 is-offset-1">
                     <div align="right" dir="rtl"><span>نسخه کامپوننت :<select
                             id="selectversion" disabled>
-                        {% for version in component.component_files() %}
+                        {% for version in version_choices %}
                         <option value="{{version}}">{{version}}</option>
                         {% endfor %}
                     </select></span></div>
@@ -88,7 +89,16 @@
                         {{ upload_form.file(class="input") }}<br>
                         {{ upload_form.version(class="input")}}<br>
                         {{ upload_form.csrf_token }}
-                        <input class="button is-success" type="submit" value="آپلود"></input>
+                        <div class="hero is-large">
+                            {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                            {% for message in messages %}
+                            {{ message }}
+                            {% endfor %}
+                            {% endif %}
+                            {% endwith %}
+                        </div>
+                        <input class="button is-success" type="submit" value="آپلود">
                     </form>
                 </div>
             </div>
@@ -159,6 +169,11 @@
         }
     });
 	};
+
+
+
+
+
 
 
 
@@ -308,6 +323,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
 			padding: 1em;
 			border-bottom: 1px solid #e3e3e3;
 		}
+
+
+
+
+
 
 
 

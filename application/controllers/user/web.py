@@ -1,3 +1,4 @@
+# coding=utf-8
 # python imports
 from requests import ConnectionError
 from sqlalchemy.orm.exc import NoResultFound
@@ -43,9 +44,9 @@ def resend_confirmation():
         email.send(current_user.email, 'Confirm Your Account',
                    render_template('user/email/confirm.html', user=current_user, token=token))
     except:
-        flash('sending confirmation email failed,try again')
+        flash(u'.ارسال ایمیل تایید حساب کاربری با مشکل روبه رو شد.مجددا تلاش کنید')
         return redirect('user.unconfirmed')
-    flash('A confirmation email has been sent to you by email.')
+    flash(u'.یک ایمیل تایید حساب کاربری برای شما ارسال شده است')
     return redirect(url_for('main.index'))
 
 
@@ -61,10 +62,10 @@ def register():
                        render_template('user/email/confirm.html', user=new_user, token=token))
             db.session.commit()
         except ConnectionError:
-            flash('sending confirmation email failed,try again')
+            flash(u'.ارسال ایمیل تایید حساب کاربری با مشکل روبه رو شد.مجددا تلاش کنید')
             db.session.rollback()
             return render_template('user/register.html', form=form)
-        flash('A confirmation email has been sent to you by email.')
+        flash(u'.یک ایمیل تایید حساب کاربری برای شما ارسال شده است')
         return redirect(url_for('main.index'))
     return render_template('user/register.html', form=form)
 
@@ -79,14 +80,14 @@ def confirm(token):
             if not current_user.confirmed:
                 current_user.confirmed = True
                 db.session.commit()
-                flash('You have confirmed your account. Thanks!')
+                flash(u'.حساب شما تایید شد')
             else:
-                flash('You have already confirmed your account.')
+                flash(u'.حساب شما قبلا تایید شده بود')
             login_user(current_user)
         except:
-            flash('The confirmation link is invalid or has expired.')
+            flash(u'.لینک تاید حساب کاربری نامعتبر و یا منقضی می باشد')
     except BadSignature:
-        flash('The confirmation link is invalid or has expired.')
+        flash(u'.لینک تاید حساب کاربری نامعتبر و یا منقضی می باشد')
     return redirect(url_for('main.index'))
 
 
@@ -98,7 +99,7 @@ def login():
         if new_user is not None and new_user.verify_password(form.password.data):
             login_user(new_user)
             return redirect(request.args.get('next') or url_for('main.panel'))
-        flash('Invalid username or password.')
+        flash(u'.آدرس ایمیل یا کلمه ی عبور نا معتبر است')
     return render_template('user/login.html', form=form)
 
 
@@ -106,7 +107,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.')
+    flash(u'.شما خارج شدید')
     return redirect(url_for('main.index'))
 
 
@@ -141,5 +142,5 @@ def edit_profile():
             u.ssn = form.ssn.data
         db.session.commit()
         return redirect(url_for('user.info', uid=current_user.id))
-    flash('invalid information')
+    flash(u'.اطلاعات وارد شده نا معتبر است')
     return redirect(url_for('user.edit_view', uid=current_user.id))

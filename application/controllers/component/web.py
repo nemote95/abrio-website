@@ -1,3 +1,4 @@
+# coding=utf-8
 # python imports
 import os
 import re
@@ -42,11 +43,10 @@ def create():
 @permission(Component, 'cid')
 def view(cid, obj=None):
     upload_form = UploadForm(meta={'locales': ['fa']})
-    edit_form = EditForm(meta={'locales': ['fa']})
     regex = re.compile(r'\d+_(v(.+)\..+)')
-    edit_form.deploy_version.choices = [(regex.match(f).group(2), regex.match(f).group(1)) for f in
+    version_choices = [regex.match(f).group(2) for f in
                                         obj.component_files()]
-    return render_template('component/view.html', upload_form=upload_form, edit_form=edit_form, component=obj)
+    return render_template('component/view.html', upload_form=upload_form, version_choices=version_choices, component=obj)
 
 
 @component.route('/<int:cid>/upload', methods=['POST'])
@@ -64,27 +64,9 @@ def upload(cid, obj=None):
             db.session.commit()
             return redirect(url_for('component.view', cid=cid))
         else:
-            flash('wrong file type')
+            flash(u'.فرمت این فایل قابل پشتیبانی نیست')
             return redirect(url_for('component.view', cid=cid))
-    flash('invalid form')
-    return redirect(url_for('component.view', cid=cid))
-
-
-@component.route('/<int:cid>/edit', methods=['POST'])
-@login_required
-@permission(Component, 'cid')
-def edit(cid, obj=None):
-    form = EditForm(request.form, meta={'locales': ['fa']})
-    regex = re.compile(r'\d+_(v(.+)\..+)')
-    form.deploy_version.choices = [(regex.match(f).group(2), regex.match(f).group(1)) for f in obj.component_files()]
-    if form.validate():
-        if form.deploy_version.data:
-            obj.deploy_version = form.deploy_version.data
-        if form.name.data:
-            obj.name = form.name.data
-        db.session.commit()
-        return redirect(url_for('component.view', cid=cid))
-    flash('invalid form')
+    flash(u'.پرکردن فیلد ها اجباری است')
     return redirect(url_for('component.view', cid=cid))
 
 

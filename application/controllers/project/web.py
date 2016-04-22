@@ -1,3 +1,4 @@
+# coding=utf-8
 # python imports
 from uuid import uuid4
 from sqlalchemy import or_
@@ -33,6 +34,7 @@ def create():
         db.session.add(new_project)
         db.session.commit()
         return redirect(url_for('project.view', pid=new_project.id))
+    flash(u'.این فیلد اجباری است')
     return redirect(url_for('project.list_projects'))
 
 
