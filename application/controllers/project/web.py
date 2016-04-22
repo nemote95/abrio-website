@@ -38,7 +38,7 @@ def create():
     return redirect(url_for('project.list_projects'))
 
 
-@project.route('/<int:pid>/view', methods=['GET'])
+@project.route('/<int:pid>', methods=['GET'])
 @login_required
 @permission(Project, 'pid')
 def view(pid, obj=None):

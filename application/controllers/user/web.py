@@ -43,7 +43,7 @@ def resend_confirmation():
     try:
         email.send(current_user.email, 'Confirm Your Account',
                    render_template('user/email/confirm.html', user=current_user, token=token))
-    except:
+    except ConnectionError:
         flash(u'.ارسال ایمیل تایید حساب کاربری با مشکل روبه رو شد.مجددا تلاش کنید')
         return redirect('user.unconfirmed')
     flash(u'.یک ایمیل تایید حساب کاربری برای شما ارسال شده است')
@@ -84,7 +84,7 @@ def confirm(token):
             else:
                 flash(u'.حساب شما قبلا تایید شده بود')
             login_user(current_user)
-        except:
+        except NoResultFound:
             flash(u'.لینک تاید حساب کاربری نامعتبر و یا منقضی می باشد')
     except BadSignature:
         flash(u'.لینک تاید حساب کاربری نامعتبر و یا منقضی می باشد')
