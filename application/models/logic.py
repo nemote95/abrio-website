@@ -7,7 +7,7 @@ class Logic(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
     component_1_id = db.Column(db.Integer, db.ForeignKey('components.id'))
     component_2_id = db.Column(db.Integer, db.ForeignKey('components.id'))
-    message_type = db.Column(db.Enum('BasicEvent', 'type_b', name='msg_type'))
+    message_type = db.Column(db.Enum('BasicEvent','RequestEvent','Response', 'type_b', name='msg_type'))
 
     @classmethod
     def generate_fake(cls, project, component1, component2):

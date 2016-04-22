@@ -144,7 +144,7 @@ def generate_development_data():
     logic6.project_id = project3.id
     logic6.component_1_id = None
     logic6.component_2_id = component4.id
-    logic6.message_type = 'BasicEvent'
+    logic6.message_type = 'RequestEvent'
 
     db.session.add(logic6)
     db.session.commit()
@@ -153,7 +153,7 @@ def generate_development_data():
     logic7.project_id = project3.id
     logic7.component_1_id = component4.id
     logic7.component_2_id = None
-    logic7.message_type = 'BasicEvent'
+    logic7.message_type = 'Response'
 
     db.session.add(logic7)
     db.session.commit()
