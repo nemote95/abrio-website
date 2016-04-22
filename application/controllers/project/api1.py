@@ -1,5 +1,5 @@
 # flask imports
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify,abort
 # project imports
 from application.models.logic import Logic
 from application.extensions import db
@@ -13,11 +13,21 @@ def define_logic():
     project_id = request.json['project_id']
     relations = request.json['relations']
     for relation in relations:
-        new_logic = Logic(project_id=project_id,
-                          component_1_id=relation['component_1_id'],
-                          component_2_id=relation['component_2_id'],
-                          message_type=relation['message_type'])
+        if relation['component_1_id']=="Input" and relation['component_2_id']=="Output":
+            return jsonify(),404
+        elif relation['component_1_id'] == "Input":
+            new_logic = Logic(project_id=project_id,
+                              component_2_id=relation['component_2_id'],
+                              message_type=relation['message_type'])
+        elif relation['component_2_id'] == "Output":
+            new_logic = Logic(project_id=project_id,
+                              component_1_id=relation['component_1_id'],
+                              message_type=relation['message_type'])
+        else:
+            new_logic = Logic(project_id=project_id,
+                              component_1_id=relation['component_1_id'],
+                              component_2_id=relation['component_2_id'],
+                              message_type=relation['message_type'])
         db.session.add(new_logic)
         db.session.commit()
-
     return jsonify(), 201
