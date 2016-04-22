@@ -82,38 +82,110 @@
                             {% endfor %}
 
                         </ul>
+
                         <ul id="sortable2" class="column is-8 droptrue">
-                            <form method="post" action="{{url_for('project.define_logic',pid=project.id)}}">
-                                <button type="submit" class="button is-danger">تعریف روابط افزونه ها</button>
-                                {{logic_form.component1(class="select")}}
-                                {% for error in logic_form.component1.errors %}
-                                <br>
-                                {{ error }}
+
+                            <select id="component_2_1">
+                                <option value="Input">Input</option>
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
                                 {% endfor %}
-                                {{logic_form.component2(class="select")}}
-                                {% for error in logic_form.component2.errors %}
-                                <br>
-                                {{ error }}
+                            </select>
+                            <select id="component_2_2">
+                                <option value="Output">Output</option>
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
                                 {% endfor %}
-                                {{logic_form.message_type(class="select")}}
-                                {% for error in logic_form.message_type.errors %}
-                                <br>
-                                {{ error }}
-                                {% endfor %}
-                            </form>
+                            </select>
+                            <select id="message_type_2">
+                                <option value="BasicEvent">BasicEvent</option>
+                            </select>
                             <br>
+
+                            <select id="component_3_1">
+                                <option value="Input">Input</option>
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="component_3_2">
+                                <option value="Output">Output</option>
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="message_type_3">
+                                <option value="BasicEvent">BasicEvent</option>
+                            </select>
+                            <br>
+
+                            <select id="component_4_1">
+                                <option value="Input">Input</option>
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="component_4_2">
+                                <option value="Output">Output</option>
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="message_type_4">
+                                <option value="BasicEvent">BasicEvent</option>
+                            </select>
+                            <br>
+
+                            <select id="component_5_1">
+                                <option value="Input">Input</option>
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="component_5_2">
+                                <option value="Output">Output</option>
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="message_type_5">
+                                <option value="BasicEvent">BasicEvent</option>
+                            </select>
+                            <br>
+
+                            <select id="component_6_1">
+                                <option value="Input">Input</option>
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="component_6_2">
+                                <option value="Output">Output</option>
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="message_type_6">
+                                <option value="BasicEvent">BasicEvent</option>
+                            </select>
+                            <br>
+                            <button type="submit" class="button is-danger" onclick="define()">تعریف روابط افزونه ها
+                            </button>
                             <div class="columns info">
                                 <div class="column is-9">
-                                    {% for c1,c2,m in logic_view %}
+                                    {% for c1,c2,m,lid in logic_view %}
                                     <br>
                                     <a class="button is-success">{{c1.name}}</a>
                                     {{m}}
                                     <a class="button is-success">{{c2.name}}</a>
                                     <br>
+                                    <form action="{{url_for('project.delete_logic',lid=lid)}}"
+                                          method="POST">
+                                        <input class="button is-danger" type="submit" value="حذف">
+                                    </form>
                                     {% endfor %}
                                 </div>
                             </div>
-
                         </ul>
                     </div>
                 </div>
@@ -165,6 +237,8 @@
 
 </script>
 <script type="text/javascript">
+    $(document).ajaxStop(function(){
+    window.location.reload();});
 	$(function() {
     $( "ul.droptrue" ).sortable({
     	items : "li:not('.info')",
@@ -175,13 +249,64 @@
       }
     });
   });
+  function define(){
+	    var project_id = {{project.id}}
+	    var e = document.getElementById("component_2_1")
+        var component_1_id_1 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("component_2_2");
+        var component_2_id_1 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("message_type_2");
+        var message_type_1 = e.options[e.selectedIndex].value;
 
+	    var e = document.getElementById("component_3_1")
+        var component_1_id_2 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("component_3_2");
+        var component_2_id_2 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("message_type_3");
+        var message_type_2 = e.options[e.selectedIndex].value;
 
+	    var e = document.getElementById("component_4_1")
+        var component_1_id_3 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("component_4_2");
+        var component_2_id_3 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("message_type_4");
+        var message_type_3 = e.options[e.selectedIndex].value;
 
+	    var e = document.getElementById("component_5_1")
+        var component_1_id_4 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("component_5_2");
+        var component_2_id_4 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("message_type_5");
+        var message_type_4 = e.options[e.selectedIndex].value;
 
+	    var e = document.getElementById("component_6_1")
+        var component_1_id_5 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("component_6_2");
+        var component_2_id_5 = e.options[e.selectedIndex].value;
+        var e = document.getElementById("message_type_6");
+        var message_type_5 = e.options[e.selectedIndex].value;
 
-
-
+        var arr = { project_id: project_id,
+                    relations:
+                        [
+                        {component_1_id: component_1_id_1, component_2_id: component_2_id_1, message_type: message_type_1},
+                        {component_1_id: component_1_id_2, component_2_id: component_2_id_2, message_type: message_type_2},
+                        {component_1_id: component_1_id_3, component_2_id: component_2_id_3, message_type: message_type_3},
+                        {component_1_id: component_1_id_4, component_2_id: component_2_id_4, message_type: message_type_4},
+                        {component_1_id: component_1_id_5, component_2_id: component_2_id_5, message_type: message_type_5}
+                        ]
+                     };
+        $.ajax({
+        url: '/api/v1/project/logic',
+        type: 'POST',
+        data: JSON.stringify(arr),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function(msg) {
+        }
+    });
+	};
 
 
 
@@ -326,6 +451,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
 			padding: 1em;
 			border-bottom: 1px solid #e3e3e3;
 		}
+
+
+
+
 
 
 

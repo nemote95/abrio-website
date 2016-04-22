@@ -1,3 +1,4 @@
+# coding=utf-8
 from wtforms import Form, StringField, PasswordField, validators
 
 from wtforms import ValidationError
@@ -12,7 +13,7 @@ class RegistrationForm(Form):
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
-            raise ValidationError("Email already registered.")
+            raise ValidationError(u"این ایمیل قبلا ثبت شده است.")
 
 
 class LoginForm(Form):
