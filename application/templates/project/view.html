@@ -85,14 +85,31 @@
 
                         <ul id="sortable2" class="column is-8 droptrue">
 
+                            <select id="component_1_1">
+                                <option value="">Input</option>
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="component_1_2">
+                                <option value="">Output</option>
+                                {% for component in components_choices %}
+                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="message_type_1">
+                                <option value="BasicEvent">BasicEvent</option>
+                            </select>
+                            <br>
+
                             <select id="component_2_1">
-                                <option value="Input">Input</option>
+                                <option value="">Input</option>
                                 {% for component in components_choices %}
                                 <option value="{{component[0]}}">{{component[1]}}</option>
                                 {% endfor %}
                             </select>
                             <select id="component_2_2">
-                                <option value="Output">Output</option>
+                                <option value="">Output</option>
                                 {% for component in components_choices %}
                                 <option value="{{component[0]}}">{{component[1]}}</option>
                                 {% endfor %}
@@ -103,13 +120,13 @@
                             <br>
 
                             <select id="component_3_1">
-                                <option value="Input">Input</option>
+                                <option value="">Input</option>
                                 {% for component in components_choices %}
                                 <option value="{{component[0]}}">{{component[1]}}</option>
                                 {% endfor %}
                             </select>
                             <select id="component_3_2">
-                                <option value="Output">Output</option>
+                                <option value="">Output</option>
                                 {% for component in components_choices %}
                                 <option value="{{component[0]}}">{{component[1]}}</option>
                                 {% endfor %}
@@ -120,13 +137,13 @@
                             <br>
 
                             <select id="component_4_1">
-                                <option value="Input">Input</option>
+                                <option value="">Input</option>
                                 {% for component in components_choices %}
                                 <option value="{{component[0]}}">{{component[1]}}</option>
                                 {% endfor %}
                             </select>
                             <select id="component_4_2">
-                                <option value="Output">Output</option>
+                                <option value="">Output</option>
                                 {% for component in components_choices %}
                                 <option value="{{component[0]}}">{{component[1]}}</option>
                                 {% endfor %}
@@ -137,35 +154,18 @@
                             <br>
 
                             <select id="component_5_1">
-                                <option value="Input">Input</option>
+                                <option value="">Input</option>
                                 {% for component in components_choices %}
                                 <option value="{{component[0]}}">{{component[1]}}</option>
                                 {% endfor %}
                             </select>
                             <select id="component_5_2">
-                                <option value="Output">Output</option>
+                                <option value="">Output</option>
                                 {% for component in components_choices %}
                                 <option value="{{component[0]}}">{{component[1]}}</option>
                                 {% endfor %}
                             </select>
                             <select id="message_type_5">
-                                <option value="BasicEvent">BasicEvent</option>
-                            </select>
-                            <br>
-
-                            <select id="component_6_1">
-                                <option value="Input">Input</option>
-                                {% for component in components_choices %}
-                                <option value="{{component[0]}}">{{component[1]}}</option>
-                                {% endfor %}
-                            </select>
-                            <select id="component_6_2">
-                                <option value="Output">Output</option>
-                                {% for component in components_choices %}
-                                <option value="{{component[0]}}">{{component[1]}}</option>
-                                {% endfor %}
-                            </select>
-                            <select id="message_type_6">
                                 <option value="BasicEvent">BasicEvent</option>
                             </select>
                             <br>
@@ -175,9 +175,17 @@
                                 <div class="column is-9">
                                     {% for c1,c2,m,lid in logic_view %}
                                     <br>
+                                    {% if c1 %}
                                     <a class="button is-success">{{c1.name}}</a>
+                                    {% else %}
+                                    <a class="button is-success">Input</a>
+                                    {% endif %}
                                     {{m}}
+                                    {% if c2 %}
                                     <a class="button is-success">{{c2.name}}</a>
+                                    {% else %}
+                                    <a class="button is-success">Output</a>
+                                    {% endif %}
                                     <br>
                                     <form action="{{url_for('project.delete_logic',lid=lid)}}"
                                           method="POST">
@@ -251,39 +259,39 @@
   });
   function define(){
 	    var project_id = {{project.id}}
-	    var e = document.getElementById("component_2_1")
+	    var e = document.getElementById("component_1_1")
         var component_1_id_1 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("component_2_2");
+        var e = document.getElementById("component_1_2");
         var component_2_id_1 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("message_type_2");
+        var e = document.getElementById("message_type_1");
         var message_type_1 = e.options[e.selectedIndex].value;
 
-	    var e = document.getElementById("component_3_1")
+	    var e = document.getElementById("component_2_1")
         var component_1_id_2 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("component_3_2");
+        var e = document.getElementById("component_2_2");
         var component_2_id_2 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("message_type_3");
+        var e = document.getElementById("message_type_2");
         var message_type_2 = e.options[e.selectedIndex].value;
 
-	    var e = document.getElementById("component_4_1")
+	    var e = document.getElementById("component_3_1")
         var component_1_id_3 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("component_4_2");
+        var e = document.getElementById("component_3_2");
         var component_2_id_3 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("message_type_4");
+        var e = document.getElementById("message_type_3");
         var message_type_3 = e.options[e.selectedIndex].value;
 
-	    var e = document.getElementById("component_5_1")
+	    var e = document.getElementById("component_4_1")
         var component_1_id_4 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("component_5_2");
+        var e = document.getElementById("component_4_2");
         var component_2_id_4 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("message_type_5");
+        var e = document.getElementById("message_type_4");
         var message_type_4 = e.options[e.selectedIndex].value;
 
-	    var e = document.getElementById("component_6_1")
+	    var e = document.getElementById("component_5_1")
         var component_1_id_5 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("component_6_2");
+        var e = document.getElementById("component_5_2");
         var component_2_id_5 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("message_type_6");
+        var e = document.getElementById("message_type_5");
         var message_type_5 = e.options[e.selectedIndex].value;
 
         var arr = { project_id: project_id,
