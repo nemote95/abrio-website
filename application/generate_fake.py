@@ -38,15 +38,16 @@ def generate_development_data():
     project = Project()
     project.name = 'test'
     project.owner = user
+    project.owner_id = user.id
 
     db.session.add(project)
     db.session.commit()
-    redis.setnx('abr:'+PROJECT_TEST_TOKEN, project.id)
+    redis.setnx('abr:' + PROJECT_TEST_TOKEN, project.id)
 
     component1 = Component()
     component1.name = 'First Component'
     component1.deploy_version = str(randint(0, 10))
-    component1.owner = user
+    component1.owner_id = user.id
 
     db.session.add(component1)
     db.session.commit()
@@ -54,7 +55,7 @@ def generate_development_data():
     component2 = Component()
     component2.name = 'Second Component'
     component2.deploy_version = str(randint(0, 10))
-    component2.owner = user
+    component2.owner_id = user.id
 
     db.session.add(component2)
     db.session.commit()
@@ -89,15 +90,16 @@ def generate_development_data():
     project2 = Project()
     project2.name = 'chat'
     project2.owner = user
+    project2.owner_id = user.id
 
     db.session.add(project2)
     db.session.commit()
-    redis.setnx('abr:'+PROJECT_CHAT_TOKEN, project2.id)
+    redis.setnx('abr:' + PROJECT_CHAT_TOKEN, project2.id)
 
     component3 = Component()
     component3.name = 'Chat component'
     component3.deploy_version = str(randint(0, 10))
-    component3.owner = user
+    component3.owner_id = user.id
 
     db.session.add(component3)
     db.session.commit()
