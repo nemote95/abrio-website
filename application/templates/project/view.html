@@ -119,25 +119,6 @@
                             <br>
                             <button type="submit" class="button is-danger" onclick="define()">تعریف روابط افزونه ها
                             </button>
-                            <div class="columns info">
-                                <div class="column is-9">
-                                    {% for c1,c2,m,lid in logic_view %}
-                                    <br>
-                                    {% if c1 %}
-                                    <a href="{{url_for('component.view',cid=c1.id)}}">{{c1.name}}</a>
-                                    {% else %}
-                                    <a>Input</a>
-                                    {% endif %}
-                                    -{{m}}-
-                                    {% if c2 %}
-                                    <a href="{{url_for('component.view',cid=c2.id)}}">{{c2.name}}</a>
-                                    {% else %}
-                                    <a>Output</a>
-                                    {% endif %}
-                                    <br>
-                                    {% endfor %}
-                                </div>
-                            </div>
                         </ul>
                     </div>
                 </div>
