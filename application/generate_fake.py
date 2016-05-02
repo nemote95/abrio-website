@@ -7,6 +7,7 @@ from random import randint
 
 PROJECT_TEST_TOKEN = '123456'
 PROJECT_CHAT_TOKEN = '123123'
+PROJECT_AUTH_TOKEN = '481516'
 
 
 def generate_fake():
