@@ -38,7 +38,7 @@ def create():
     return redirect(url_for('component.list_components'))
 
 
-@component.route('/<int:cid>/view', methods=['GET'])
+@component.route('/<int:cid>', methods=['GET'])
 @login_required
 @permission(Component, 'cid')
 def view(cid, obj=None):

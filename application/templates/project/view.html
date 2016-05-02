@@ -76,98 +76,46 @@
                             <div class="search columns"><span class="column is-2"><button class="button is-primary"><i
                                     class="fa fa-search"></i></button></span><span class="column is-10"><input
                                     class="input" type="text"></span></div>
-                            {% for component in components_choices %}
-                            <li class="ui-state-default"><a href="{{url_for('component.view',cid=component[0])}}">{{component[1]}}</a>
-                            </li>
-                            {% endfor %}
-
                         </ul>
 
                         <ul id="sortable2" class="column is-8 droptrue">
+                            <button class="button is-success" onclick="newRow()">اضافه کردن سطر جدید</button>
+                            <table id="define-logic">
+                                {% for i in range(logic_view|length) %}
+                                {% if logic_view[i][0].id and logic_view[i][1].id %}
+                                <script>$(function () {
+                                            newRow();
+                                            var row=document.getElementById("define-logic").getElementsByTagName("tr")
+                                            var sel=row[row.length-1-{{i}}].getElementsByTagName("select");
+                                            for (op=0;op<sel[0].length;op++){
+                                                if (sel[0].options[op].value=={{logic_view[i][0].id}}){
+                                                    sel[0].options[op].selected=true;}}
+                                            for (op=0;op<sel[1].length;op++){
+                                                if (sel[1].options[op].value=={{logic_view[i][1].id }}){
+                                                    sel[1].options[op].selected=true;}}});
+                                </script>
+                                {% elif logic_view[i][0].id %}
+                                <script>$(function () {
+                                            newRow();
+                                            var row=document.getElementById("define-logic").getElementsByTagName("tr")
+                                            var sel=row[row.length-1-{{i}}].getElementsByTagName("select");
+                                            for (op=0;op<sel[0].length;op++){
+                                                if (sel[0].options[op].value=={{logic_view[i][0].id}}){
+                                                    sel[0].options[op].selected=true;}}});
+                                </script>
+                                {% else %}
+                                <script>$(function () {
+                                            newRow();
+                                            var row=document.getElementById("define-logic").getElementsByTagName("tr")
+                                            var sel=row[row.length-1-{{i}}].getElementsByTagName("select");
+                                            for (op=0;op<sel[1].length;op++){
+                                                if (sel[1].options[op].value=={{logic_view[i][1].id}}){
+                                                    sel[1].options[op].selected=true;}}});
+                                </script>
 
-                            <select id="component_2_1">
-                                <option value="Input">Input</option>
-                                {% for component in components_choices %}
-                                <option value="{{component[0]}}">{{component[1]}}</option>
+                                {% endif %}
                                 {% endfor %}
-                            </select>
-                            <select id="component_2_2">
-                                <option value="Output">Output</option>
-                                {% for component in components_choices %}
-                                <option value="{{component[0]}}">{{component[1]}}</option>
-                                {% endfor %}
-                            </select>
-                            <select id="message_type_2">
-                                <option value="BasicEvent">BasicEvent</option>
-                            </select>
-                            <br>
-
-                            <select id="component_3_1">
-                                <option value="Input">Input</option>
-                                {% for component in components_choices %}
-                                <option value="{{component[0]}}">{{component[1]}}</option>
-                                {% endfor %}
-                            </select>
-                            <select id="component_3_2">
-                                <option value="Output">Output</option>
-                                {% for component in components_choices %}
-                                <option value="{{component[0]}}">{{component[1]}}</option>
-                                {% endfor %}
-                            </select>
-                            <select id="message_type_3">
-                                <option value="BasicEvent">BasicEvent</option>
-                            </select>
-                            <br>
-
-                            <select id="component_4_1">
-                                <option value="Input">Input</option>
-                                {% for component in components_choices %}
-                                <option value="{{component[0]}}">{{component[1]}}</option>
-                                {% endfor %}
-                            </select>
-                            <select id="component_4_2">
-                                <option value="Output">Output</option>
-                                {% for component in components_choices %}
-                                <option value="{{component[0]}}">{{component[1]}}</option>
-                                {% endfor %}
-                            </select>
-                            <select id="message_type_4">
-                                <option value="BasicEvent">BasicEvent</option>
-                            </select>
-                            <br>
-
-                            <select id="component_5_1">
-                                <option value="Input">Input</option>
-                                {% for component in components_choices %}
-                                <option value="{{component[0]}}">{{component[1]}}</option>
-                                {% endfor %}
-                            </select>
-                            <select id="component_5_2">
-                                <option value="Output">Output</option>
-                                {% for component in components_choices %}
-                                <option value="{{component[0]}}">{{component[1]}}</option>
-                                {% endfor %}
-                            </select>
-                            <select id="message_type_5">
-                                <option value="BasicEvent">BasicEvent</option>
-                            </select>
-                            <br>
-
-                            <select id="component_6_1">
-                                <option value="Input">Input</option>
-                                {% for component in components_choices %}
-                                <option value="{{component[0]}}">{{component[1]}}</option>
-                                {% endfor %}
-                            </select>
-                            <select id="component_6_2">
-                                <option value="Output">Output</option>
-                                {% for component in components_choices %}
-                                <option value="{{component[0]}}">{{component[1]}}</option>
-                                {% endfor %}
-                            </select>
-                            <select id="message_type_6">
-                                <option value="BasicEvent">BasicEvent</option>
-                            </select>
+                            </table>
                             <br>
                             <button type="submit" class="button is-danger" onclick="define()">تعریف روابط افزونه ها
                             </button>
@@ -175,14 +123,18 @@
                                 <div class="column is-9">
                                     {% for c1,c2,m,lid in logic_view %}
                                     <br>
-                                    <a class="button is-success">{{c1.name}}</a>
-                                    {{m}}
-                                    <a class="button is-success">{{c2.name}}</a>
+                                    {% if c1 %}
+                                    <a href="{{url_for('component.view',cid=c1.id)}}">{{c1.name}}</a>
+                                    {% else %}
+                                    <a>Input</a>
+                                    {% endif %}
+                                    -{{m}}-
+                                    {% if c2 %}
+                                    <a href="{{url_for('component.view',cid=c2.id)}}">{{c2.name}}</a>
+                                    {% else %}
+                                    <a>Output</a>
+                                    {% endif %}
                                     <br>
-                                    <form action="{{url_for('project.delete_logic',lid=lid)}}"
-                                          method="POST">
-                                        <input class="button is-danger" type="submit" value="حذف">
-                                    </form>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -216,7 +168,7 @@
 
 </div>
 
-</script>
+
 <footer class="footer">
     <div class="container">
         <div class="content is-centered">
@@ -233,10 +185,9 @@
 		$(this).find('.hover').animate({"width":"0%"},function(){});
 	});
 
-
-
 </script>
 <script type="text/javascript">
+
     $(document).ajaxStop(function(){
     window.location.reload();});
 	$(function() {
@@ -249,53 +200,62 @@
       }
     });
   });
+  function newRow(){
+        var table=document.getElementById("define-logic")
+        var row = table.insertRow(0);
+        var comp1 = row.insertCell(0);
+        var comp2 = row.insertCell(1);
+        var msg = row.insertCell(2);
+        var comps={{components_choices|safe}};
+
+        var sel_1= document.createElement("select");
+        var option = document.createElement("option");
+        option.text = "Input";
+        option.value = "";
+        sel_1.add(option,0);
+        for (i=0;i<comps.length;i++){
+            var option = document.createElement("option");
+            option.text = comps[i]["name"];
+            option.value = comps[i]["id"];
+            sel_1.add(option,0);
+            }
+        comp1.appendChild(sel_1);
+
+        var sel_2= document.createElement("select");
+        var option = document.createElement("option");
+        option.text = "Output";
+        option.value = "";
+        sel_2.add(option,0);
+        for (i=0;i<comps.length;i++){
+            var option = document.createElement("option");
+            option.text = comps[i]["name"];
+            option.value = comps[i]["id"];
+            sel_2.add(option, 0);}
+        comp2.appendChild(sel_2);
+
+        var sel_3= document.createElement("select");
+        var option = document.createElement("option");
+        option.text = "BasicEvent";
+        option.value = "BasicEvent";
+        var top = sel_3.options[sel_3.selectedIndex];
+        sel_3.add(option, top);
+        msg.appendChild(sel_3);
+
+        };
   function define(){
 	    var project_id = {{project.id}}
-	    var e = document.getElementById("component_2_1")
-        var component_1_id_1 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("component_2_2");
-        var component_2_id_1 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("message_type_2");
-        var message_type_1 = e.options[e.selectedIndex].value;
+	    var rel = []
+	    var row=document.getElementById("define-logic").getElementsByTagName("tr")
+	    for (i=0;i<row.length;i++){
+        var sel = row[i].getElementsByTagName("select");
+        if (sel.length!=0){
+        var comp1=sel[0].options[sel[0].selectedIndex].value
+        var comp2=sel[1].options[sel[1].selectedIndex].value
+        var msg=sel[2].options[sel[2].selectedIndex].value
+        rel.push({component_1_id: comp1,component_2_id: comp2,message_type: msg})}
+        }
 
-	    var e = document.getElementById("component_3_1")
-        var component_1_id_2 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("component_3_2");
-        var component_2_id_2 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("message_type_3");
-        var message_type_2 = e.options[e.selectedIndex].value;
-
-	    var e = document.getElementById("component_4_1")
-        var component_1_id_3 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("component_4_2");
-        var component_2_id_3 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("message_type_4");
-        var message_type_3 = e.options[e.selectedIndex].value;
-
-	    var e = document.getElementById("component_5_1")
-        var component_1_id_4 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("component_5_2");
-        var component_2_id_4 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("message_type_5");
-        var message_type_4 = e.options[e.selectedIndex].value;
-
-	    var e = document.getElementById("component_6_1")
-        var component_1_id_5 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("component_6_2");
-        var component_2_id_5 = e.options[e.selectedIndex].value;
-        var e = document.getElementById("message_type_6");
-        var message_type_5 = e.options[e.selectedIndex].value;
-
-        var arr = { project_id: project_id,
-                    relations:
-                        [
-                        {component_1_id: component_1_id_1, component_2_id: component_2_id_1, message_type: message_type_1},
-                        {component_1_id: component_1_id_2, component_2_id: component_2_id_2, message_type: message_type_2},
-                        {component_1_id: component_1_id_3, component_2_id: component_2_id_3, message_type: message_type_3},
-                        {component_1_id: component_1_id_4, component_2_id: component_2_id_4, message_type: message_type_4},
-                        {component_1_id: component_1_id_5, component_2_id: component_2_id_5, message_type: message_type_5}
-                        ]
-                     };
+        var arr = { project_id: project_id,relations: rel};
         $.ajax({
         url: '/api/v1/project/logic',
         type: 'POST',
@@ -307,6 +267,10 @@
         }
     });
 	};
+
+
+
+
 
 
 
@@ -451,6 +415,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
 			padding: 1em;
 			border-bottom: 1px solid #e3e3e3;
 		}
+
+
+
+
 
 
 
