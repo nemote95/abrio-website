@@ -8,6 +8,7 @@ from random import randint
 PROJECT_TEST_TOKEN = '123456'
 PROJECT_CHAT_TOKEN = '123123'
 PROJECT_AUTH_TOKEN = '481516'
+PROJECT_DISP_TOKEN = '091973'
 
 
 def generate_fake():
@@ -128,7 +129,7 @@ def generate_project_chat_data(user):
     logic2.component_2_id = None
     logic2.message_type = 'BasicEvent'
 
-    db.session.add(logic1)
+    db.session.add(logic2)
     db.session.commit()
 
 
@@ -149,7 +150,7 @@ def generate_project_dispatcher_data(user):
 
     db.session.add(project)
     db.session.commit()
-    redis.setnx('abr:' + PROJECT_CHAT_TOKEN, project.id)
+    redis.setnx('abr:' + PROJECT_DISP_TOKEN, project.id)
 
     component = Component()
     component.name = 'One to one dispatcher'
@@ -159,20 +160,21 @@ def generate_project_dispatcher_data(user):
     db.session.add(component)
     db.session.commit()
 
-    logic5 = Logic()
-    logic5.project_id = project.id
-    logic5.component_1_id = None
-    logic5.component_2_id = component.id
-    logic5.message_type = 'BasicEvent'
+    logic1 = Logic()
+    logic1.project_id = project.id
+    logic1.component_1_id = None
+    logic1.component_2_id = component.id
+    logic1.message_type = 'BasicEvent'
 
-    db.session.add(logic5)
+    db.session.add(logic1)
     db.session.commit()
 
-    logic6 = Logic()
-    logic6.project_id = project.id
-    logic6.component_1_id = component.id
-    logic6.component_2_id = None
-    logic6.message_type = 'BasicEvent'
+    logic2 = Logic()
+    logic2.project_id = project.id
+    logic2.component_1_id = component.id
+    logic2.component_2_id = None
+    logic2.message_type = 'BasicEvent'
 
-    db.session.add(logic6)
+    db.session.add(logic2)
     db.session.commit()
+
