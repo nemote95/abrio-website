@@ -29,6 +29,7 @@
             </a>
 
             <a class="header-item" href="{{url_for('main.panel')}}">خانه</a>
+            <a class="header-item" href="{{url_for('main.panel')}}">دانلود</a>
         </div>
 
     </div>
@@ -39,24 +40,50 @@
         <div class="column is-8 is-offset-1 main">
             <br>
            	<div class="columns">
+		    		<div class="column rtl is-7 middle">
+		    			<div class="columns detail">
+                            <div class="column is-10 is-offset-1">
+                                    <div class="right"> <h1 class="title"><input disabled type="text" value="{{user_page.name}}"></h1></div>
+                                    <div  align="right" dir="rtl">
+                                        <span><i class="fa fa-briefcase"> </i> شرکت : </span><span class="start"><input  class="start" type="text" disabled value="{{user_page.company}}"></span>
+                                    </div>
+                                    <div  align="right" dir="rtl">
+                                        <span><i class="fa fa-phone"></i> شماره تلفن : </span><span class="exp"><input  class="exp" type="text" disabled value="{{user_page.phone_number}}"></span>
+                                    </div>
+                                    <div class="right" dir="rtl">
+                                        <button id="editbutton" class="is-primary button" onclick="edit()">ویرایش</button>
+                                        <button style="display: none;" id="savebutton" onclick="save()" class="is-primary button">ذخیره</button>
+                                    </div>
+                            </div>
+                        </div>
+		    		</div>
 		    		<div class="column rtl is-3">
-		    			
-		    		</div>
-		    		<div class="column rtl is-8">
-		    			<h1 class="title"><img class="avatar" src="http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-ginger-guy.png"> {{user_page.name}}</h1>
+		    			<h1 class="title"><img class="avatar" src="http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-ginger-guy.png"></h1>
 		    		</div>
 		    	</div>
-		    	<div class="columns detail">
-		    		<div class="column is-10 is-offset-1">
-		    				
-		    				<div  align="right" dir="rtl">
-		    					<span><i class="fa fa-briefcase"> </i> شرکت : </span><span class="start">{{user_page.company}}</span>
-		    				</div>
-		    				<div  align="right" dir="rtl">
-		    					<span><i class="fa fa-phone"></i> شماره تلفن : </span><span class="exp">{{user_page.phone_number}}</span>
-		    				</div>
-		    		</div>
-		    	</div>
+                <div class="columns">
+                    <div class="column rtl is-5 component">
+                        <div class="title">
+                            <h3>کامپوننت های من</h3>
+                        </div>
+                        <ul>
+                            <a href="/project/view/1"><li>کامپوننت اول</li></a>
+                            <a href="/project/view/1"><li>کامپوننت اول</li></a>
+                            <a href="/project/view/1"><li>کامپوننت اول</li></a>
+                            <a href="/project/view/1"><li>کامپوننت اول</li></a>
+                        </ul>
+                    </div>
+
+                    <div class="column rtl is-5 project">
+                        <div class="title">
+                            <h3>پروژه های من</h3>
+                        </div>
+                        <ul>
+                            <a href="/project/view/1"><li>پروژه اول</li></a>
+                        </ul>
+                    </div>
+                </div>
+		    	
 
         </div>
 
@@ -98,6 +125,22 @@
 	},function(){
 		$(this).find('.hover').animate({"width":"0%"},function(){});
 	});
+    function edit(){
+        $('input:disabled').removeAttr('disabled');
+        $('#editbutton').hide();
+        $('#savebutton').show();
+    };
+    function save(){
+        $('#editbutton').show();
+        $('#savebutton').hide();
+        var inputs = $('.detail input');
+        var data = [] ;
+        $.each(inputs , function(index , e ){
+            data.push(e.value);
+        })
+        $('.detail input').attr('disabled','true');
+        console.log(data)
+    }
 </script>
 
 </html>

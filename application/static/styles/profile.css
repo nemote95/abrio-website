@@ -1,34 +1,17 @@
+input[disabled]{
+	background-color: transparent;
+	border:none;
+}
+.middle {
+	padding-top: 2em;
+}
 .avatar { 
-		width: 15%;
+		width: 85%;
 		vertical-align: middle;
 		border-radius: 50%;
 		border : 3px solid #f1f1f1;
 	 }
-	.sort ul{
-		background-color: #fff;
-		border:1px solid #e3e3e3;
-		padding: 1em;
-	}
-	.sort ul:first-child{
-		border-radius: 4px 0px 0px 4px;
-	}
-	.sort ul:last-child{
-		border-radius: 0px 4px 4px 0px;
-	}
-	.sort ul li{
-		background-color: #fff;
-		border : 1px solid #e3e3e3;
-		border-radius: 4px ;
-		margin-top: 0.5em;
-		margin-bottom: 0.5em;
-		padding: 1em;
-		cursor: pointer;
-	}
-	#sortable2 li{
-		background-color:#27ae60;
-		border-color: #2ecc71;
-		color: #fff;
-	}
+	
 	.detail div{
 		margin-bottom: 1em;
 		padding-right: 3em;
@@ -51,28 +34,39 @@
 		cursor:pointer;
 		z-index: 0;
 	}
-	.project{
+	.project , .component{
 		text-align: right;
 		background-color: #f1f1f1;
-		border:1px solid #e3e3e3;
 		border-radius: 4px;
 		padding: 2em;
 		margin-top: 1em;
 		margin-bottom: 1em;
+		margin-left: 0.5em;
+		margin-right: 0.5em;
+
 	}
-	.project .name{
+	.project .title , .component .title {
 		font-size: 1.2em;
-		color : #454545;
-		margin-bottom: 1em;
 	}
-	.project .button{
-		width: 100%;
-		vertical-align: middle;
-		margin-top: 1em;
-		background-color: transparent;
-		border:1px solid #1899d3;
-		color:#1899d3;
+	.project ul , .component ul {
+		max-height: 15em ; 
+		overflow-y : scroll;
 	}
+	.project ul li , .component ul li {
+		background-color: #fff ; 
+		border:1px solid #e3e3e3;
+		border-radius: 4px;
+		padding: 1em;
+		margin-top: 0.5em;
+		margin-bottom: 0.5em;
+		color: #454545;
+	}
+	.project ul li:hover , .component ul li:hover{
+		background-color: #1899d3;
+		color: #fff;
+		cursor: pointer;
+	}
+	
 	.main,.sidemenu{
 		min-height: 85vh;
 	}

@@ -1,5 +1,0 @@
-SQLALCHEMY_DATABASE_URI = 'mysql://root:123123@localhost/abrio'
-UPLOAD_FOLDER = '/var/Abrio/uploads/'
-MAILGUN_API_KEY = "your api key"
-REQUEST_URL = "https://api.mailgun.net/v3/<domain>/messages"
-NO_REPLY_MAIL_ADDRESS = "noreply@<domain>"
