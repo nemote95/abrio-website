@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="columns detail">
-                <div class="column is-10 is-offset-1">
+                <div class="column is-8 is-offset-1">
                     <div align="right" dir="rtl"><span>پلن پروژه : طلائی</span> <span style="margin-right:1em;"><a
                             href="#"><i class="fa fa-pencil-square-o"> </i></a></span></div>
                     <div align="right" dir="rtl">
@@ -59,37 +59,44 @@
                     <div align="right" dir="rtl">
                         <form action="{{url_for('project.run_project',pid=project.id)}}" method="POST">
                         {% if running %}
-                        <input class="button is-danger" type="submit" value="Stop">
+                        <input style="min-width:150px;" class="button is-danger" type="submit" value="Stop">
                         {%else%}
-                        <input class="button is-success" type="submit" value="Run">
+                        <input style="min-width:150px;" class="button is-success" type="submit" value="Run">
                         {% endif %}
                         </form>
                         </div>
                 </div>
+                <div class="column is-2">
+                    <img src="http://www.youngscientists.co.tz/uploads/pics/project-work.jpg" alt="none">
+                    <button class="upload is-primary is-inverted button">آپلود عکس</button>
+                </div>
             </div>
             <div class="columns components">
                 <div class="column is-10">
-                    <div class="columns sort">
-                        <ul id="sortable1" class="column is-4 droptrue">
-                            <div class="columns info">
-                                <div class="column is-12">همه ی افزونه ها</div>
+                    <div class="title">Project Logic</div>
+                    <div class="columns">
+                        <div class="column drag is-10">
+                            <div class="in draggable box">
+                                input
                             </div>
-                            <div class="search columns"><span class="column is-2"><button class="button is-primary"><i
-                                    class="fa fa-search"></i></button></span><span class="column is-10"><input
-                                    class="input" type="text"></input></span></div>
-                            {% for component in components_choices %}
-                            <li class="ui-state-default"><a href="{{url_for('component.view',cid=component['id'])}}">{{component['name']}}</a></li>
-                            {% endfor %}
-
-                        </ul>
-                        <ul id="sortable2" class="column is-8 droptrue">
-                            <div class="columns info">
-                                <div class="column is-3"><a href="#" class="button is-danger">تعریف روابط افزونه ها</a>
-                                </div>
-                                <div class="column is-9">افزونه های استفاده شده</div>
+                            <div class=" draggable box">
+                                component 1
                             </div>
-
-                        </ul>
+                            <div class=" draggable box">
+                                component 2
+                            </div>
+                            <div class="out draggable box">
+                                output
+                            </div>
+                        </div>
+                        <div class="column is-3">
+                            <button class="is-primary button" style="width: 100%;margin-bottom: 1em;">ذخیره</button>
+                            <button class="is-success button" style="width: 100%;" onclick="showPopup()">افزودن کامپوننت</button>
+                        </div>
+                      
+                    </div>
+                    <div class="column is-2 ">
+                        
                     </div>
                 </div>
 
@@ -116,9 +123,8 @@
             </ul>
         </div>
     </div>
-
+    
 </div>
-
 <footer class="footer">
     <div class="container">
         <div class="content is-centered">
@@ -139,13 +145,10 @@
 </script>
 <script type="text/javascript">
 	$(function() {
-    $( "ul.droptrue" ).sortable({
-    	items : "li:not('.info')",
-      connectWith: "ul",
-      change:function(){
-        $('button.accfood').removeAttr('disabled');
-
-      }
+    
+    $( ".draggable" ).draggable({containment: "parent"});
+    $('img').error(function(){
+        $(this).hide()
     });
   });
 

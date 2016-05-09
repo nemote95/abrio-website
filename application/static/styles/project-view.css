@@ -1,3 +1,27 @@
+	button.upload{
+		width: 100%;
+		background-color:transparent;
+		border-radius: 0;
+		border : none;
+
+
+	}
+	.in {
+		color: #1899d3;
+		border:#1899d3 solid ;
+	}
+	.out{
+		color: #e74c3c;
+		border:#e74c3c solid ;
+	}
+	.drag{
+		height: 450px;
+		background-color: #f1f1f1
+	}
+	 .draggable { 
+	 		width: 200px;
+	 		cursor: pointer;
+	 	}
 	.sort ul{
 		background-color: #fff;
 		border:1px solid #e3e3e3;
