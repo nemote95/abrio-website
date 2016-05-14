@@ -8,7 +8,8 @@ class Logic(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
     component_1_id = db.Column(db.Integer, db.ForeignKey('components.id'))
     component_2_id = db.Column(db.Integer, db.ForeignKey('components.id'))
-    message_type = db.Column(db.Enum('BasicEvent', 'type_b', name='message_type'))
+    message_type = db.Column(db.Enum('BasicEvent',
+                                     'RequestEvent', 'Response', 'type_b', name='message_type'))
     __table_args__ = (
         UniqueConstraint("project_id", "component_1_id", "component_2_id", "message_type"),
     )
