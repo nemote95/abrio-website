@@ -41,7 +41,7 @@
 <div class="hero is-large">
 
     <div class="columns">
-        {%block content %}{% endblock %}
+
         <div class="column is-3 sidemenu ">
 
             <ul class="submenu">
@@ -56,13 +56,14 @@
                     <div class="hover"></div>
                     </li>
                 </a>
-                <a href="{{url_for('component.list_components')}}">
-                    <li>کامپوننت های من
+                <a href="{{url_for('main.explore')}}">
+                    <li>کاوش
                         <div class="hover"></div>
                     </li>
                 </a>
             </ul>
         </div>
+        {%block content %}{% endblock %}
     </div>
 </div>
 {% endblock %}

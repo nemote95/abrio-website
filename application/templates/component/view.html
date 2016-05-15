@@ -1,11 +1,23 @@
 {% extends "base.html" %}
-{%block content%}
+{%block head %}
+{{super()}}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/component-view.css')}}">
+{% endblock %}
+
+
+{%block content %}
+        <!-- content -->
         <div class="column is-8 is-offset-1 main">
             <br>
             <div class="columns">
+				{% if return_to_project %}
                 <div class="column rtl is-3">
-                    <a href="{{url_for('component.list_components')}}">بازگشت ></a>
+
+
+                    <a href="{{url_for('project.view',pid=return_to_project )}}">بازگشت ></a>
+
                 </div>
+				{%endif%}
                 <div class="column rtl is-8">
                     <h1 class="title">نام کامپوننت : <input id="name" type="text" value="{{component.name}}" disabled>
                     </h1>
@@ -69,16 +81,13 @@
             </div>
             {% endif %}
         </div>
-{%endblock%}
-{%block script %}
-	document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[2].className="selected";
+{% endblock %}
+
+{% block script %}
+{{super()}}
     $(document).ajaxStop(function(){
     window.location.reload();});
-	$('.submenu li ').hoverIntent(function(){
-		$(this).find('.hover').animate({"width":"100%"},function(){});
-	},function(){
-		$(this).find('.hover').animate({"width":"0%"},function(){});
-	});
+
 	function edit(){
 		$('input:disabled').removeAttr('disabled');
 		$('select:disabled').removeAttr('disabled');
@@ -103,11 +112,9 @@
         }
     });
 	};
-
-{{super()}}
 {%endblock%}
 
-{%block style %}
+{%block style%}
 input:disabled{
 	background-color: transparent;
 	border:none;
@@ -181,7 +188,7 @@ input:disabled{
 		border:1px solid #1899d3;
 		color:#1899d3;
 	}
-	table{
+		table{
 			border : 1px solid #e3e3e3;
 			margin-top: 3em;
 		}
@@ -194,5 +201,4 @@ input:disabled{
 			padding: 1em;
 			border-bottom: 1px solid #e3e3e3;
 		}
-{{super()}}
 {%endblock%}

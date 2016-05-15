@@ -1,14 +1,21 @@
 {% extends "base.html" %}
-{%block content%}
-        <div class="column is-8 is-offset-1 main">
+{%block head %}
+{{super()}}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/project-list.css')}}">
+{% endblock %}
+
+{%block content %}
+        <!-- content -->
+         <div class="column is-8 is-offset-1 main">
             <br>
             <form method=post action="{{url_for('project.create')}}">
                 <div class="columns">
-                    <div class="column rtl is-4"><input type="submit" class="button is-danger"
-                                                        value="ایجاد پروژه جدید"></input></div>
+                    
                     <div class="column rtl is-6">
                         {{form.name(class="input",placeholder="نام پروژه")}}
                     </div>
+                    <div class="column rtl is-4"><input type="submit" class="button is-danger"
+                                                        value="ایجاد پروژه جدید"></input></div>
                 </div>
             </form>
             {% with messages = get_flashed_messages() %}
@@ -21,17 +28,18 @@
             {% endif %}
             {% endwith %}
             <div class="columns">
-                <div class="column is-10 is-offset-1">
+                <div class="column is-10 ">
                     {% for project in projects%}
                     <div class="project">
                         <div class="columns">
-                            <div class="column is-2">
-                                <a class="button is-primary"
-                                   href="{{url_for('project.view',pid=project.id)}}">جزئیات</a>
-                            </div>
+                            
                             <div class="column is-10">
                                 <div class="name">{{project.name}}</div>
                                 <div class="desc">توضیحات کلی پروژه</div>
+                            </div>
+                            <div class="column is-2">
+                                <a class="button is-primary"
+                                   href="{{url_for('project.view',pid=project.id)}}">جزئیات</a>
                             </div>
                         </div>
 
@@ -41,78 +49,4 @@
                 </div>
             </div>
         </div>
-{%endblock%}
-
-{% block script %}
-{{super()}}
-document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[1].className="selected";
-{%endblock%}
-
-{%block style %}
-	
-	.hover{
-		position: absolute;
-		text-align: right;
-		direction: rtl;
-		margin-top: -5em;
-		width: 0%;
-		height: 5em;
-		background-color: rgba(255,255,255,0.3);
-		/*background-color: rgba(24,153,211,0.2);*/
-		cursor:pointer;
-		z-index: 0;
-	}
-	.project{
-
-		text-align: right;
-		background-color: #fff;
-		border:1px solid #e3e3e3;
-		border-radius: 4px;
-		vertical-align: top;
-		padding: 2em;
-		margin-top: 1.5em;
-		margin-bottom: 1em;
-	}
-	.project:hover{
-
-		/*box-shadow: 0px 0px 15px 0px #e3e3e3;
-		border-color:#e3e3e3;*/
-		width: +=15px;
-		animation: boxHover .8s  forwards;
-		-webkit-animation: boxHover .8s  forwards;
-		-moz-animation: boxHover .8s  forwards;
-		-o-animation: boxHover .8s  forwards;
-		-ms-animation: boxHover .8s  forwards;
-	}
-
-	.project .name{
-		font-size: 1.2em;
-		color : #454545;
-		margin-bottom: 1em;
-	}
-	.project .button{
-		width: 100%;
-		vertical-align: middle;
-		margin-top: 1em;
-		background-color: transparent;
-		border:1px solid #1899d3;
-		color:#1899d3;
-	}
-
-		table{
-			border : 1px solid #e3e3e3;
-			margin-top: 3em;
-		}
-		table th{
-			background-color: #e3e3e3;
-			padding:1em;
-		}
-		table td{
-
-			padding: 1em;
-			border-bottom: 1px solid #e3e3e3;
-		}
-
-
-{{super()}}
-{%endblock%}
+{% endblock %}

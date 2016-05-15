@@ -12,7 +12,10 @@ from flask.ext.login import login_user, login_required, logout_user, current_use
 # project imports
 from application.extensions import db, email
 from application.forms.user import RegistrationForm, LoginForm, EditProfileForm
+from application.forms.project import CreateProjectForm
 from application.models.user import User
+from application.models.component import Component
+from application.models.project import Project
 
 __all__ = ["user"]
 
@@ -99,7 +102,7 @@ def login():
         if new_user is not None and new_user.verify_password(form.password.data):
             login_user(new_user)
             return redirect(request.args.get('next') or url_for('main.panel'))
-        flash(u'.آدرس ایمیل یا کلمه ی عبور نا معتبر است')
+            flash(u'.آدرس ایمیل یا کلمه ی عبور نا معتبر است')
     return render_template('user/login.html', form=form)
 
 
@@ -115,12 +118,15 @@ def logout():
 def info(uid):
     try:
         user_page = User.query.filter_by(id=uid).one()
-        return render_template('user/profile.html', user_page=user_page)
+        c = Component.query.filter(Component.owner_id == current_user.id).all()
+        p = Project.query.filter_by(owner_id=current_user.id).all()
+        form = CreateProjectForm(request.form, meta={'locales': ['fa']})
+        return render_template('user/profile.html', user_page=user_page, components=c, projects=p,form=form)
     except NoResultFound:
         abort(404)
 
 
-@user.route('/edit_profile')
+@user.route('/edit')
 def edit_view():
     form = EditProfileForm(request.form, meta={'locales': ['fa']})
     return render_template('user/edit.html', form=form)

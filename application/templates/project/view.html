@@ -1,17 +1,30 @@
 {% extends "base.html" %}
-{%block content%}
+{%block head %}
+{{super()}}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/project-view.css')}}">
+{% endblock %}
+
+
+{%block content %}
+        <!-- content -->
         <div class="column is-8 is-offset-1 main">
             <br>
             <div class="columns">
-                <div class="column rtl is-3">
-                    <a href="{{url_for('project.list_projects')}}">بازگشت ></a>
-                </div>
+                
                 <div class="column rtl is-8">
                     <h1 class="title">نام پروژه : {{project.name}}</h1>
                 </div>
+                <div class="column rtl is-3">
+                    <a href="{{url_for('project.list_projects')}}">بازگشت ></a>
+                </div>
             </div>
             <div class="columns detail">
-                <div class="column is-10 is-offset-1">
+               
+                <div class="column is-2">
+                    <img src="http://www.youngscientists.co.tz/uploads/pics/project-work.jpg" alt="none">
+                    <button class="upload is-primary is-inverted button">آپلود عکس</button>
+                </div>
+                 <div class="column is-8 is-offset-1">
                     <div align="right" dir="rtl"><span>پلن پروژه : طلائی</span> <span style="margin-right:1em;"><a
                             href="#"><i class="fa fa-pencil-square-o"> </i></a></span></div>
                     <div align="right" dir="rtl">
@@ -22,28 +35,26 @@
                     </div>
                     <div align="right" dir="rtl">
                         <form action="{{url_for('project.run_project',pid=project.id)}}" method="POST">
-                            {% if running %}
-                            <input class="button is-danger" type="submit" value="Stop">
-                            {%else%}
-                            <input class="button is-success" type="submit" value="Run">
-                            {% endif %}
+
+                        {% if running %}
+                        <input style="min-width:150px;" class="button is-danger" type="submit" value="Stop">
+                        {%else%}
+                        <input style="min-width:150px;" class="button is-success" type="submit" value="Run">
+                        {% endif %}
+
                         </form>
                     </div>
                 </div>
             </div>
             <div class="columns components">
                 <div class="column is-10">
-                    <div class="columns sort">
-                        <ul id="sortable1" class="column is-4 droptrue">
-                            <div class="columns info">
-                                <div class="column is-12">همه ی افزونه ها</div>
-                            </div>
-                            <div class="search columns"><span class="column is-2"><button class="button is-primary"><i
-                                    class="fa fa-search"></i></button></span><span class="column is-10"><input
-                                    class="input" type="text"></span></div>
-                        </ul>
-
-                        <ul id="sortable2" class="column is-8 droptrue">
+                    <div class="title">Project Logic</div>
+                    <div class="columns">
+                    <div class="column is-3">
+                            <button class="is-primary button" onclick="define()" style="width: 100%;margin-bottom: 1em;">ذخیره</button>
+                            <button class="is-success button" style="width: 100%;" onclick="showPopup()">افزودن کامپوننت</button>
+                        </div>
+                        <div class="column drag is-10">
                             <button class="button is-success" onclick="newRow()">اضافه کردن سطر جدید</button>
                             <table id="define-logic">
                                 {% for i in range(logic_view|length) %}
@@ -81,21 +92,32 @@
                                 {% endif %}
                                 {% endfor %}
                             </table>
-                            <br>
-                            <button type="submit" class="button is-danger" onclick="define()">تعریف روابط افزونه ها
-                            </button>
-                        </ul>
+                        </div>
+                        
+                      
+                    </div>
+                    <div class="column is-2 ">
+
                     </div>
                 </div>
 
             </div>
         </div>
+
 {%endblock%}
 
 {%block script %}
+{{super()}}
     document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[1].className="selected";
     $(document).ajaxStop(function(){
     window.location.reload();});
+	$(function() {
+    
+    $( ".draggable" ).draggable({containment: "parent"});
+    $('img').error(function(){
+        $(this).hide()
+    });
+  });
 	$(function() {
     $( "ul.droptrue" ).sortable({
     	items : "li:not('.info')",
@@ -173,92 +195,5 @@
         }
     });
 	};
-{{super()}}
 {%endblock%}
 
-{%block style %}
-	.sort ul{
-		background-color: #fff;
-		border:1px solid #e3e3e3;
-		padding: 1em;
-	}
-	.sort ul:first-child{
-		border-radius: 4px 0px 0px 4px;
-	}
-	.sort ul:last-child{
-		border-radius: 0px 4px 4px 0px;
-	}
-	.sort ul li{
-		background-color: #fff;
-		border : 1px solid #e3e3e3;
-		border-radius: 4px ;
-		margin-top: 0.5em;
-		margin-bottom: 0.5em;
-		padding: 1em;
-		cursor: pointer;
-	}
-	#sortable2 li{
-		background-color:#27ae60;
-		border-color: #2ecc71;
-		color: #fff;
-	}
-	.detail div{
-		margin-bottom: 1em;
-		padding-right: 3em;
-	}
-	.exp{
-		color: #e74c3c;
-	}
-	.start{
-		color: #2ecc71;
-	}
-	.hover{
-		position: absolute;
-		text-align: right;
-		direction: rtl;
-		margin-top: -5em;
-		width: 0%;
-		height: 5em;
-		background-color: rgba(255,255,255,0.3);
-		/*background-color: rgba(24,153,211,0.2);*/
-		cursor:pointer;
-		z-index: 0;
-	}
-	.project{
-		text-align: right;
-		background-color: #f1f1f1;
-		border:1px solid #e3e3e3;
-		border-radius: 4px;
-		padding: 2em;
-		margin-top: 1em;
-		margin-bottom: 1em;
-	}
-	.project .name{
-		font-size: 1.2em;
-		color : #454545;
-		margin-bottom: 1em;
-	}
-	.project .button{
-		width: 100%;
-		vertical-align: middle;
-		margin-top: 1em;
-		background-color: transparent;
-		border:1px solid #1899d3;
-		color:#1899d3;
-	}
-		table{
-			border : 1px solid #e3e3e3;
-			margin-top: 3em;
-		}
-		table th{
-			background-color: #e3e3e3;
-			padding:1em;
-		}
-		table td{
-
-			padding: 1em;
-			border-bottom: 1px solid #e3e3e3;
-		}
-
-{{super()}}
-{%endblock%}

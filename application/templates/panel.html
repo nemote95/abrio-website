@@ -1,11 +1,24 @@
 {% extends "base.html" %}
-{%block content%}
-        <div class="column is-8 is-offset-1 main">
-           <h1><a class="button is-danger" style="width :200px ;height:55px; vertical-align:middle;padding-top:15px;" href="/download"> SDK دانلود</a></h1>
-
-        </div>
+{%block head %}
+{{super()}}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/user-panel.css')}}">
 {%endblock%}
 
+{%block content %}
+        <div class="column is-8 is-offset-1 main">
+        <p dir="rtl">برای استفاده از این سیستم لازم است که ابتدا sdk مورد نظر را دانلود کنید</p>
+           <h1><a class="button is-danger" style="width :200px ;height:55px; vertical-align:middle;padding-top:15px;" href="/download"> SDK دانلود</a></h1>
+</div>
+{% endblock %}
+<script type="text/javascript">
+	$('.submenu li ').hoverIntent(function(){
+		$(this).find('.hover').animate({"width":"100%"},function(){});
+	},function(){
+		$(this).find('.hover').animate({"width":"0%"},function(){});
+	});
+
+
+</script>
 <script type="text/javascript">
 	$(function() {
     $( "ul.droptrue" ).sortable({
@@ -17,79 +30,8 @@
       }
     });
   });
+
+
 </script>
-{%block style %}
 
-	.sort ul{
-		background-color: #fff;
-		border:1px solid #e3e3e3;
-		padding: 1em;
-	}
-	.sort ul:first-child{
-		border-radius: 4px 0px 0px 4px;
-	}
-	.sort ul:last-child{
-		border-radius: 0px 4px 4px 0px;
-	}
-	.sort ul li{
-		background-color: #fff;
-		border : 1px solid #e3e3e3;
-		border-radius: 4px ;
-		margin-top: 0.5em;
-		margin-bottom: 0.5em;
-		padding: 1em;
-		cursor: pointer;
-	}
-	#sortable2 li{
-		background-color:#27ae60;
-		border-color: #2ecc71;
-		color: #fff;
-	}
-	.detail div{
-		margin-bottom: 1em;
-		padding-right: 3em;
-	}
-	.exp{
-		color: #e74c3c;
-	}
-	.start{
-		color: #2ecc71;
-	}
-	.hover{
-		position: absolute;
-		text-align: right;
-		direction: rtl;
-		margin-top: -5em;
-		width: 0%;
-		height: 5em;
-		background-color: rgba(255,255,255,0.3);
-		/*background-color: rgba(24,153,211,0.2);*/
-		cursor:pointer;
-		z-index: 0;
-	}
-	.project{
-		text-align: right;
-		background-color: #f1f1f1;
-		border:1px solid #e3e3e3;
-		border-radius: 4px;
-		padding: 2em;
-		margin-top: 1em;
-		margin-bottom: 1em;
-	}
-		table{
-			border : 1px solid #e3e3e3;
-			margin-top: 3em;
-		}
-		table th{
-			background-color: #e3e3e3;
-			padding:1em;
-		}
-		table td{
-
-			padding: 1em;
-			border-bottom: 1px solid #e3e3e3;
-		}
-
-
-{{super()}}
-{%endblock%}
+</html>
