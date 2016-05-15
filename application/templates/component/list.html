@@ -33,25 +33,80 @@
 <div class="hero is-large">
 
     <div class="columns">
-        <div class="column is-8 is-offset-1 main">
+
+
+        <div class="column is-3 sidemenu ">
+
+            <ul class="submenu">
+                <a href="{{url_for('user.info',uid=current_user.id)}}">
+                    <li>مشخصات من
+                        <div class="hover"></div>
+                    </li>
+                </a>
+
+                <a href="{{url_for('project.list_projects')}}">
+                    <li>پروژه های من</li>
+                </a>
+                <a href="{{url_for('component.list_components')}}">
+                    <li class="selected">کامپوننت های من
+                        <div class="hover"></div>
+                    </li>
+                </a>
+            </ul>
+        </div>
+
+
+        <!-- content -->
+                <div class="column is-8 is-offset-1 main">
+            
+                <div class="columns" >
+                    <a href="#" class="column is-3 is-offset-1 card">
+                       <div >
+                        <div class="card-image">
+                            <fisgure class="image is-4by3">
+                              <img src="http://placehold.it/300x225" alt="">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <p class="title">Component 1</p>
+                        </div>
+                    </div> 
+                    </a>
+                    <a href="#" class="column is-3 card">
+                       <div >
+                        <div class="card-image">
+                            <fisgure class="image is-4by3">
+                              <img src="http://placehold.it/300x225" alt="">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <p class="title">Component 1</p>
+                        </div>
+                    </div> 
+                    </a>
+                    <a href="#" class="column is-3 card">
+                       <div >
+                        <div class="card-image">
+                            <fisgure class="image is-4by3">
+                              <img src="http://placehold.it/300x225" alt="">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <p class="title">Component 1</p>
+                        </div>
+                    </div> 
+                    </a>
+                    
+                </div>
+
             <br>
             <form method=post action="{{url_for('component.search')}}">
                 <div class="columns">
+                    <div class="column rtl is-6 is-offset-1">{{search_form.name(class="input") }}</div>
                     <div class="column rtl is-4"><input type="submit" class="button is-success" value="جستجو"></input>
                     </div>
-                    <div class="column rtl is-6">{{search_form.name(class="input") }}</div>
                 </div>
                 {{search_form.csrf_token}}
-            </form>
-            <form method=post action="{{url_for('component.create')}}">
-                <div class="columns">
-                    <div class="column rtl is-2"><input type="submit" class="button is-danger"
-                                                        value="ایجاد کامپوننت جدید"></div>
-                    <div class="column rtl is-2">{{create_form.private()}}خصوصی</div>
-                    <div class="column rtl is-6">{{create_form.name(class="input",placeholder="نام کامپوننت") }}
-                    </div>
-                </div>
-                {{create_form.csrf_token}}
             </form>
             <div class="columns">
                 <div class="column is-10 is-offset-1">
@@ -94,25 +149,6 @@
 
                 </div>
             </div>
-        </div>
-        <div class="column is-3 sidemenu ">
-
-            <ul class="submenu">
-                <a href="{{url_for('user.info',uid=current_user.id)}}">
-                    <li>مشخصات من
-                        <div class="hover"></div>
-                    </li>
-                </a>
-
-                <a href="{{url_for('project.list_projects')}}">
-                    <li>پروژه های من</li>
-                </a>
-                <a href="{{url_for('component.list_components')}}">
-                    <li class="selected">کامپوننت های من
-                        <div class="hover"></div>
-                    </li>
-                </a>
-            </ul>
         </div>
     </div>
 

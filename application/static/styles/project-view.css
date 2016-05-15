@@ -114,39 +114,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
 			border-left:2px solid #1899d3 ;
 
 		}
-		.submenu{
-			z-index: 1;
-			min-height : 100%;
-			padding: 0;
-			color: #454545;
-		}
-		.submenu a{
-			color: inherit;
-		}
-
-		.submenu li{
-			margin-bottom: 0em;
-			min-height: 5em;
-			border-bottom: 1px solid rgba(0,0,0,0.1);
-			vertical-align: middle;
-			line-height: 5em;
-		}
-		.selected{
-			background-color: rgba(255,255,255,1);
-			border-right: 10px solid #1899d3 ;
-			padding-right: 30px;
-			color:#1899d3;
-			margin-left: -2px;
-			border-top:	2px solid #1899d3 ;
-			border-bottom:	2px solid #1899d3  !important;
-
-		}
-		.submenu li:before  {
-			content: "<";
-			vertical-align: bottom;
-			margin-right: 1em;
-
-		}
+	
 		table{
 			border : 1px solid #e3e3e3;
 			margin-top: 3em;

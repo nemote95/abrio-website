@@ -23,8 +23,6 @@ def list_components():
     search_form = SearchForm(request.form)
     c = Component.query.filter(or_(Component.owner_id == current_user.id, Component.private == False)).all()
     return render_template('component/list.html', components=c, create_form=create_form, search_form=search_form)
-
-
 @component.route('/create', methods=['POST'])
 @login_required
 def create():

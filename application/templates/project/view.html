@@ -36,73 +36,7 @@
 <div class="hero is-large">
 
     <div class="columns">
-        <div class="column is-8 is-offset-1 main">
-            <br>
-            <div class="columns">
-                <div class="column rtl is-3">
-                    <a href="{{url_for('project.list_projects')}}">بازگشت ></a>
-                </div>
-                <div class="column rtl is-8">
-                    <h1 class="title">نام پروژه : {{project.name}}</h1>
-                </div>
-            </div>
-            <div class="columns detail">
-                <div class="column is-8 is-offset-1">
-                    <div align="right" dir="rtl"><span>پلن پروژه : طلائی</span> <span style="margin-right:1em;"><a
-                            href="#"><i class="fa fa-pencil-square-o"> </i></a></span></div>
-                    <div align="right" dir="rtl">
-                        <span>تاریخ شروع سرویس : </span><span class="start">95/11/3</span>
-                    </div>
-                    <div align="right" dir="rtl">
-                        <span>تاریخ پایان سرویس : </span><span class="exp">95/12/3</span>
-                    </div>
-                    <div align="right" dir="rtl">
-                        <form action="{{url_for('project.run_project',pid=project.id)}}" method="POST">
-                        {% if running %}
-                        <input style="min-width:150px;" class="button is-danger" type="submit" value="Stop">
-                        {%else%}
-                        <input style="min-width:150px;" class="button is-success" type="submit" value="Run">
-                        {% endif %}
-                        </form>
-                        </div>
-                </div>
-                <div class="column is-2">
-                    <img src="http://www.youngscientists.co.tz/uploads/pics/project-work.jpg" alt="none">
-                    <button class="upload is-primary is-inverted button">آپلود عکس</button>
-                </div>
-            </div>
-            <div class="columns components">
-                <div class="column is-10">
-                    <div class="title">Project Logic</div>
-                    <div class="columns">
-                        <div class="column drag is-10">
-                            <div class="in draggable box">
-                                input
-                            </div>
-                            <div class=" draggable box">
-                                component 1
-                            </div>
-                            <div class=" draggable box">
-                                component 2
-                            </div>
-                            <div class="out draggable box">
-                                output
-                            </div>
-                        </div>
-                        <div class="column is-3">
-                            <button class="is-primary button" style="width: 100%;margin-bottom: 1em;">ذخیره</button>
-                            <button class="is-success button" style="width: 100%;" onclick="showPopup()">افزودن کامپوننت</button>
-                        </div>
-                      
-                    </div>
-                    <div class="column is-2 ">
-                        
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
+        
         <div class="column is-3 sidemenu ">
 
             <ul class="submenu">
@@ -122,6 +56,78 @@
                 </a>
             </ul>
         </div>
+
+        <!-- content -->
+        <div class="column is-8 is-offset-1 main">
+            <br>
+            <div class="columns">
+                
+                <div class="column rtl is-8">
+                    <h1 class="title">نام پروژه : {{project.name}}</h1>
+                </div>
+                <div class="column rtl is-3">
+                    <a href="{{url_for('project.list_projects')}}">بازگشت ></a>
+                </div>
+            </div>
+            <div class="columns detail">
+               
+                <div class="column is-2">
+                    <img src="http://www.youngscientists.co.tz/uploads/pics/project-work.jpg" alt="none">
+                    <button class="upload is-primary is-inverted button">آپلود عکس</button>
+                </div>
+                 <div class="column is-8 is-offset-1">
+                    <div align="right" dir="rtl"><span>پلن پروژه : طلائی</span> <span style="margin-right:1em;"><a
+                            href="#"><i class="fa fa-pencil-square-o"> </i></a></span></div>
+                    <div align="right" dir="rtl">
+                        <span>تاریخ شروع سرویس : </span><span class="start">95/11/3</span>
+                    </div>
+                    <div align="right" dir="rtl">
+                        <span>تاریخ پایان سرویس : </span><span class="exp">95/12/3</span>
+                    </div>
+                    <div align="right" dir="rtl">
+                        <form action="{{url_for('project.run_project',pid=project.id)}}" method="POST">
+                        {% if running %}
+                        <input style="min-width:150px;" class="button is-danger" type="submit" value="Stop">
+                        {%else%}
+                        <input style="min-width:150px;" class="button is-success" type="submit" value="Run">
+                        {% endif %}
+                        </form>
+                        </div>
+                </div>
+            </div>
+            <div class="columns components">
+                <div class="column is-10">
+                    <div class="title">Project Logic</div>
+                    <div class="columns">
+                    <div class="column is-3">
+                            <button class="is-primary button" style="width: 100%;margin-bottom: 1em;">ذخیره</button>
+                            <button class="is-success button" style="width: 100%;" onclick="showPopup()">افزودن کامپوننت</button>
+                        </div>
+                        <div class="column drag is-10">
+                            <div class="in draggable box">
+                                input
+                            </div>
+                            <div class=" draggable box">
+                                component 1
+                            </div>
+                            <div class=" draggable box">
+                                component 2
+                            </div>
+                            <div class="out draggable box">
+                                output
+                            </div>
+                        </div>
+                        
+                      
+                    </div>
+                    <div class="column is-2 ">
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
     
 </div>

@@ -37,11 +37,37 @@
 <div class="hero is-large">
 
     <div class="columns">
+        
+
+        <div class="column is-3 sidemenu ">
+
+            <ul class="submenu">
+                <a href="{{url_for('user.info',uid=current_user.id)}}">
+                    <li class="selected">مشخصات من
+                        <div class="hover"></div>
+                    </li>
+                </a>
+
+                <a href="{{url_for('project.list_projects')}}">
+                    <li >پروژه های من</li>
+                </a>
+                <a href="{{url_for('component.list_components')}}">
+                    <li>کامپوننت های من
+                        <div class="hover"></div>
+                    </li>
+                </a>
+            </ul>
+        </div>
+        <!-- content -->
         <div class="column is-8 is-offset-1 main">
             <br>
-           	<div class="columns">
-		    		<div class="column rtl is-7 middle">
-		    			<div class="columns detail">
+            <div class="columns">
+                   
+                    <div class="column rtl is-3">
+                        <h1 class="title"><img class="avatar" src="http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-ginger-guy.png"></h1>
+                    </div>
+                     <div class="column rtl is-7 middle">
+                        <div class="columns detail">
                             <div class="column is-10 is-offset-1">
                                     <div class="right"> <h1 class="title"><input disabled type="text" value="{{user_page.name}}"></h1></div>
                                     <div  align="right" dir="rtl">
@@ -56,11 +82,8 @@
                                     </div>
                             </div>
                         </div>
-		    		</div>
-		    		<div class="column rtl is-3">
-		    			<h1 class="title"><img class="avatar" src="http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-ginger-guy.png"></h1>
-		    		</div>
-		    	</div>
+                    </div>
+                </div>
                 <div class="columns">
                     <div class="column rtl is-5 component">
                         <div class="title">
@@ -83,28 +106,8 @@
                         </ul>
                     </div>
                 </div>
-		    	
+                
 
-        </div>
-
-        <div class="column is-3 sidemenu ">
-
-            <ul class="submenu">
-                <a href="{{url_for('user.info',uid=current_user.id)}}">
-                    <li class="selected">مشخصات من
-                        <div class="hover"></div>
-                    </li>
-                </a>
-
-                <a href="{{url_for('project.list_projects')}}">
-                    <li >پروژه های من</li>
-                </a>
-                <a href="{{url_for('component.list_components')}}">
-                    <li>کامپوننت های من
-                        <div class="hover"></div>
-                    </li>
-                </a>
-            </ul>
         </div>
     </div>
 

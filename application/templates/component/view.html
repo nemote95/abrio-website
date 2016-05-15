@@ -36,6 +36,28 @@
 <div class="hero is-large">
 
     <div class="columns">
+        
+
+        <div class="column is-3 sidemenu ">
+
+            <ul class="submenu">
+                <a href="{{url_for('user.info',uid=current_user.id)}}">
+                    <li>مشخصات من
+                        <div class="hover"></div>
+                    </li>
+                </a>
+                <a href="{{url_for('project.list_projects')}}">
+                    <li>پروژه های من</li>
+                </a>
+                <a href="{{url_for('component.list_components')}}">
+                    <li class="selected">کامپوننت های من
+                        <div class="hover"></div>
+                    </li>
+                </a>
+
+            </ul>
+        </div>
+        <!-- content -->
         <div class="column is-8 is-offset-1 main">
             <br>
             <div class="columns">
@@ -91,26 +113,6 @@
                 </div>
             </div>
             {% endif %}
-        </div>
-
-        <div class="column is-3 sidemenu ">
-
-            <ul class="submenu">
-                <a href="{{url_for('user.info',uid=current_user.id)}}">
-                    <li>مشخصات من
-                        <div class="hover"></div>
-                    </li>
-                </a>
-                <a href="{{url_for('project.list_projects')}}">
-                    <li>پروژه های من</li>
-                </a>
-                <a href="{{url_for('component.list_components')}}">
-                    <li class="selected">کامپوننت های من
-                        <div class="hover"></div>
-                    </li>
-                </a>
-
-            </ul>
         </div>
     </div>
 
