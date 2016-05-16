@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/jquery-ui.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/bulma.min.css') }}">
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css')}}">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-ui.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/hoverIntent.min.js')}}"></script>
+    {% endblock %}
+</head>
+
+<header class="header">
+    {% block header %}
+    <div class="container">
+        <div class="header-left">
+
+        </div>
+        <div class="header-right" style="direction: rtl;">
+            <a class="header-item logo" href="{{url_for('main.index')}}">
+                <img src="{{ url_for('static', filename='abrio-blue.png')}}">
+                    <span class="header-banner">
+                     اَبریو
+                    </span>
+            </a>
+
+            <a class="header-item" href="{{url_for('main.panel')}}">خانه</a>
+        </div>
+
+    </div>
+    {% endblock %}
+</header>
+
+<body>
+{% block body %}
+<div class="hero is-large">
+
+    <div class="columns">
+
+        <div class="column is-3 sidemenu ">
+
+            <ul class="submenu">
+                <a href="{{url_for('user.info',uid=current_user.id)}}">
+                    <li>مشخصات من
+                        <div class="hover"></div>
+                    </li>
+                </a>
+
+                <a href="{{url_for('project.list_projects')}}">
+                    <li>پروژه های من
+                    <div class="hover"></div>
+                    </li>
+                </a>
+                <a href="{{url_for('main.explore')}}">
+                    <li>کاوش
+                        <div class="hover"></div>
+                    </li>
+                </a>
+            </ul>
+        </div>
+        {%block content %}{% endblock %}
+    </div>
+</div>
+{% endblock %}
+</body>
+
+
+<footer class="footer">
+    {%block footer%}
+    <div class="container">
+        <div class="content is-centered">
+            <p><strong>اَبریو</strong> پشتتون رو خالی نمیکنه :)</p>
+        </div>
+    </div>
+    {%endblock%}
+</footer>
+
+
+<style>
+{%block style %}
+.main,.sidemenu{
+		min-height: 85vh;
+	}
+{%endblock%}
+</style>
+<script type="text/javascript">
+{% block script %}
+	$('.submenu li ').hoverIntent(function(){
+		$(this).find('.hover').animate({"width":"100%"},function(){});
+	},function(){
+		$(this).find('.hover').animate({"width":"0%"},function(){});
+	});
+{%endblock%}
+</script>
+</html>

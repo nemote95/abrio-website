@@ -1,46 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title></title>
-    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/bulma.min.css')}}">
-    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/main.css')}}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <script type="text/javascript" src="{{url_for('static',filename='scripts/jquery.js')}}"></script>
-    <script type="text/javascript" src="{{url_for('static',filename='scripts/hoverIntent.min.js')}}"></script>
-</head>
-<body>
-<header class="header">
-    <div class="container">
-        <div class="header-left">
+{% extends "base.html" %}
+{%block head %}
+{{super()}}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/project-list.css')}}">
+{% endblock %}
 
-        </div>
-        <div class="header-right" style="direction: rtl;">
-            <a class="header-item logo" href="{{url_for('main.index')}}">
-                <img src="{{url_for('static',filename='abrio-blue.png')}}">
-                    <span class="header-banner">
-                     اَبریو
-                    </span>
-            </a>
-
-            <a class="header-item" href="{{url_for('main.panel')}}">خانه</a>
-        </div>
-
-    </div>
-</header>
-<div class="hero is-large">
-
-    <div class="columns">
-        <div class="column is-8 is-offset-1 main">
+{%block content %}
+        <!-- content -->
+         <div class="column is-8 is-offset-1 main">
             <br>
             <form method=post action="{{url_for('project.create')}}">
                 <div class="columns">
-                    <div class="column rtl is-4"><input type="submit" class="button is-danger"
-                                                        value="ایجاد پروژه جدید"></input></div>
+                    
                     <div class="column rtl is-6">
                         {{form.name(class="input",placeholder="نام پروژه")}}
                     </div>
+                    <div class="column rtl is-4"><input type="submit" class="button is-danger"
+                                                        value="ایجاد پروژه جدید"></input></div>
                 </div>
             </form>
             {% with messages = get_flashed_messages() %}
@@ -53,17 +28,18 @@
             {% endif %}
             {% endwith %}
             <div class="columns">
-                <div class="column is-10 is-offset-1">
+                <div class="column is-10 ">
                     {% for project in projects%}
                     <div class="project">
                         <div class="columns">
-                            <div class="column is-2">
-                                <a class="button is-primary"
-                                   href="{{url_for('project.view',pid=project.id)}}">جزئیات</a>
-                            </div>
+                            
                             <div class="column is-10">
                                 <div class="name">{{project.name}}</div>
                                 <div class="desc">توضیحات کلی پروژه</div>
+                            </div>
+                            <div class="column is-2">
+                                <a class="button is-primary"
+                                   href="{{url_for('project.view',pid=project.id)}}">جزئیات</a>
                             </div>
                         </div>
 
@@ -73,165 +49,9 @@
                 </div>
             </div>
         </div>
-        <div class="column is-3 sidemenu ">
+{% endblock %}
 
-            <ul class="submenu">
-                <a href="{{url_for('user.info',uid=current_user.id)}}"><li>مشخصات من <div class="hover"></div>	 </li></a>
-
-                <a href="{{url_for('project.list_projects')}}">
-                    <li class="selected">پروژه های من</li>
-                </a>
-                <a href="{{url_for('component.list_components')}}">
-                    <li >کامپوننت های من
-                        <div class="hover"></div>
-                    </li>
-                </a>
-            </ul>
-        </div>
-    </div>
-
-</div>
-
-<footer class="footer">
-    <div class="container">
-        <div class="content is-centered">
-            <p><strong>اَبریو</strong> پشتتون رو خالی نمیکنه :)</p>
-        </div>
-    </div>
-</footer>
-
-</body>
-<script type="text/javascript">
-	$('.submenu li ').hoverIntent(function(){
-		$(this).find('.hover').animate({"width":"100%"},function(){});
-	},function(){
-		$(this).find('.hover').animate({"width":"0%"},function(){});
-	});
-	
-
-
-</script>
-<style type="text/css">
-	
-	
-	.hover{
-		position: absolute;
-		text-align: right;
-		direction: rtl;
-		margin-top: -5em;
-		width: 0%;
-		height: 5em;
-		background-color: rgba(255,255,255,0.3);
-		/*background-color: rgba(24,153,211,0.2);*/
-		cursor:pointer;
-		z-index: 0;
-	}
-	.project{
-
-		text-align: right;
-		background-color: #fff;
-		border:1px solid #e3e3e3;
-		border-radius: 4px;
-		vertical-align: top;
-		padding: 2em;
-		margin-top: 1.5em;
-		margin-bottom: 1em;
-	}
-	.project:hover{
-
-		/*box-shadow: 0px 0px 15px 0px #e3e3e3;
-		border-color:#e3e3e3;*/
-		width: +=15px;
-		animation: boxHover .8s  forwards;
-		-webkit-animation: boxHover .8s  forwards;
-		-moz-animation: boxHover .8s  forwards;
-		-o-animation: boxHover .8s  forwards;
-		-ms-animation: boxHover .8s  forwards;
-	}
-
-	.project .name{
-		font-size: 1.2em;
-		color : #454545;
-		margin-bottom: 1em;
-	}
-	.project .button{
-		width: 100%;
-		vertical-align: middle;
-		margin-top: 1em;
-		background-color: transparent;
-		border:1px solid #1899d3;
-		color:#1899d3;
-	}
-	.main,.sidemenu{
-		min-height: 85vh;
-	}
-		.sidemenu{
-			/*background:linear-gradient(141deg, #4DABA5 0%, #56B4BF 51%, #5DA9C6 75%);
-			background:-webkit-linear-gradient(141deg, #4DABA5 0%, #56B4BF 51%, #5DA9C6 75%);
-			background:-moz-linear-gradient(141deg, #4DABA5 0%, #56B4BF 51%, #5DA9C6 75%);
-			background:-o-linear-gradient(141deg, #4DABA5 0%, #56B4BF 51%, #5DA9C6 75%);*/
-
-
-
-background: #e3e3e3;
-background: -moz-linear-gradient(-45deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
-background: -webkit-gradient(left top, right bottom, color-stop(0%, #e3e3e3), color-stop(46%, #e3e3e3), color-stop(83%, #b6d3df), color-stop(96%, #89c2dc), color-stop(100%, #89c2dc));
-background: -webkit-linear-gradient(-45deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
-background: -o-linear-gradient(-45deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
-background: -ms-linear-gradient(-45deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
-background: linear-gradient(135deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', endColorstr='#89c2dc', GradientType=1 );
-			padding-left: 0px;
-			border-left:2px solid #1899d3 ; 
-			
-		}
-		.submenu{
-			z-index: 1;
-			min-height : 100%;
-			padding: 0;
-			color: #454545;
-		}
-		.submenu a{
-			color: inherit;
-		}
-
-		.submenu li{
-			margin-bottom: 0em;
-			min-height: 5em;
-			border-bottom: 1px solid rgba(0,0,0,0.1);
-			vertical-align: middle;
-			line-height: 5em;
-		}
-		.selected{
-			background-color: rgba(255,255,255,1);
-			border-right: 10px solid #1899d3 ;
-			padding-right: 30px;
-			color:#1899d3;
-			margin-left: -2px;
-			border-top:	2px solid #1899d3 ; 
-			border-bottom:	2px solid #1899d3  !important; 
-
-		}
-		.submenu li:before  {
-			content: "<";
-			vertical-align: bottom;
-			margin-right: 1em;
-			
-		}
-		table{
-			border : 1px solid #e3e3e3;
-			margin-top: 3em;
-		}
-		table th{
-			background-color: #e3e3e3;
-			padding:1em;
-		}
-		table td{
-
-			padding: 1em;
-			border-bottom: 1px solid #e3e3e3;
-		}
-
-
-</style>
-</html>
+{%block script %}
+{{super()}}
+    document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[1].className="selected";
+{% endblock %}

@@ -1,0 +1,86 @@
+input[disabled]{
+	background-color: transparent;
+	border:none;
+}
+.middle {
+	padding-top: 2em;
+}
+.avatar { 
+		width: 85%;
+		vertical-align: middle;
+		border-radius: 50%;
+		border : 3px solid #f1f1f1;
+	 }
+	
+	.detail div{
+		margin-bottom: 1em;
+		padding-right: 3em;
+	}
+	.exp{
+		color: #e74c3c;
+	}
+	.start{
+		color: #2ecc71;
+	}
+	.hover{
+		position: absolute;
+		text-align: right;
+		direction: rtl;
+		margin-top: -5em;
+		width: 0%;
+		height: 5em;
+		background-color: rgba(255,255,255,0.3);
+		/*background-color: rgba(24,153,211,0.2);*/
+		cursor:pointer;
+		z-index: 0;
+	}
+	.project , .component{
+		text-align: right;
+		background-color: #f1f1f1;
+		border-radius: 4px;
+		padding: 2em;
+		margin-top: 1em;
+		margin-bottom: 1em;
+		margin-left: 0.5em;
+		margin-right: 0.5em;
+
+	}
+	.project .title , .component .title {
+		font-size: 1.2em;
+	}
+	.project ul , .component ul {
+		max-height: 15em ; 
+		overflow-y : scroll;
+	}
+	.project ul li , .component ul li {
+		background-color: #fff ; 
+		border:1px solid #e3e3e3;
+		border-radius: 4px;
+		padding: 1em;
+		margin-top: 0.5em;
+		margin-bottom: 0.5em;
+		color: #454545;
+	}
+	.project ul li:hover , .component ul li:hover{
+		background-color: #1899d3;
+		color: #fff;
+		cursor: pointer;
+	}
+	
+	.main,.sidemenu{
+		min-height: 85vh;
+	}	
+		table{
+			border : 1px solid #e3e3e3;
+			margin-top: 3em;
+		}
+		table th{
+			background-color: #e3e3e3;
+			padding:1em;
+		}
+		table td{
+
+			padding: 1em;
+			border-bottom: 1px solid #e3e3e3;
+		}
+

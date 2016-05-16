@@ -11,8 +11,11 @@ from flask.ext.login import login_user, login_required, logout_user, current_use
 
 # project imports
 from application.extensions import db, email
-from application.forms.user import RegistrationForm, LoginForm, EditProfileForm
+from application.forms.user import RegistrationForm, LoginForm
+from application.forms.project import CreateProjectForm
 from application.models.user import User
+from application.models.component import Component
+from application.models.project import Project
 
 __all__ = ["user"]
 
@@ -99,7 +102,7 @@ def login():
         if new_user is not None and new_user.verify_password(form.password.data):
             login_user(new_user)
             return redirect(request.args.get('next') or url_for('main.panel'))
-        flash(u'.آدرس ایمیل یا کلمه ی عبور نا معتبر است')
+            flash(u'.آدرس ایمیل یا کلمه ی عبور نا معتبر است')
     return render_template('user/login.html', form=form)
 
 
@@ -115,32 +118,10 @@ def logout():
 def info(uid):
     try:
         user_page = User.query.filter_by(id=uid).one()
-        return render_template('user/profile.html', user_page=user_page)
+        c = Component.query.filter(Component.owner_id == current_user.id).all()
+        p = Project.query.filter_by(owner_id=current_user.id).all()
+        form = CreateProjectForm(request.form, meta={'locales': ['fa']})
+        return render_template('user/profile.html', user_page=user_page, components=c, projects=p,form=form)
     except NoResultFound:
         abort(404)
 
-
-@user.route('/edit_profile')
-def edit_view():
-    form = EditProfileForm(request.form, meta={'locales': ['fa']})
-    return render_template('user/edit.html', form=form)
-
-
-@user.route('/edit', methods=['Post'])
-@login_required
-def edit_profile():
-    form = EditProfileForm(request.form, meta={'locales': ['fa']})
-    if form.validate():
-        u = User.query.filter_by(id=current_user.id).one()
-        if form.company.data:
-            u.company = form.company.data
-        if form.name.data:
-            u.name = form.name.data
-        if form.phone_number.data:
-            u.phone_number = form.phone_number.data
-        if form.ssn.data:
-            u.ssn = form.ssn.data
-        db.session.commit()
-        return redirect(url_for('user.info', uid=current_user.id))
-    flash(u'.اطلاعات وارد شده نا معتبر است')
-    return redirect(url_for('user.edit_view', uid=current_user.id))

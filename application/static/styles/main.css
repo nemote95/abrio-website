@@ -61,6 +61,7 @@ body *{
 }
 body{
 	font-family: 'Yekan' , sans-serif;
+	direction: rtl;
 }
 .titr img{
 	width: 100px ;
@@ -134,3 +135,56 @@ h1{
 table td,table th{
 	text-align: right;
 }
+.submenu{
+			z-index: 1;
+			min-height : 100%;
+			padding: 0;
+			color: #454545;
+		}
+		.submenu a{
+			color: inherit;
+		}
+
+		.submenu li{
+			margin-bottom: 0em;
+			min-height: 5em;
+			border-bottom: 1px solid rgba(0,0,0,0.1);
+			vertical-align: middle;
+			line-height: 5em;
+		}
+		.selected{
+			background-color: rgba(255,255,255,1);
+			border-right: 10px solid #1899d3 ;
+			padding-right: 30px;
+			color:#1899d3;
+			margin-left: -2px;
+			border-top:	2px solid #1899d3 ; 
+			border-bottom:	2px solid #1899d3  !important; 
+
+		}
+		.submenu li:after  {
+			content: ">";
+			vertical-align: bottom;
+			margin-right: 1em;
+			
+		}
+		.sidemenu{
+			/*background:linear-gradient(141deg, #4DABA5 0%, #56B4BF 51%, #5DA9C6 75%);
+			background:-webkit-linear-gradient(141deg, #4DABA5 0%, #56B4BF 51%, #5DA9C6 75%);
+			background:-moz-linear-gradient(141deg, #4DABA5 0%, #56B4BF 51%, #5DA9C6 75%);
+			background:-o-linear-gradient(141deg, #4DABA5 0%, #56B4BF 51%, #5DA9C6 75%);*/
+
+
+
+background: #e3e3e3;
+background: -moz-linear-gradient(-45deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
+background: -webkit-gradient(left top, right bottom, color-stop(0%, #e3e3e3), color-stop(46%, #e3e3e3), color-stop(83%, #b6d3df), color-stop(96%, #89c2dc), color-stop(100%, #89c2dc));
+background: -webkit-linear-gradient(-45deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
+background: -o-linear-gradient(-45deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
+background: -ms-linear-gradient(-45deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
+background: linear-gradient(135deg, #e3e3e3 0%, #e3e3e3 46%, #b6d3df 83%, #89c2dc 96%, #89c2dc 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', endColorstr='#89c2dc', GradientType=1 );
+			padding-left: 0px;
+			border-left:2px solid #1899d3 ;
+
+		}
