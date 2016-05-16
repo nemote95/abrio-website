@@ -11,7 +11,7 @@ from flask.ext.login import login_user, login_required, logout_user, current_use
 
 # project imports
 from application.extensions import db, email
-from application.forms.user import RegistrationForm, LoginForm, EditProfileForm
+from application.forms.user import RegistrationForm, LoginForm
 from application.forms.project import CreateProjectForm
 from application.models.user import User
 from application.models.component import Component
@@ -125,28 +125,3 @@ def info(uid):
     except NoResultFound:
         abort(404)
 
-
-@user.route('/edit')
-def edit_view():
-    form = EditProfileForm(request.form, meta={'locales': ['fa']})
-    return render_template('user/edit.html', form=form)
-
-
-@user.route('/edit', methods=['Post'])
-@login_required
-def edit_profile():
-    form = EditProfileForm(request.form, meta={'locales': ['fa']})
-    if form.validate():
-        u = User.query.filter_by(id=current_user.id).one()
-        if form.company.data:
-            u.company = form.company.data
-        if form.name.data:
-            u.name = form.name.data
-        if form.phone_number.data:
-            u.phone_number = form.phone_number.data
-        if form.ssn.data:
-            u.ssn = form.ssn.data
-        db.session.commit()
-        return redirect(url_for('user.info', uid=current_user.id))
-    flash(u'.اطلاعات وارد شده نا معتبر است')
-    return redirect(url_for('user.edit_view', uid=current_user.id))

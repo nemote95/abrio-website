@@ -68,6 +68,7 @@
 
 {%block script %}
 {{super()}}
+    document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[0].className="selected";
     function edit(){
         $('input:disabled').removeAttr('disabled');
         $('#editbutton').hide();
@@ -88,7 +89,7 @@
 
 {%block style %}
 	.avatar { 
-		width: 15%;
+		width: 45%;
 		vertical-align: middle;
 		border-radius: 50%;
 		border : 3px solid #f1f1f1;
