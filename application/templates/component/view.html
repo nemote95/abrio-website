@@ -98,7 +98,9 @@
 	function save(){
 	    var cid = {{component.id}}
 	    var e = document.getElementById("selectversion");
-        var version = e.options[e.selectedIndex].value;
+		if (e.options.length){
+        var version = e.options[e.selectedIndex].value;}
+		else {version='';}
         var name = document.getElementById("name").value;
 		var arr = { id: cid, name: name, version: version };
         $.ajax({
@@ -109,16 +111,18 @@
         dataType: 'json',
         async: false,
         success: function(msg) {
+		$("#name").attr('disabled','true');
+		$("#selectversion").removeAttr('disabled');
         }
     });
 	};
 {%endblock%}
 
 {%block style%}
-input:disabled{
+	input:disabled{
 	background-color: transparent;
 	border:none;
-}
+	}
 	.sort ul{
 		background-color: #fff;
 		border:1px solid #e3e3e3;

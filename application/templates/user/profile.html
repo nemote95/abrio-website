@@ -24,10 +24,15 @@
                                     <div  align="right" dir="rtl">
                                         <span><i class="fa fa-phone"></i> شماره تلفن : </span><span class="exp"><input  class="exp" type="text" disabled value="{{user_page.phone_number}}"></span>
                                     </div>
+									{% if current_user.id==user_page.id %}
+									<div  align="right" dir="rtl">
+                                        <span></i> شماره ملی : </span><span class="exp"><input  class="exp" type="text" disabled value="{{user_page.ssn}}"></span>
+                                    </div>
                                     <div class="right" dir="rtl">
                                         <button id="editbutton" class="is-primary button" onclick="edit()">ویرایش</button>
                                         <button style="display: none;" id="savebutton" onclick="save()" class="is-primary button">ذخیره</button>
                                     </div>
+								{%endif%}
                             </div>
                         </div>
                     </div>
@@ -69,21 +74,22 @@
 {%block script %}
 {{super()}}
     document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[0].className="selected";
+
     function edit(){
         $('input:disabled').removeAttr('disabled');
         $('#editbutton').hide();
         $('#savebutton').show();
     };
-    function save(){
+function save(){
         $('#editbutton').show();
         $('#savebutton').hide();
         var inputs = $('.detail input');
         var data = [] ;
-        $.each(inputs , function(index , e ){
-            data.push(e.value);
-        })
+        data.push({'name': inputs[0].value});
+		data.push({'company': inputs[1].value});
+		data.push({'phone_number': inputs[2].value});
+		data.push({'ssn': inputs[3].value});
         $('.detail input').attr('disabled','true');
-        console.log(data)
     }
 {% endblock %}
 

@@ -51,11 +51,10 @@ def upload_component():
 def edit_component():
     cid = request.json['id']
     name = request.json['name']
-    version = request.json['version']
     new_component = Component.query.get(cid)
-    new_component.deploy_version = version
     new_component.name = name
-    print new_component.name, new_component.deploy_version
+    if request.json['version'] :
+        new_component.deploy_version = request.json['version']
     db.session.commit()
     return jsonify(), 201
 
@@ -66,5 +65,4 @@ def search(name):
     result = [{'cid': c.id, 'name': c.name, 'private': c.private} for c in
               Component.query.filter(and_(Component.name.contains(name),
                                           or_(Component.private == False, Component.owner_id == current_user.id))).all()]
-    print result
     return jsonify({"result": result}), 200
