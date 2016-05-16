@@ -10,17 +10,13 @@
         <div class="column is-8 is-offset-1 main">
             <br>
             <div class="columns">
-                <div class="column rtl is-3">
-                    {% if pid %}
-                    <a href="{{url_for('project.view',pid=pid)}}">بازگشت ></a>
-                    {%endif%}
-                </div>
+                
             <div class="columns">
                 <div align="right" class="column is-10 is-offset-1">
                     <form method=post action="{{url_for('component.create',pid=pid)}}"
                           enctype="multipart/form-data">
                         نام کامپوننت :{{form.name(class="input") }} <br>
-                        خصوصی :{{form.private(class="input") }}<br>
+                        خصوصی :{{form.private(type="checkbox") }}<br>
                         فایل : {{form.file(class="input") }}<br>
                         نسخه : {{ form.version(class="input")}}<br>
                         {{ form.csrf_token }}
@@ -37,94 +33,10 @@
                     </form>
                 </div>
             </div>
+            <div class="column rtl is-3 is-offset-3">
+                    {% if pid %}
+                    <a href="{{url_for('project.view',pid=pid)}}">بازگشت ></a>
+                    {%endif%}
+                </div>
         </div>
 {% endblock %}
-
-{%block style%}
-input:disabled{
-	background-color: transparent;
-	border:none;
-}
-	.sort ul{
-		background-color: #fff;
-		border:1px solid #e3e3e3;
-		padding: 1em;
-	}
-	.sort ul:first-child{
-		border-radius: 4px 0px 0px 4px;
-	}
-	.sort ul:last-child{
-		border-radius: 0px 4px 4px 0px;
-	}
-	.sort ul li{
-		background-color: #fff;
-		border : 1px solid #e3e3e3;
-		border-radius: 4px ;
-		margin-top: 0.5em;
-		margin-bottom: 0.5em;
-		padding: 1em;
-		cursor: pointer;
-	}
-	#sortable2 li{
-		background-color:#27ae60;
-		border-color: #2ecc71;
-		color: #fff;
-	}
-	.detail div{
-		margin-bottom: 1em;
-		padding-right: 3em;
-	}
-	.exp{
-		color: #e74c3c;
-	}
-	.start{
-		color: #2ecc71;
-	}
-	.hover{
-		position: absolute;
-		text-align: right;
-		direction: rtl;
-		margin-top: -5em;
-		width: 0%;
-		height: 5em;
-		background-color: rgba(255,255,255,0.3);
-		/*background-color: rgba(24,153,211,0.2);*/
-		cursor:pointer;
-		z-index: 0;
-	}
-	.project{
-		text-align: right;
-		background-color: #f1f1f1;
-		border:1px solid #e3e3e3;
-		border-radius: 4px;
-		padding: 2em;
-		margin-top: 1em;
-		margin-bottom: 1em;
-	}
-	.project .name{
-		font-size: 1.2em;
-		color : #454545;
-		margin-bottom: 1em;
-	}
-	.project .button{
-		width: 100%;
-		vertical-align: middle;
-		margin-top: 1em;
-		background-color: transparent;
-		border:1px solid #1899d3;
-		color:#1899d3;
-	}
-		table{
-			border : 1px solid #e3e3e3;
-			margin-top: 3em;
-		}
-		table th{
-			background-color: #e3e3e3;
-			padding:1em;
-		}
-		table td{
-
-			padding: 1em;
-			border-bottom: 1px solid #e3e3e3;
-		}
-{%endblock%}

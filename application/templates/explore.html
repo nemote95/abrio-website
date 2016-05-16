@@ -52,7 +52,7 @@
             <br>
                 <div class="columns">
 
-                    <div class="column rtl is-6 is-offset-1"><input id="search-input" type="text"  maxlength="120" placeholder="نام کامپوننت"></div>
+                    <div class="column rtl is-6 is-offset-1"><input class="input" id="search-input" type="text"  maxlength="120" placeholder="نام کامپوننت"></div>
                     <div class="column rtl is-4"><input type="submit" class="button is-success" value="جستجو" onclick="search()"></input>
                     </div>
                 </div>
@@ -109,11 +109,10 @@ function search(){
         success: function(msg) {
             components=msg['result'];
             e=document.getElementById('list');
-            while (e.firstChild) {
-            e.removeChild(e.firstChild);
-            }
+            e.innerHTML = "";
             for( i=0;i<components.length;i++){
-                console.log(components[i]);}
+                console.log(components[i]);
+                }
 
         }
     });

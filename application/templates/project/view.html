@@ -6,6 +6,47 @@
 
 
 {%block content %}
+        <!-- modal -->
+        <div class="modal">
+          <div class="modal-background"></div>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title">افزودن کامپوننت</p>
+              <button class="delete"></button>
+            </header>
+            <section class="modal-card-body">
+              <div class="columns">
+                  <div class="column is-10">
+                      <input class="input" placeholder="نام کامپوننت">
+                  </div>
+                  <div class="column is-2">
+                      <input class="button" type="submit" value="جستجو">
+                  </div>
+              </div>
+              <div class="columns">
+              <div class="column is-12">
+                  <div class="project">
+                        <div class="columns">
+                            <div class="column is-10">
+                                <div class="name">کامپوننت نمونه</div>
+                                <div class="desc">نسخه 1.0.1</div>
+                            </div>
+                            <div class="column is-2">
+                                <a class="button is-primary"
+                                   href="{{url_for('project.view',pid=project.id)}}">جزئیات</a>
+                            </div>
+                        </div>
+
+                    </div>
+              </div>
+                  
+              </div>
+            </section>
+            <footer class="modal-card-foot">
+              <a href="{{url_for('component.create',pid=1)}}" class="button is-primary">ساخت کامپوننت جدید</a>
+            </footer>
+          </div>
+        </div>
         <!-- content -->
         <div class="column is-8 is-offset-1 main">
             <br>
@@ -128,6 +169,13 @@
       }
     });
   });
+  function showPopup(){
+    $('.modal').addClass('is-active');
+  }
+  $('.delete').click(function(){
+    $('.modal').removeClass('is-active');
+  });
+  
   function newRow(){
         var table=document.getElementById("define-logic")
         var row = table.insertRow(0);
