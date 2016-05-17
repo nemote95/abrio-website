@@ -179,6 +179,15 @@ def generate_project_authentication_data(user):
     db.session.add(logic8)
     db.session.commit()
 
+    logic9 = Logic()
+    logic9.project_id = project.id
+    logic9.component_1_id = None
+    logic9.component_2_id = component.id
+    logic9.message_type = 'NewEvent'
+
+    db.session.add(logic9)
+    db.session.commit()
+
 
 def generate_project_dispatcher_data(user):
     project = Project()
