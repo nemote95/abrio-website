@@ -1,31 +1,31 @@
 {% extends "base.html" %}
 {%block head %}
 {{super()}}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/project-view.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/project-view.css')}}">
 {% endblock %}
 
 
 {%block content %}
-        <!-- modal -->
-        <div class="modal">
-          <div class="modal-background"></div>
-          <div class="modal-card">
-            <header class="modal-card-head">
-              <p class="modal-card-title">افزودن کامپوننت</p>
-              <button class="delete"></button>
-            </header>
-            <section class="modal-card-body">
-              <div class="columns">
-                  <div class="column is-10">
-                      <input class="input" placeholder="نام کامپوننت">
-                  </div>
-                  <div class="column is-2">
-                      <input class="button" type="submit" value="جستجو">
-                  </div>
-              </div>
-              <div class="columns">
-              <div class="column is-12">
-                  <div class="project">
+<!-- modal -->
+<div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">افزودن کامپوننت</p>
+            <button class="delete"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="columns">
+                <div class="column is-10">
+                    <input class="input" placeholder="نام کامپوننت">
+                </div>
+                <div class="column is-2">
+                    <input class="button" type="submit" value="جستجو">
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-12">
+                    <div class="project">
                         <div class="columns">
                             <div class="column is-10">
                                 <div class="name">کامپوننت نمونه</div>
@@ -38,69 +38,74 @@
                         </div>
 
                     </div>
-              </div>
-                  
-              </div>
-            </section>
-            <footer class="modal-card-foot">
-              <a href="{{url_for('component.create',pid=1)}}" class="button is-primary">ساخت کامپوننت جدید</a>
-            </footer>
-          </div>
+                </div>
+
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <a href="{{url_for('component.create',pid=1)}}" class="button is-primary">ساخت کامپوننت جدید</a>
+        </footer>
+    </div>
+</div>
+<!-- content -->
+<div class="column is-8 is-offset-1 main">
+    <br>
+    <div class="columns">
+
+        <div class="column rtl is-8">
+            <h1 class="title">نام پروژه : {{project.name}}</h1>
         </div>
-        <!-- content -->
-        <div class="column is-8 is-offset-1 main">
-            <br>
+        <div class="column rtl is-3">
+            <a href="{{url_for('project.list_projects')}}">بازگشت ></a>
+        </div>
+    </div>
+    <div class="columns detail">
+
+        <div class="column is-2">
+            <img src="http://www.youngscientists.co.tz/uploads/pics/project-work.jpg" alt="none">
+            <button class="upload is-primary is-inverted button">آپلود عکس</button>
+        </div>
+        <div class="column is-8 is-offset-1">
+            <div align="right" dir="rtl">
+                <span>کلیدخصوصی : {{project.private_key}}</span>
+            </div>
+            <div align="right" dir="rtl"><span>پلن پروژه : طلائی</span> <span style="margin-right:1em;"><a
+                    href="#"><i class="fa fa-pencil-square-o"> </i></a></span></div>
+            <div align="right" dir="rtl">
+                <span>تاریخ شروع سرویس : </span><span class="start">95/11/3</span>
+            </div>
+            <div align="right" dir="rtl">
+                <span>تاریخ پایان سرویس : </span><span class="exp">95/12/3</span>
+            </div>
+            <div align="right" dir="rtl">
+                <form action="{{url_for('project.run_project',pid=project.id)}}" method="POST">
+
+                    {% if running %}
+                    <input style="min-width:150px;" class="button is-danger" type="submit" value="Stop">
+                    {%else%}
+                    <input style="min-width:150px;" class="button is-success" type="submit" value="Run">
+                    {% endif %}
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="columns components">
+        <div class="column is-10">
+            <div class="title">Project Logic</div>
             <div class="columns">
-                
-                <div class="column rtl is-8">
-                    <h1 class="title">نام پروژه : {{project.name}}</h1>
+                <div class="column is-3">
+                    <button class="is-primary button" onclick="define()" style="width: 100%;margin-bottom: 1em;">ذخیره
+                    </button>
+                    <button class="is-success button" style="width: 100%;" onclick="showPopup()">افزودن کامپوننت
+                    </button>
                 </div>
-                <div class="column rtl is-3">
-                    <a href="{{url_for('project.list_projects')}}">بازگشت ></a>
-                </div>
-            </div>
-            <div class="columns detail">
-               
-                <div class="column is-2">
-                    <img src="http://www.youngscientists.co.tz/uploads/pics/project-work.jpg" alt="none">
-                    <button class="upload is-primary is-inverted button">آپلود عکس</button>
-                </div>
-                 <div class="column is-8 is-offset-1">
-                    <div align="right" dir="rtl"><span>پلن پروژه : طلائی</span> <span style="margin-right:1em;"><a
-                            href="#"><i class="fa fa-pencil-square-o"> </i></a></span></div>
-                    <div align="right" dir="rtl">
-                        <span>تاریخ شروع سرویس : </span><span class="start">95/11/3</span>
-                    </div>
-                    <div align="right" dir="rtl">
-                        <span>تاریخ پایان سرویس : </span><span class="exp">95/12/3</span>
-                    </div>
-                    <div align="right" dir="rtl">
-                        <form action="{{url_for('project.run_project',pid=project.id)}}" method="POST">
-
-                        {% if running %}
-                        <input style="min-width:150px;" class="button is-danger" type="submit" value="Stop">
-                        {%else%}
-                        <input style="min-width:150px;" class="button is-success" type="submit" value="Run">
-                        {% endif %}
-
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="columns components">
-                <div class="column is-10">
-                    <div class="title">Project Logic</div>
-                    <div class="columns">
-                    <div class="column is-3">
-                            <button class="is-primary button" onclick="define()" style="width: 100%;margin-bottom: 1em;">ذخیره</button>
-                            <button class="is-success button" style="width: 100%;" onclick="showPopup()">افزودن کامپوننت</button>
-                        </div>
-                        <div class="column drag is-10">
-                            <button class="button is-success" onclick="newRow()">اضافه کردن سطر جدید</button>
-                            <table id="define-logic">
-                                {% for i in range(logic_view|length) %}
-                                {% if logic_view[i][0].id and logic_view[i][1].id %}
-                                <script>$(function () {
+                <div class="column drag is-10">
+                    <button class="button is-success" onclick="newRow()">اضافه کردن سطر جدید</button>
+                    <table id="define-logic">
+                        {% for i in range(logic_view|length) %}
+                        {% if logic_view[i][0].id and logic_view[i][1].id %}
+                        <script>$(function () {
                                             newRow();
                                             var row=document.getElementById("define-logic").getElementsByTagName("tr")
                                             var sel=row[row.length-1-{{i}}].getElementsByTagName("select");
@@ -110,138 +115,144 @@
                                             for (op=0;op<sel[1].length;op++){
                                                 if (sel[1].options[op].value=={{logic_view[i][1].id }}){
                                                     sel[1].options[op].selected=true;}}});
-                                </script>
-                                {% elif logic_view[i][0].id %}
-                                <script>$(function () {
+
+                        </script>
+                        {% elif logic_view[i][0].id %}
+                        <script>$(function () {
                                             newRow();
                                             var row=document.getElementById("define-logic").getElementsByTagName("tr")
                                             var sel=row[row.length-1-{{i}}].getElementsByTagName("select");
                                             for (op=0;op<sel[0].length;op++){
                                                 if (sel[0].options[op].value=={{logic_view[i][0].id}}){
                                                     sel[0].options[op].selected=true;}}});
-                                </script>
-                                {% else %}
-                                <script>$(function () {
+
+                        </script>
+                        {% else %}
+                        <script>$(function () {
                                             newRow();
                                             var row=document.getElementById("define-logic").getElementsByTagName("tr")
                                             var sel=row[row.length-1-{{i}}].getElementsByTagName("select");
                                             for (op=0;op<sel[1].length;op++){
                                                 if (sel[1].options[op].value=={{logic_view[i][1].id}}){
                                                     sel[1].options[op].selected=true;}}});
-                                </script>
 
-                                {% endif %}
-                                {% endfor %}
-                            </table>
-                        </div>
-                        
-                      
-                    </div>
-                    <div class="column is-2 ">
+                        </script>
 
-                    </div>
+                        {% endif %}
+                        {% endfor %}
+                    </table>
                 </div>
+
+
+            </div>
+            <div class="column is-2 ">
 
             </div>
         </div>
+
+    </div>
+</div>
 
 {%endblock%}
 
 {%block script %}
 {{super()}}
-    document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[1].className="selected";
-    $(document).ajaxStop(function(){
-    window.location.reload();});
-	$(function() {
-    
-    $( ".draggable" ).draggable({containment: "parent"});
-    $('img').error(function(){
-        $(this).hide()
-    });
-  });
-	$(function() {
-    $( "ul.droptrue" ).sortable({
-    	items : "li:not('.info')",
-      connectWith: "ul",
-      change:function(){
-        $('button.accfood').removeAttr('disabled');
+document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[1].className="selected";
+$(document).ajaxStop(function(){
+window.location.reload();});
+$(function() {
 
-      }
-    });
-  });
-  function showPopup(){
-    $('.modal').addClass('is-active');
-  }
-  $('.delete').click(function(){
-    $('.modal').removeClass('is-active');
-  });
-  
-  function newRow(){
-        var table=document.getElementById("define-logic")
-        var row = table.insertRow(0);
-        var comp1 = row.insertCell(0);
-        var comp2 = row.insertCell(1);
-        var msg = row.insertCell(2);
-        var comps={{components_choices|safe}};
+$( ".draggable" ).draggable({containment: "parent"});
+$('img').error(function(){
+$(this).hide()
+});
+});
+$(function() {
+$( "ul.droptrue" ).sortable({
+items : "li:not('.info')",
+connectWith: "ul",
+change:function(){
+$('button.accfood').removeAttr('disabled');
 
-        var sel_1= document.createElement("select");
-        var option = document.createElement("option");
-        option.text = "Input";
-        option.value = "";
-        sel_1.add(option,0);
-        for (i=0;i<comps.length;i++){
-            var option = document.createElement("option");
-            option.text = comps[i]["name"];
-            option.value = comps[i]["id"];
-            sel_1.add(option,0);
-            }
-        comp1.appendChild(sel_1);
+}
+});
+});
+function showPopup(){
+$('.modal').addClass('is-active');
+}
+$('.delete').click(function(){
+$('.modal').removeClass('is-active');
+});
 
-        var sel_2= document.createElement("select");
-        var option = document.createElement("option");
-        option.text = "Output";
-        option.value = "";
-        sel_2.add(option,0);
-        for (i=0;i<comps.length;i++){
-            var option = document.createElement("option");
-            option.text = comps[i]["name"];
-            option.value = comps[i]["id"];
-            sel_2.add(option, 0);}
-        comp2.appendChild(sel_2);
+function newRow(){
+var table=document.getElementById("define-logic")
+var row = table.insertRow(0);
+var comp1 = row.insertCell(0);
+var comp2 = row.insertCell(1);
+var msg = row.insertCell(2);
+var comps={{components_choices|safe}};
 
-        var sel_3= document.createElement("select");
-        var option = document.createElement("option");
-        option.text = "BasicEvent";
-        option.value = "BasicEvent";
-        var top = sel_3.options[sel_3.selectedIndex];
-        sel_3.add(option, top);
-        msg.appendChild(sel_3);
+var sel_1= document.createElement("select");
+var option = document.createElement("option");
+option.text = "Input";
+option.value = "";
+sel_1.add(option,0);
+for (i=0;i
+<comps.length;i++){
+var option = document.createElement("option");
+option.text = comps[i]["name"];
+option.value = comps[i]["id"];
+sel_1.add(option,0);
+}
+comp1.appendChild(sel_1);
 
-        };
-  function define(){
-	    var project_id = {{project.id}}
-	    var rel = []
-	    var row=document.getElementById("define-logic").getElementsByTagName("tr")
-	    for (i=0;i<row.length;i++){
-        var sel = row[i].getElementsByTagName("select");
-        if (sel.length!=0){
-        var comp1=sel[0].options[sel[0].selectedIndex].value
-        var comp2=sel[1].options[sel[1].selectedIndex].value
-        var msg=sel[2].options[sel[2].selectedIndex].value
-        rel.push({component_1_id: comp1,component_2_id: comp2,message_type: msg})}
-        }
+var sel_2= document.createElement("select");
+var option = document.createElement("option");
+option.text = "Output";
+option.value = "";
+sel_2.add(option,0);
+for (i=0;i
+<comps.length;i++){
+var option = document.createElement("option");
+option.text = comps[i]["name"];
+option.value = comps[i]["id"];
+sel_2.add(option, 0);}
+comp2.appendChild(sel_2);
 
-        var arr = { project_id: project_id,relations: rel};
-        $.ajax({
-        url: '/api/v1/project/logic',
-        type: 'POST',
-        data: JSON.stringify(arr),
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        async: false,
-        success: function(msg) {
-        }
-    });
-	};
+var sel_3= document.createElement("select");
+var option = document.createElement("option");
+option.text = "BasicEvent";
+option.value = "BasicEvent";
+var top = sel_3.options[sel_3.selectedIndex];
+sel_3.add(option, top);
+msg.appendChild(sel_3);
+
+};
+function define(){
+var project_id = {{project.id}}
+var rel = []
+var row=document.getElementById("define-logic").getElementsByTagName("tr")
+for (i=0;i
+<row.length;i++){
+var sel = row[i].getElementsByTagName("select");
+if (sel.length!=0){
+var comp1=sel[0].options[sel[0].selectedIndex].value
+var comp2=sel[1].options[sel[1].selectedIndex].value
+var msg=sel[2].options[sel[2].selectedIndex].value
+rel.push({component_1_id: comp1,component_2_id: comp2,message_type: msg})}
+}
+
+var arr = { project_id: project_id,relations: rel};
+$.ajax({
+url: '/api/v1/project/logic',
+type: 'POST',
+data: JSON.stringify(arr),
+contentType: 'application/json; charset=utf-8',
+dataType: 'json',
+async: false,
+success: function(msg) {
+}
+});
+};
 {%endblock%}
 

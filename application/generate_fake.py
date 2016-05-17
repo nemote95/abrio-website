@@ -47,6 +47,7 @@ def generate_project_multiplier_data(user):
     project.name = 'multiplier'
     project.owner = user
     project.owner_id = user.id
+    project.private_key = PROJECT_TEST_TOKEN
 
     db.session.add(project)
     db.session.commit()
@@ -101,6 +102,7 @@ def generate_project_chat_data(user):
     project.name = 'chat'
     project.owner = user
     project.owner_id = user.id
+    project.private_key = PROJECT_CHAT_TOKEN
 
     db.session.add(project)
     db.session.commit()
@@ -147,6 +149,7 @@ def generate_project_dispatcher_data(user):
     project.name = 'football kaghazi'
     project.owner = user
     project.owner_id = user.id
+    project.private_key = PROJECT_DISP_TOKEN
 
     db.session.add(project)
     db.session.commit()

@@ -1,5 +1,5 @@
 from application.extensions import db
-
+from uuid import uuid4
 
 class Project(db.Model):
     __tablename__ = 'projects'
@@ -11,7 +11,7 @@ class Project(db.Model):
 
     @classmethod
     def generate_fake(cls, user):
-        fake = Project(name="Fake Project", owner_id=user.id)
+        fake = Project(name="Fake Project", owner_id=user.id,private_key=str(uuid4()))
         db.session.add(fake)
         db.session.commit()
         return fake
