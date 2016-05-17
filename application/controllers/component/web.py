@@ -17,10 +17,10 @@ __all__ = ['component']
 component = Blueprint('component', __name__, url_prefix='/component')
 
 
-@component.route('/<pid>/new', methods=['GET', 'POST'])
-@permission(Project, 'pid')
+@component.route('/new', methods=['GET', 'POST'])
 @login_required
-def create(pid, obj=None):
+def create():
+    pid = request.args.get('pid')
     form = CreateComponentForm(meta={'locales': ['fa']})
     if request.method == 'POST' and form.validate_on_submit():
         new_component = Component(name=form.name.data, owner_id=current_user.id, private=form.private.data,
@@ -40,21 +40,17 @@ def create(pid, obj=None):
     return render_template('component/newcomponent.html', form=form, pid=pid)
 
 
-@component.route('/<int:pid>/<int:cid>', methods=['GET'])
-@component.route('/<int:cid>', methods=['GET'], defaults={'pid': 0})
+@component.route('/<int:cid>', methods=['GET'])
 @login_required
 @permission(Component, 'cid')
-def view(pid, cid, obj=None):
+def view(cid, obj=None):
+    pid = request.args.get('pid')
     upload_form = UploadForm(meta={'locales': ['fa']})
     regex = re.compile(r'\d+_(v(.+)\..+)')
     version_choices = [regex.match(f).group(2) for f in
                        obj.component_files()]
-    if pid:
-        return_to_project = pid
-    else:
-        return_to_project = None
     return render_template('component/view.html', upload_form=upload_form, version_choices=version_choices,
-                           component=obj, return_to_project=return_to_project)
+                           component=obj, pid=pid)
 
 
 @component.route('/<int:cid>/upload', methods=['POST'])
