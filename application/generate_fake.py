@@ -4,6 +4,7 @@ from models.project import Project
 from models.user import User
 from application.extensions import db, redis
 from random import randint
+from datetime import datetime
 
 PROJECT_TEST_TOKEN = '123456'
 PROJECT_CHAT_TOKEN = '123123'
@@ -48,6 +49,7 @@ def generate_project_multiplier_data(user):
     project.owner = user
     project.owner_id = user.id
     project.private_key = PROJECT_TEST_TOKEN
+    project.create_date = datetime.utcnow()
 
     db.session.add(project)
     db.session.commit()
@@ -103,6 +105,7 @@ def generate_project_chat_data(user):
     project.owner = user
     project.owner_id = user.id
     project.private_key = PROJECT_CHAT_TOKEN
+    project.create_date = datetime.utcnow()
 
     db.session.add(project)
     db.session.commit()
@@ -150,6 +153,7 @@ def generate_project_dispatcher_data(user):
     project.owner = user
     project.owner_id = user.id
     project.private_key = PROJECT_DISP_TOKEN
+    project.create_date = datetime.utcnow()
 
     db.session.add(project)
     db.session.commit()

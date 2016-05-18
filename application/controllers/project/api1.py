@@ -11,6 +11,16 @@ __all__ = ['api']
 api = Blueprint('project.api1', __name__, url_prefix='/api/v1/project')
 
 
+@api.route('/status', methods=['GET'])
+def status():
+    private_key = request.json['private_key']
+    project = Project.query.filter_by(private_key=private_key).one_or_none()
+    if project:
+        return jsonify({"name": project.name, "is_running": redis.exists('abr:%s' % private_key),
+                        "create_date": str(project.create_date)}), 200
+    return jsonify(), 404
+
+
 @api.route('/start', methods=['POST'])
 def start():
     private_key = request.json['private_key']
