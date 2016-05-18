@@ -1,10 +1,9 @@
-#  python imports
-from sqlalchemy.exc import IntegrityError
 # flask imports
 from flask import Blueprint, request, jsonify, abort
 # project imports
 from application.models.logic import Logic
 from application.models.project import Project
+from application.models.component import Component
 from application.extensions import db, redis
 
 __all__ = ['api']
@@ -45,6 +44,23 @@ def stop():
         else:
             return jsonify(), 409
 
+    return jsonify(), 404
+
+
+@api.route('/list_components', methods=['GET'])
+def list_components():
+    private_key = request.json['private_key']
+    project = Project.query.filter_by(private_key=private_key).one_or_none()
+    if project:
+        logic = Logic.query.filter_by(project_id=project.id).all()
+        components = []
+        for l in logic:
+            for cid in [l.component_1_id, l.component_2_id]:
+                if cid:
+                    c = Component.query.filter_by(id=cid).one().to_json()
+                    if c not in components:
+                        components.append(c)
+        return jsonify({"result": components}), 200
     return jsonify(), 404
 
 
