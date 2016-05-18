@@ -4,10 +4,38 @@ from sqlalchemy.exc import IntegrityError
 from flask import Blueprint, request, jsonify, abort
 # project imports
 from application.models.logic import Logic
-from application.extensions import db
+from application.models.project import Project
+from application.extensions import db, redis
 
 __all__ = ['api']
 api = Blueprint('project.api1', __name__, url_prefix='/api/v1/project')
+
+
+@api.route('/start', methods=['POST'])
+def start():
+    private_key = request.json['private_key']
+    project = Project.query.filter_by(private_key=private_key).one_or_none()
+    if project:
+        if not redis.exists('abr:%s' % private_key):
+            redis.set('abr:%s' % private_key, project.id)
+            return jsonify(), 200
+        else:
+            return jsonify(), 409
+    return jsonify(), 404
+
+
+@api.route('/stop', methods=['POST'])
+def stop():
+    private_key = request.json['private_key']
+    project = Project.query.filter_by(private_key=private_key).one_or_none()
+    if project:
+        if redis.exists('abr:%s' % private_key):
+            redis.delete('abr:%s' % private_key)
+            return jsonify(), 200
+        else:
+            return jsonify(), 409
+
+    return jsonify(), 404
 
 
 @api.route('/logic', methods=['POST'])

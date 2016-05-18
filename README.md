@@ -67,4 +67,28 @@ alternative: if virtualenv haven't been installed use `sudo apt-get install virt
 	    Param {Int}	component_2_id
 		Param {String}	message_type
 
+4. Run a project
 
+    URI : `<base_url>/api/v1/project/start`
+
+    Method : POST
+
+    Description : Start running  project
+
+    Parameters :
+    
+	    Header {String} Content-Type=application/json JSON (application/json)
+		Param {Int}	private_key
+
+5. Stop a running project
+
+    URI : `<base_url>/api/v1/project/start`
+
+    Method : POST
+
+    Description : STop a running  project
+
+    Parameters :
+    
+	    Header {String} Content-Type=application/json JSON (application/json)
+		Param {Int}	private_key
