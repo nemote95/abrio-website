@@ -134,11 +134,48 @@ def generate_project_chat_data(user):
 
 
 def generate_project_auth_data(user):
+    project = Project()
+    project.name = 'authentication'
+    project.owner = user
+    project.owner_id = user.id
+
+    db.session.add(project)
+    db.session.commit()
+    redis.setnx('abr:' + PROJECT_AUTH_TOKEN, project.id)
+
     component = Component()
-    component.name = 'auth'
+    component.name = 'Authentication component'
     component.deploy_version = str(randint(0, 10))
     component.owner_id = user.id
+
     db.session.add(component)
+    db.session.commit()
+
+    logic7 = Logic()
+    logic7.project_id = project.id
+    logic7.component_1_id = None
+    logic7.component_2_id = component.id
+    logic7.message_type = 'RequestEvent'
+
+    db.session.add(logic7)
+    db.session.commit()
+
+    logic8 = Logic()
+    logic8.project_id = project.id
+    logic8.component_1_id = component.id
+    logic8.component_2_id = None
+    logic8.message_type = 'Response'
+
+    db.session.add(logic8)
+    db.session.commit()
+
+    logic9 = Logic()
+    logic9.project_id = project.id
+    logic9.component_1_id = None
+    logic9.component_2_id = component.id
+    logic9.message_type = 'NewEvent'
+
+    db.session.add(logic9)
     db.session.commit()
 
 
@@ -177,4 +214,3 @@ def generate_project_dispatcher_data(user):
 
     db.session.add(logic2)
     db.session.commit()
-
