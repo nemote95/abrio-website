@@ -13,10 +13,10 @@ def index():
     return render_template('index.html')
 
 
-@main.route('/mypanel')
+@main.route('/home')
 @login_required
-def panel():
-    return render_template('panel.html')
+def home():
+    return render_template('home.html')
 
 
 @main.route('/download')

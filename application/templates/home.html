@@ -10,16 +10,10 @@
            <h1><a class="button is-danger" style="width :200px ;height:55px; vertical-align:middle;padding-top:15px;" href="/download"> SDK دانلود</a></h1>
 </div>
 {% endblock %}
-<script type="text/javascript">
-	$('.submenu li ').hoverIntent(function(){
-		$(this).find('.hover').animate({"width":"100%"},function(){});
-	},function(){
-		$(this).find('.hover').animate({"width":"0%"},function(){});
-	});
 
-
-</script>
-<script type="text/javascript">
+{%block script %}
+{{super()}}
+    document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[0].className="selected";
 	$(function() {
     $( "ul.droptrue" ).sortable({
     	items : "li:not('.info')",
@@ -30,8 +24,6 @@
       }
     });
   });
-
-
-</script>
+{% endblock %}
 
 </html>

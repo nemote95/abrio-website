@@ -4,7 +4,6 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/component-view.css')}}">
 {% endblock %}
 
-
 {%block content %}
         <!-- content -->
         <div class="column is-8 is-offset-1 main">
@@ -18,6 +17,9 @@
 
                 </div>
 				{%endif%}
+                <div class="column rtl is-3">
+                    <a class="button is-danger" href="{{url_for('component.delete',cid=component.id )}}">حذف</a>
+                </div>
                 <div class="column rtl is-8">
                     <h1 class="title">نام کامپوننت : <input id="name" type="text" value="{{component.name}}" disabled>
                     </h1>
@@ -66,15 +68,6 @@
                         {{ upload_form.file(class="input") }}<br>
                         {{ upload_form.version(class="input")}}<br>
                         {{ upload_form.csrf_token }}
-                        <div class="hero is-large">
-                            {% with messages = get_flashed_messages() %}
-                            {% if messages %}
-                            {% for message in messages %}
-                            {{ message }}
-                            {% endfor %}
-                            {% endif %}
-                            {% endwith %}
-                        </div>
                         <input class="button is-success" type="submit" value="آپلود">
                     </form>
                 </div>

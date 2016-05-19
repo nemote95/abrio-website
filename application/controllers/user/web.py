@@ -101,7 +101,7 @@ def login():
         new_user = User.query.filter_by(email=form.email.data).first()
         if new_user is not None and new_user.verify_password(form.password.data):
             login_user(new_user)
-            return redirect(request.args.get('next') or url_for('main.panel'))
+            return redirect(request.args.get('next') or url_for('user.info',uid=new_user.id))
         flash(u'.آدرس ایمیل یا کلمه ی عبور نا معتبر است')
     return render_template('user/login.html', form=form)
 
@@ -114,7 +114,7 @@ def logout():
     return redirect(url_for('main.index'))
 
 
-@user.route('/profile/<int:uid>')
+@user.route('/<int:uid>/profile')
 def info(uid):
     try:
         user_page = User.query.filter_by(id=uid).one()
