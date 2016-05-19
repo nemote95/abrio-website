@@ -1,5 +1,6 @@
 # coding=utf-8
 # python imports
+from datetime import datetime
 from uuid import uuid4
 from sqlalchemy import or_
 from json import dumps
@@ -31,7 +32,8 @@ def list_projects():
 def create():
     form = CreateProjectForm(request.form, meta={'locales': ['fa']})
     if form.validate():
-        new_project = Project(name=form.name.data, owner_id=current_user.id, private_key=str(uuid4()))
+        new_project = Project(name=form.name.data, owner_id=current_user.id, private_key=str(uuid4()),
+                              create_date=datetime.utcnow())
         db.session.add(new_project)
         db.session.commit()
         return redirect(url_for('project.view', pid=new_project.id))

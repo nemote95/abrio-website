@@ -83,12 +83,18 @@
 function save(){
         $('#editbutton').show();
         $('#savebutton').hide();
-        var inputs = $('.detail input');
-        var data = [] ;
-        data.push({'name': inputs[0].value});
-		data.push({'company': inputs[1].value});
-		data.push({'phone_number': inputs[2].value});
-		data.push({'ssn': inputs[3].value});
-        $('.detail input').attr('disabled','true');
+        var inputs = $('.detail input'),
+        data ={'name': inputs[0].value ,'company': inputs[1].value ,'phone_number': inputs[2].value ,'ssn': inputs[3].value};
+        $.ajax({
+        url: '/api/v1/user/edit',
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function(msg) {
+		$('.detail input').attr('disabled','true');
+        }
+    });
     }
 {% endblock %}

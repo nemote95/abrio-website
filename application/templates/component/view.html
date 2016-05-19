@@ -10,11 +10,11 @@
         <div class="column is-8 is-offset-1 main">
             <br>
             <div class="columns">
-				{% if return_to_project %}
+				{% if pid %}
                 <div class="column rtl is-3">
 
 
-                    <a href="{{url_for('project.view',pid=return_to_project )}}">بازگشت ></a>
+                    <a href="{{url_for('project.view',pid=pid )}}">بازگشت ></a>
 
                 </div>
 				{%endif%}
@@ -112,7 +112,7 @@
         async: false,
         success: function(msg) {
 		$("#name").attr('disabled','true');
-		$("#selectversion").removeAttr('disabled');
+		$("#selectversion").attr('disabled','true');
         }
     });
 	};

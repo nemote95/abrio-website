@@ -102,7 +102,7 @@ def login():
         if new_user is not None and new_user.verify_password(form.password.data):
             login_user(new_user)
             return redirect(request.args.get('next') or url_for('main.panel'))
-            flash(u'.آدرس ایمیل یا کلمه ی عبور نا معتبر است')
+        flash(u'.آدرس ایمیل یا کلمه ی عبور نا معتبر است')
     return render_template('user/login.html', form=form)
 
 
