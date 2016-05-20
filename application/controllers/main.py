@@ -13,15 +13,15 @@ def index():
     return render_template('index.html')
 
 
-@main.route('/home')
+@main.route('/downloads')
 @login_required
-def home():
-    return render_template('home.html')
+def downloads():
+    return render_template('downloads.html')
 
 
-@main.route('/download')
+@main.route('/download-sdk')
 @login_required
-def download():
+def download_sdk():
     return send_from_directory(directory=current_app.config['SDK_DIRECTORY'],
                                filename=current_app.config['SDK_FILENAME'], as_attachment=True)
 
