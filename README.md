@@ -46,7 +46,6 @@ alternative: if virtualenv haven't been installed use `sudo apt-get install virt
 
     Parameters :
     
-	    Header {String} Content-Type=application/json JSON (application/json)
 	    Header {String}	private_key
 	    Header {String}	deploy_version
 	    Param  {file} File to be uploaded
@@ -97,7 +96,7 @@ alternative: if virtualenv haven't been installed use `sudo apt-get install virt
 
     URI : `<base_url>/api/v1/project/component_list`
 
-    Method : POST
+    Method : GET
 
     Description : Get list of components in a project
 
@@ -106,11 +105,11 @@ alternative: if virtualenv haven't been installed use `sudo apt-get install virt
 	    Header {String} Content-Type=application/json JSON (application/json)
 	    Param {String}	private_key
 
-7. project information
+7. Project information
 
     URI : `<base_url>/api/v1/project/status`
 
-    Method : POST
+    Method : GET
 
     Description : Get project info
 
@@ -118,3 +117,15 @@ alternative: if virtualenv haven't been installed use `sudo apt-get install virt
         
         Header {String} Content-Type=application/json JSON (application/json)
 	    Param {String}	private_key
+
+8. Remove a component
+
+    URI : `<base_url>/api/v1/project/status`
+
+    Method : DELETE
+
+    Description : Remove a component if it's not used in a logic
+
+    Parameters :
+        
+        Header {String}	private_key
