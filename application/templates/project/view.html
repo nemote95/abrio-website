@@ -62,8 +62,18 @@
     <div class="columns detail">
 
         <div class="column is-2">
-            <img src="http://www.youngscientists.co.tz/uploads/pics/project-work.jpg" alt="none">
-            <button class="upload is-primary is-inverted button">آپلود عکس</button>
+            <img src="{{url_for('project.logo',pid=project.id)}}" alt="none">
+            <button class="upload is-primary is-inverted button" onclick="document.getElementById('file').click(); return false;">آپلود عکس</button>
+             <form id="frm" method=post action="{{url_for('project.upload_logo',pid=project.id)}}"
+                  enctype="multipart/form-data">
+                {{ form.logo_image(id="file", style="display:none") }}<br>
+                {{form.csrf_token}}
+                 <script type="text/javascript">
+                 $(document).ready(function(){
+                 $('#file').change(function(){
+                 $('#frm').submit();});})
+                </script>
+            </form>
         </div>
         <div class="column is-8 is-offset-1">
             <div align="right" dir="rtl">

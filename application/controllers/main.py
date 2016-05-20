@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, send_from_directory, current_app,request
+from flask import Blueprint, render_template, send_from_directory, current_app
 from flask.ext.login import login_required,current_user
 from application.models.component import Component
 from sqlalchemy import or_

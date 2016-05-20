@@ -115,6 +115,7 @@ def logout():
 
 
 @user.route('/<int:uid>/profile')
+@login_required
 def info(uid):
     try:
         user_page = User.query.filter_by(id=uid).one()
