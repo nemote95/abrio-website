@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, send_from_directory, current_app,request
+from flask import Blueprint, render_template, send_from_directory, current_app
 from flask.ext.login import login_required,current_user
 from application.models.component import Component
 from sqlalchemy import or_
@@ -13,15 +13,15 @@ def index():
     return render_template('index.html')
 
 
-@main.route('/mypanel')
+@main.route('/downloads')
 @login_required
-def panel():
-    return render_template('panel.html')
+def downloads():
+    return render_template('downloads.html')
 
 
-@main.route('/download')
+@main.route('/download-sdk')
 @login_required
-def download():
+def download_sdk():
     return send_from_directory(directory=current_app.config['SDK_DIRECTORY'],
                                filename=current_app.config['SDK_FILENAME'], as_attachment=True)
 

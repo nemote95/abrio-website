@@ -19,8 +19,9 @@
     {% block header %}
     <div class="container">
         <div class="header-left">
-
-        </div>
+<span class="header-item">
+            			<a href="{{ url_for('user.logout') }}">خروج</a>
+            		</span>        </div>
         <div class="header-right" style="direction: rtl;">
             <a class="header-item logo" href="{{url_for('main.index')}}">
                 <img src="{{ url_for('static', filename='abrio-blue.png')}}">
@@ -28,8 +29,8 @@
                      اَبریو
                     </span>
             </a>
-
-            <a class="header-item" href="{{url_for('main.panel')}}">خانه</a>
+            <a class="header-item" href="#">آموزش ها</a>
+            <a class="header-item" href="{{url_for('main.downloads')}}">دانلودها</a>
         </div>
 
     </div>
@@ -39,14 +40,31 @@
 <body>
 {% block body %}
 <div class="hero is-large">
-
+{%block msg%}
+{% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="message is-danger">
+                <div class="message-header">
+                    پیام
+                </div>
+                <div class="message-body">
+                    <ul class=flashes>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
+{% endblock%}
     <div class="columns">
 
         <div class="column is-3 sidemenu ">
 
             <ul class="submenu">
                 <a href="{{url_for('user.info',uid=current_user.id)}}">
-                    <li>مشخصات من
+                    <li>صفحه ی شخصی
                         <div class="hover"></div>
                     </li>
                 </a>

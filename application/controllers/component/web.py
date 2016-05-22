@@ -2,13 +2,14 @@
 # python imports
 import os
 import re
+from sqlalchemy import or_
 # flask imports
 from flask import Blueprint, request, render_template, redirect, url_for, flash, abort, current_app
 from flask.ext.login import current_user, login_required
 from werkzeug import secure_filename
 # project imports
 from application.models.component import Component
-from application.models.project import Project
+from application.models.logic import Logic
 from application.forms.component import CreateComponentForm, UploadForm
 from application.extensions import db
 from application.decorators import permission
@@ -74,3 +75,14 @@ def upload(cid, obj=None):
     return redirect(url_for('component.view', cid=cid))
 
 
+@component.route('/<int:cid>/delete', methods=['GET'])
+@login_required
+@permission(Component, 'cid')
+def delete(cid, obj=None):
+    if not Logic.query.filter(or_(Logic.component_1_id == cid, Logic.component_2_id == cid)).all():
+        db.session.delete(obj)
+        db.session.commit()
+        return redirect(url_for('user.info', uid=current_user.id))
+    else:
+        flash(u'.از این کامپوننت در یک یا چند پروژه استفاده شده است')
+        return redirect(url_for('component.view', cid=cid))

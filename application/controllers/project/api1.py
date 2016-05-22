@@ -17,7 +17,7 @@ def status():
     if project:
         return jsonify({"name": project.name, "is_running": redis.exists('abr:%s' % private_key),
                         "create_date": str(project.create_date)}), 200
-    return jsonify(), 404
+    return abort(404)
 
 
 @api.route('/start', methods=['POST'])
@@ -29,8 +29,8 @@ def start():
             redis.set('abr:%s' % private_key, project.id)
             return jsonify(), 200
         else:
-            return jsonify(), 409
-    return jsonify(), 404
+            return abort(409)
+    return abort(404)
 
 
 @api.route('/stop', methods=['POST'])
@@ -42,9 +42,9 @@ def stop():
             redis.delete('abr:%s' % private_key)
             return jsonify(), 200
         else:
-            return jsonify(), 409
+            return abort(409)
 
-    return jsonify(), 404
+    return abort(404)
 
 
 @api.route('/list_components', methods=['GET'])
@@ -61,7 +61,7 @@ def list_components():
                     if c not in components:
                         components.append(c)
         return jsonify({"result": components}), 200
-    return jsonify(), 404
+    return abort(404)
 
 
 @api.route('/logic', methods=['POST'])
