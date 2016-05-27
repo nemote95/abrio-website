@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{%block content %}
+<img src="{{url_for('project.top_project_image',tpid=project.id)}}" alt="none">
+<p>{{project.name}}
+<p>{{project.description}}
+    {%endblock%}
+
+

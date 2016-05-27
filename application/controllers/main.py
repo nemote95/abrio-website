@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template, send_from_directory, current_app
-from flask.ext.login import login_required,current_user
+from flask.ext.login import login_required, current_user
 from application.models.component import Component
+from application.models.project import TopProject
 from sqlalchemy import or_
+import random
 
 __all__ = ["main"]
 
@@ -29,8 +31,8 @@ def download_sdk():
 @main.route('/explore', methods=['GET'])
 @login_required
 def explore():
+    top_projects_all = TopProject.query.all()
+    random_numbers = random.sample(xrange(0, len(top_projects_all)), 3)
     c = Component.query.filter(or_(Component.owner_id == current_user.id, Component.private == False)).all()
-    return render_template('explore.html', components=c)
-
-
-
+    return render_template('explore.html', components=c,
+                           random_top_projects=[top_projects_all[i] for i in random_numbers])
