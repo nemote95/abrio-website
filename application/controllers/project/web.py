@@ -15,7 +15,7 @@ from application.models.component import Component
 from application.models.logic import Logic
 from application.forms.project import CreateProjectForm, UploadForm, TopProjectForm
 from application.extensions import db, redis
-from application.decorators import permission
+from application.decorators import permission,admin_required
 
 __all__ = ['project']
 project = Blueprint('project', __name__, url_prefix='/project')
@@ -90,13 +90,15 @@ def upload_logo(pid):
 
 
 @project.route('/<int:pid>/logo')
+@login_required
 def logo(pid):
     return send_from_directory(directory=current_app.config['UPLOAD_FOLDER'] + 'logos/', filename="%s.png" % str(pid))
 
 
 @project.route('/manage')
 @login_required
-def manage_top_project():
+@admin_required
+def manage_top_projects():
     form = TopProjectForm(meta={'locales': ['fa']})
     top_projects_all = TopProject.query.all()
     return render_template('project/manage.html', form=form, top_projects_all=top_projects_all)
@@ -104,6 +106,7 @@ def manage_top_project():
 
 @project.route('/create_top', methods=['POST'])
 @login_required
+@admin_required
 def create_top_project():
     form = TopProjectForm(meta={'locales': ['fa']})
     if form.validate_on_submit():
@@ -118,26 +121,31 @@ def create_top_project():
             return redirect(url_for('project.top_project', tpid=new_top_project.id))
         else:
             flash(u'.فرمت این فایل قابل پشتیبانی نیست')
-            return redirect(url_for('project.manage_top_project'))
+            return redirect(url_for('project.manage_top_projects'))
     flash(u'پر کردن همه ی فیلد ها اجباری است.')
-    return redirect(url_for('project.manage_top_project'))
+    return redirect(url_for('project.manage_top_projects'))
 
 
 @project.route('/<int:tpid>/delete', methods=['GET'])
+@login_required
+@admin_required
 def delete_top_project(tpid):
     project = TopProject.query.get(tpid)
-    db.session.delete(project)
-    db.session.commit()
-    return redirect(url_for('project.manage_top_project'))
+    if project:
+        db.session.delete(project)
+        db.session.commit()
+    return redirect(url_for('project.manage_top_projects'))
 
 
 @project.route('/<int:tpid>/image')
+@login_required
 def top_project_image(tpid):
     return send_from_directory(directory=current_app.config['UPLOAD_FOLDER'] + 'top_projects/',
                                filename="%s.png" % str(tpid))
 
 
 @project.route('/<int:tpid>/top')
+@login_required
 def top_project(tpid):
     project = TopProject.query.get(tpid)
     return render_template('project/view_top.html', project=project)

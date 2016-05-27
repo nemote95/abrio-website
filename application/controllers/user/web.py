@@ -16,6 +16,7 @@ from application.forms.project import CreateProjectForm
 from application.models.user import User
 from application.models.component import Component
 from application.models.project import Project
+from application.models.enums import Abilities
 
 __all__ = ["user"]
 
@@ -64,6 +65,7 @@ def register():
             email.send(new_user.email, 'Confirm Your Account',
                        render_template('user/email/confirm.html', user=new_user, token=token))
             db.session.commit()
+            new_user.add_ability(Abilities.TYPICAL)
         except ConnectionError:
             flash(u'.ارسال ایمیل تایید حساب کاربری با مشکل روبه رو شد.مجددا تلاش کنید')
             db.session.rollback()

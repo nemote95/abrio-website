@@ -6,15 +6,19 @@
 
 {%block content %}
 <form method=post action="{{url_for('project.create_top_project')}}" enctype="multipart/form-data">
-{{form.image}}
-{{form.name}}
-{{form.description}}
- {{form.csrf_token}}
-<input type="submit" class="button is-danger" value="create">
+    {{form.image}}
+    {{form.name}}
+    {{form.description}}
+    {{form.csrf_token}}
+    <input type="submit" class="button is-danger" value="create">
 </form>
 <br>
 {%for tp in top_projects_all %}
 <li><a href="{{url_for('project.top_project',tpid=tp.id)}}">{{tp.name}}</a>
- <a href="{{url_for('project.delete_top_project',tpid=tp.id)}}">delete</a>
+    <a href="{{url_for('project.delete_top_project',tpid=tp.id)}}">delete</a></li>
 {%endfor%}
+{% endblock %}
+{%block script %}
+{{super()}}
+document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[3].className="selected";
 {% endblock %}

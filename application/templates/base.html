@@ -79,6 +79,13 @@
                         <div class="hover"></div>
                     </li>
                 </a>
+                {% if current_user.is_admin() %}
+                <a href="{{url_for('project.manage_top_projects')}}">
+                    <li>مدیریت پروژه های برتر
+                    <div class="hover"></div>
+                    </li>
+                </a>
+                {%endif%}
             </ul>
         </div>
         {%block content %}{% endblock %}

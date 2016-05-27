@@ -2,6 +2,7 @@ from models.component import Component
 from models.logic import Logic
 from models.project import Project
 from models.user import User
+from models.enums import Abilities
 from application.extensions import db, redis
 from random import randint
 from datetime import datetime
@@ -37,6 +38,7 @@ def generate_development_data():
 
     db.session.add(user)
     db.session.commit()
+    user.add_ability(Abilities.ALL)
     generate_project_multiplier_data(user)
     generate_project_chat_data(user)
     generate_project_auth_data(user)

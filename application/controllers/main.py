@@ -32,7 +32,11 @@ def download_sdk():
 @login_required
 def explore():
     top_projects_all = TopProject.query.all()
-    random_numbers = random.sample(xrange(0, len(top_projects_all)), 3)
+    if len(top_projects_all) > 2:
+        random_numbers = random.sample(xrange(0, len(top_projects_all)), 3)
+        random_top_projects=[top_projects_all[i] for i in random_numbers]
+    else:
+        random_top_projects = top_projects_all
     c = Component.query.filter(or_(Component.owner_id == current_user.id, Component.private == False)).all()
     return render_template('explore.html', components=c,
-                           random_top_projects=[top_projects_all[i] for i in random_numbers])
+                           random_top_projects=random_top_projects)
