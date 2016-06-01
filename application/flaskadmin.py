@@ -1,3 +1,5 @@
+# python imports
+from sqlalchemy.exc import IntegrityError
 # flask imports
 from flask_admin import AdminIndexView as oldAdminIndexView, expose
 from flask_admin.contrib.sqla import ModelView
@@ -48,7 +50,7 @@ class AdminFile(FileAdmin):
         return abort(404)
 
 
-class TopProjectView(AdminModelView):
+class AdminTopProjectView(AdminModelView):
     @expose('/new/', methods=('GET', 'POST'))
     def create_view(self):
         form = CreateTopProjectForm()
@@ -108,7 +110,51 @@ class TopProjectView(AdminModelView):
         self.session.delete(top_project)
         self.session.commit()
 
-        os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'],
-                               'top_projects', '%s.png' % str(id)))
+        image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], 'top_projects', '%s.png' % str(id))
+        if os.path.exists(image_path):
+            os.remove(image_path)
+
+        return redirect(return_url)
+
+
+class AdminComponentView(AdminModelView):
+    @expose('/delete/', methods=['POST'])
+    def delete_view(self):
+        return_url = get_redirect_target() or self.get_url('.index_view')
+
+        id = request.form['id']
+        if id is None:
+            return redirect(return_url)
+        component = self.get_one(id)
+        upload_files = component.component_files()
+        try:
+            self.session.delete(component)
+            self.session.commit()
+            for f in upload_files:
+                os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'],
+                                       'components', f))
+        except IntegrityError:
+            flash('Integrity error. this component is used in some project', 'error')
+
+        return redirect(return_url)
+
+
+class AdminProjectView(AdminModelView):
+    @expose('/delete/', methods=['POST'])
+    def delete_view(self):
+        from application.models.logic import Logic
+        return_url = get_redirect_target() or self.get_url('.index_view')
+
+        id = request.form['id']
+        if id is None:
+            return redirect(return_url)
+        project = self.get_one(id)
+        self.session.query(Logic).filter_by(project_id=id).delete()
+        self.session.delete(project)
+        self.session.commit()
+
+        logo_path = os.path.join(current_app.config['UPLOAD_FOLDER'], 'logos', '%s.png' % str(id))
+        if os.path.exists(logo_path):
+            os.remove(logo_path)
 
         return redirect(return_url)

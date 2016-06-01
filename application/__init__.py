@@ -72,17 +72,16 @@ def configure_upload_directories(app):
 
 def configure_admin(app):
     from application.extensions import db,admin, redis
-    from application.flaskadmin import AdminIndexView, AdminRedis,AdminModelView,AdminFile,TopProjectView
-    from flask_admin.contrib.sqla import ModelView
+    from application.flaskadmin import AdminIndexView, AdminRedis,AdminModelView,AdminFile,AdminTopProjectView,AdminComponentView,AdminProjectView
     from application.models.user import User,UserAbility
     from application.models.component import Component
     from application.models.project import Project,TopProject
     from application.models.logic import Logic
     admin.add_view(AdminModelView(User,session=db.session, name='Users', endpoint='admin.user', url='/admin/user'))
     admin.add_view(AdminModelView(UserAbility, session=db.session, name='UserAbilities', endpoint='admin.user-ability', url='/admin/user_ability'))
-    admin.add_view(AdminModelView(Component, session=db.session, name='Components', endpoint='admin.component', url='/admin/component'))
-    admin.add_view(AdminModelView(Project, session=db.session, name='Projects', endpoint='admin.project', url='/admin/project'))
-    admin.add_view(TopProjectView(TopProject, session=db.session, name='TopProjects', endpoint='admin.top-project', url='/admin/top_project'))
+    admin.add_view(AdminComponentView(Component, session=db.session, name='Components', endpoint='admin.component', url='/admin/component'))
+    admin.add_view(AdminProjectView(Project, session=db.session, name='Projects', endpoint='admin.project', url='/admin/project'))
+    admin.add_view(AdminTopProjectView(TopProject, session=db.session, name='TopProjects', endpoint='admin.top-project', url='/admin/top_project'))
     admin.add_view(AdminModelView(Logic, session=db.session, name='Logics', endpoint='admin.logic', url='/admin/logic'))
     admin.add_view(AdminRedis(redis, category='Tools', endpoint='admin.redis', url='/admin/redis'))
     admin.add_view(AdminFile(app.config['UPLOAD_FOLDER'], endpoint="admin.upload", url='/upload/', name='UploadFiles'))

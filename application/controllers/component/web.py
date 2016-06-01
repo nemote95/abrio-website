@@ -29,11 +29,11 @@ def create():
         filename = secure_filename(form.file.data.filename)
         file_type = filename.rsplit('.', 1)[1]
         if file_type in current_app.config['ALLOWED_EXTENSIONS']:
+            db.session.add(new_component)
+            db.session.commit()
             form.file.data.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
                                              'components',
                                              '%s_v%s.%s' % (str(new_component.id), form.version.data, file_type)))
-            db.session.add(new_component)
-            db.session.commit()
             return redirect(url_for('component.view', pid=pid, cid=new_component.id))
         else:
             flash(u'.فرمت این فایل قابل پشتیبانی نیست')
