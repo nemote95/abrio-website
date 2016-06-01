@@ -5,17 +5,17 @@ from uuid import uuid4
 from sqlalchemy import or_
 from json import dumps
 import os
+from werkzeug import secure_filename
 # flask imports
 from flask import Blueprint, request, render_template, redirect, url_for, flash, current_app, send_from_directory
 from flask.ext.login import current_user, login_required
-from werkzeug import secure_filename
 # project imports
 from application.models.project import Project, TopProject
 from application.models.component import Component
 from application.models.logic import Logic
-from application.forms.project import CreateProjectForm, UploadForm, TopProjectForm
+from application.forms.project import CreateProjectForm, UploadForm
 from application.extensions import db, redis
-from application.decorators import permission,admin_required
+from application.decorators import permission
 
 __all__ = ['project']
 project = Blueprint('project', __name__, url_prefix='/project')
@@ -93,48 +93,6 @@ def upload_logo(pid):
 @login_required
 def logo(pid):
     return send_from_directory(directory=current_app.config['UPLOAD_FOLDER'] + 'logos/', filename="%s.png" % str(pid))
-
-
-@project.route('/manage')
-@login_required
-@admin_required
-def manage_top_projects():
-    form = TopProjectForm(meta={'locales': ['fa']})
-    top_projects_all = TopProject.query.all()
-    return render_template('project/manage.html', form=form, top_projects_all=top_projects_all)
-
-
-@project.route('/create_top', methods=['POST'])
-@login_required
-@admin_required
-def create_top_project():
-    form = TopProjectForm(meta={'locales': ['fa']})
-    if form.validate_on_submit():
-        filename = secure_filename(form.image.data.filename)
-        file_type = filename.rsplit('.', 1)[1]
-        if file_type in ['png', 'jpg', 'jpeg']:
-            new_top_project = TopProject(name=form.name.data, description=form.description.data)
-            db.session.add(new_top_project)
-            db.session.commit()
-            form.image.data.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
-                                              'top_projects', '%s.png' % str(new_top_project.id)))
-            return redirect(url_for('project.top_project', tpid=new_top_project.id))
-        else:
-            flash(u'.فرمت این فایل قابل پشتیبانی نیست')
-            return redirect(url_for('project.manage_top_projects'))
-    flash(u'پر کردن همه ی فیلد ها اجباری است.')
-    return redirect(url_for('project.manage_top_projects'))
-
-
-@project.route('/<int:tpid>/delete', methods=['GET'])
-@login_required
-@admin_required
-def delete_top_project(tpid):
-    project = TopProject.query.get(tpid)
-    if project:
-        db.session.delete(project)
-        db.session.commit()
-    return redirect(url_for('project.manage_top_projects'))
 
 
 @project.route('/<int:tpid>/image')

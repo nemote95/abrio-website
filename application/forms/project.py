@@ -11,7 +11,13 @@ class UploadForm(WTFForm):
     logo_image = FileField('logo_image', validators=[FileRequired()])
 
 
-class TopProjectForm(WTFForm):
+class CreateTopProjectForm(WTFForm):
     name = StringField('Name', [validators.DataRequired()])
     image = FileField('image', validators=[FileRequired()])
     description = TextAreaField('description', [validators.DataRequired()])
+
+
+class EditTopProjectForm(WTFForm):
+    name = StringField('Name', [validators.optional()])
+    image = FileField('image', [validators.optional()])
+    description = TextAreaField('description', [validators.optional()])
