@@ -35,7 +35,7 @@
         <div class="column rtl is-6 is-offset-1"><input class="input" id="search-input" type="text" maxlength="120"
                                                         placeholder="نام کامپوننت"></div>
         <div class="column rtl is-4"><input type="submit" class="button is-success" value="جستجو"
-                                            onclick="search()"></input>
+                                            onclick="search()">
         </div>
     </div>
 
@@ -46,7 +46,12 @@
 
                 <div class="columns">
 
-                    <div class="column is-4">
+                    
+                    <div class="column is-10">
+                        <div class="name">{{component.name}}</div>
+
+                    </div>
+                    <div class="column is-2">
                         <div class="columns">
                             <div align="center" class="column is-4">
                                 <a href="{{url_for('component.view',cid=component.id)}}">
@@ -57,10 +62,6 @@
                             </div>
 
                         </div>
-                    </div>
-                    <div class="column is-8">
-                        <div class="name">{{component.name}}</div>
-
                     </div>
 
 
@@ -76,29 +77,34 @@
 
 
 {% endblock %}
+{{ super() }}
 
-{%block script %}
-{{super()}}
-document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[2].className="selected";
-function search(){
-var name=document.getElementById("search-input").value
-$.ajax({
-url: '/api/v1/component/search/'+name,
-type: 'GET',
-contentType: 'application/json; charset=utf-8',
-dataType: 'json',
-async: false,
-success: function(msg) {
-components=msg['result'];
-e=document.getElementById('list');
-e.innerHTML = "";
-for( i=0;i
-<components.length;i++){
-console.log(components[i]);
-}
+{% block script %}
+    document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[2].className="selected";
+    function search(){
+    var name=document.getElementById("search-input").value
+    $.ajax({
+    url: '/api/v1/component/search/'+name,
+    type: 'GET',
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    async: false,
+    success: function(msg) {
+    components=msg['result'];
+    e=document.getElementById('list');
+    e.innerHTML = "";
+    for( i=0;i < components.length;i++ ){
+        console.log(components[i]);
+        var cmp = document.createElement('div');
+        cmp.setAttribute("class", "project");
+        var inner = '<div class="columns"><div class="column is-10"><div class="name">'+ components[i].name +'</div></div><div class="column is-2"><div class="columns"><div align="center" class="column is-4"><a href="/component/"' + components[i].cid + '><p><i style="font-size:1.5em;" class="fa fa-angle-left"></i></p><p>جزئیات</p></a></div></div></div></div>';
+        cmp.innerHTML = inner ;
+        e.appendChild(cmp);
+        console.log(e);
+    }
 
-}
-});
-};
+    }
+    });
+    };
 {% endblock %}
 
