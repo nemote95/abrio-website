@@ -10,6 +10,7 @@ PROJECT_TEST_TOKEN = '123456'
 PROJECT_CHAT_TOKEN = '123123'
 PROJECT_AUTH_TOKEN = '481516'
 PROJECT_DISP_TOKEN = '091973'
+PROJECT_FK_TOKEN = '0212526'
 
 
 def generate_fake():
@@ -41,6 +42,7 @@ def generate_development_data():
     generate_project_chat_data(user)
     generate_project_auth_data(user)
     generate_project_dispatcher_data(user)
+    generate_project_football_data(user)
 
 
 def generate_project_multiplier_data(user):
@@ -149,7 +151,7 @@ def generate_project_auth_data(user):
 
 def generate_project_dispatcher_data(user):
     project = Project()
-    project.name = 'football kaghazi'
+    project.name = 'Dispatcher'
     project.owner = user
     project.owner_id = user.id
     project.private_key = PROJECT_DISP_TOKEN
@@ -161,6 +163,45 @@ def generate_project_dispatcher_data(user):
 
     component = Component()
     component.name = 'One to one dispatcher'
+    component.deploy_version = str(randint(0, 10))
+    component.owner_id = user.id
+
+    db.session.add(component)
+    db.session.commit()
+
+    logic1 = Logic()
+    logic1.project_id = project.id
+    logic1.component_1_id = None
+    logic1.component_2_id = component.id
+    logic1.message_type = 'BasicEvent'
+
+    db.session.add(logic1)
+    db.session.commit()
+
+    logic2 = Logic()
+    logic2.project_id = project.id
+    logic2.component_1_id = component.id
+    logic2.component_2_id = None
+    logic2.message_type = 'BasicEvent'
+
+    db.session.add(logic2)
+    db.session.commit()
+
+
+def generate_project_football_data(user):
+    project = Project()
+    project.name = 'football kaghazi'
+    project.owner = user
+    project.owner_id = user.id
+    project.private_key = PROJECT_FK_TOKEN
+    project.create_date = datetime.utcnow()
+
+    db.session.add(project)
+    db.session.commit()
+    redis.setnx('abr:' + PROJECT_FK_TOKEN, project.id)
+
+    component = Component()
+    component.name = 'FK logic'
     component.deploy_version = str(randint(0, 10))
     component.owner_id = user.id
 
