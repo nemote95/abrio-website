@@ -5,12 +5,12 @@ from uuid import uuid4
 from sqlalchemy import or_
 from json import dumps
 import os
+from werkzeug import secure_filename
 # flask imports
 from flask import Blueprint, request, render_template, redirect, url_for, flash, current_app, send_from_directory
 from flask.ext.login import current_user, login_required
-from werkzeug import secure_filename
 # project imports
-from application.models.project import Project
+from application.models.project import Project, TopProject
 from application.models.component import Component
 from application.models.logic import Logic
 from application.forms.project import CreateProjectForm, UploadForm
@@ -90,6 +90,20 @@ def upload_logo(pid):
 
 
 @project.route('/<int:pid>/logo')
+@login_required
 def logo(pid):
-    return send_from_directory(directory=current_app.config['UPLOAD_FOLDER'] + 'logos/',
-                               filename="%s.png" %str(pid))
+    return send_from_directory(directory=current_app.config['UPLOAD_FOLDER'] + 'logos/', filename="%s.png" % str(pid))
+
+
+@project.route('/<int:tpid>/image')
+@login_required
+def top_project_image(tpid):
+    return send_from_directory(directory=current_app.config['UPLOAD_FOLDER'] + 'top_projects/',
+                               filename="%s.png" % str(tpid))
+
+
+@project.route('/<int:tpid>/top')
+@login_required
+def top_project(tpid):
+    project = TopProject.query.get(tpid)
+    return render_template('project/view_top.html', project=project)

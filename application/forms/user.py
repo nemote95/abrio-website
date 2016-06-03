@@ -9,7 +9,7 @@ class RegistrationForm(Form):
     email = StringField('Email Address',
                         [validators.Length(min=6, max=35), validators.DataRequired(), validators.Email()])
     password = PasswordField('New Password', [validators.DataRequired(), validators.Length(min=6)])
-    confirm = PasswordField(u'Confirm password', validators=[validators.EqualTo('password'),validators.DataRequired()])
+    confirm = PasswordField(u'Confirm password', validators=[validators.EqualTo('password'), validators.DataRequired()])
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
@@ -20,10 +20,3 @@ class LoginForm(Form):
     email = StringField('Email Address',
                         [validators.Length(min=6, max=35), validators.DataRequired(), validators.Email()])
     password = PasswordField('Password', [validators.DataRequired(), validators.Length(min=6)])
-
-
-class EditProfileForm(Form):
-    name = StringField('Name', [validators.optional()])
-    company = StringField('Company', [validators.optional()])
-    phone_number = StringField('Phone Number', [validators.optional(), validators.Regexp('\d{6,13}')])
-    ssn = StringField('SSN', [validators.optional(), validators.Regexp('\d{10}')])
