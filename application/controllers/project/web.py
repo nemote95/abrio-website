@@ -1,16 +1,19 @@
 # coding=utf-8
 # python imports
+from datetime import datetime
 from uuid import uuid4
 from sqlalchemy import or_
 from json import dumps
+import os
+from werkzeug import secure_filename
 # flask imports
-from flask import Blueprint, request, render_template, redirect, url_for, flash, abort
+from flask import Blueprint, request, render_template, redirect, url_for, flash, current_app, send_from_directory
 from flask.ext.login import current_user, login_required
 # project imports
-from application.models.project import Project
+from application.models.project import Project, TopProject
 from application.models.component import Component
 from application.models.logic import Logic
-from application.forms.project import CreateProjectForm
+from application.forms.project import CreateProjectForm, UploadForm
 from application.extensions import db, redis
 from application.decorators import permission
 
@@ -31,7 +34,8 @@ def list_projects():
 def create():
     form = CreateProjectForm(request.form, meta={'locales': ['fa']})
     if form.validate():
-        new_project = Project(name=form.name.data, owner_id=current_user.id, private_key=str(uuid4()))
+        new_project = Project(name=form.name.data, owner_id=current_user.id, private_key=str(uuid4()),
+                              create_date=datetime.utcnow())
         db.session.add(new_project)
         db.session.commit()
         return redirect(url_for('project.view', pid=new_project.id))
@@ -43,6 +47,7 @@ def create():
 @login_required
 @permission(Project, 'pid')
 def view(pid, obj=None):
+    form = UploadForm(meta={'locales': ['fa']})
     components_choices = [{"id": c.id, "name": c.name} for c in Component.query.filter(
         or_(Component.owner_id == current_user.id,
             Component.private == False)).all()]
@@ -52,7 +57,7 @@ def view(pid, obj=None):
                    l.message_type, l.id) for l in project_logic]
     running = redis.exists('abr:%s' % obj.private_key)
     return render_template('project/view.html', project=obj, logic_view=logic_view,
-                           components_choices=dumps(components_choices), running=running)
+                           components_choices=dumps(components_choices), running=running, form=form)
 
 
 @project.route('/<int:pid>/run', methods=['POST'])
@@ -66,16 +71,39 @@ def run_project(pid, obj=None):
     return redirect(url_for('project.view', pid=pid))
 
 
-@project.route('/<int:lid>/delete', methods=['POST'])
+@project.route('/<int:pid>/upload_logo', methods=['POST'])
 @login_required
-def delete_logic(lid):
-    logic = Logic.query.filter_by(id=lid).one_or_none()
-    if not logic:
-        return abort(404)
-    p = Project.query.filter_by(id=logic.project_id).one()
-    if p.owner_id == current_user.id:
-        db.session.delete(logic)
-        db.session.commit()
-        return redirect(url_for('project.view', pid=p.id))
-    else:
-        return abort(403)
+def upload_logo(pid):
+    form = UploadForm(meta={'locales': ['fa']})
+    if form.validate_on_submit():
+        filename = secure_filename(form.logo_image.data.filename)
+        file_type = filename.rsplit('.', 1)[1]
+        if file_type in ['png', 'jpg', 'jpeg']:
+            form.logo_image.data.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
+                                                   'logos', '%s.png' % str(pid)))
+            return redirect(url_for('project.view', pid=pid))
+        else:
+            flash(u'.فرمت این فایل قابل پشتیبانی نیست')
+            return redirect(url_for('project.view', pid=pid))
+    flash(u'.لوگویی آپلود نشده است')
+    return redirect(url_for('project.view', pid=pid))
+
+
+@project.route('/<int:pid>/logo')
+@login_required
+def logo(pid):
+    return send_from_directory(directory=current_app.config['UPLOAD_FOLDER'] + 'logos/', filename="%s.png" % str(pid))
+
+
+@project.route('/<int:tpid>/image')
+@login_required
+def top_project_image(tpid):
+    return send_from_directory(directory=current_app.config['UPLOAD_FOLDER'] + 'top_projects/',
+                               filename="%s.png" % str(tpid))
+
+
+@project.route('/<int:tpid>/top')
+@login_required
+def top_project(tpid):
+    project = TopProject.query.get(tpid)
+    return render_template('project/view_top.html', project=project)

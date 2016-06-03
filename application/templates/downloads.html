@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{%block head %}
+{{super()}}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/user-panel.css')}}">
+{%endblock%}
+
+{%block content %}
+        <div class="column is-8 is-offset-1 main">
+        <p dir="rtl">برای استفاده از این سیستم لازم است که ابتدا sdk مورد نظر را دانلود کنید</p>
+           <h1><a class="button is-danger" style="width :200px ;height:55px; vertical-align:middle;padding-top:15px;" href="/download-sdk"> SDK دانلود</a></h1>
+</div>
+{% endblock %}
+
+{%block script %}
+{{super()}}
+	$(function() {
+    $( "ul.droptrue" ).sortable({
+    	items : "li:not('.info')",
+      connectWith: "ul",
+      change:function(){
+        $('button.accfood').removeAttr('disabled');
+
+      }
+    });
+  });
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{%block content %}
+<img src="{{url_for('project.top_project_image',tpid=project.id)}}" alt="none">
+<p>{{project.name}}
+<p>{{project.description}}
+    {%endblock%}
+{%block script %}
+{{super()}}
+document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[2].className="selected";
+{% endblock %}

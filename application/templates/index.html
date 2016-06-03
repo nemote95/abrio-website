@@ -27,7 +27,7 @@
 	         
 	        	{% if current_user.is_authenticated %}
             		<span class="header-item">
-            			<a class="button is-primary is-inverted" href="{{ url_for('main.panel') }}">پنل من</a>
+            			<a class="button is-primary is-inverted" href="{{ url_for('user.info',uid=current_user.id) }}">پنل من</a>
             		</span>
             		<span class="header-item">
             			<a href="{{ url_for('user.logout') }}">خروج</a>
@@ -64,10 +64,9 @@
         </h1>
         <br/>
         <h2 class="subtitle">
-            Abrio is a PaaS (Platform as a Service) for everyone who need <br/>
-            a soft real-time messaging server. <br/>
+             اَبْریو یک سرویس بی درنگ برای بک اند پروژه های شماست
+{#            Abrio is a customizable real time Backend as a Service for you! <br/>Abrio is reliable and always responsive.#}
         </h2>
-    </div>
     </div>
 </section>
 </body>

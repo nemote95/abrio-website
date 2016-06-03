@@ -46,7 +46,6 @@ alternative: if virtualenv haven't been installed use `sudo apt-get install virt
 
     Parameters :
     
-	    Header {String} Content-Type=application/json JSON (application/json)
 	    Header {String}	private_key
 	    Header {String}	deploy_version
 	    Param  {file} File to be uploaded
@@ -67,4 +66,66 @@ alternative: if virtualenv haven't been installed use `sudo apt-get install virt
 	    Param {Int}	component_2_id
 		Param {String}	message_type
 
+4. Run a project
 
+    URI : `<base_url>/api/v1/project/start`
+
+    Method : POST
+
+    Description : Start running  project
+
+    Parameters :
+    
+	    Header {String} Content-Type=application/json JSON (application/json)
+		Param {String}	private_key
+
+5. Stop a running project
+
+    URI : `<base_url>/api/v1/project/start`
+
+    Method : POST
+
+    Description : Stop a running  project
+
+    Parameters :
+    
+	    Header {String} Content-Type=application/json JSON (application/json)
+		Param {String}	private_key
+		
+6. Components list
+
+    URI : `<base_url>/api/v1/project/component_list`
+
+    Method : GET
+
+    Description : Get list of components in a project
+
+    Parameters :
+    
+	    Header {String} Content-Type=application/json JSON (application/json)
+	    Param {String}	private_key
+
+7. Project information
+
+    URI : `<base_url>/api/v1/project/status`
+
+    Method : GET
+
+    Description : Get project info
+
+    Parameters :
+        
+        Header {String} Content-Type=application/json JSON (application/json)
+	    Param {String}	private_key
+
+8. Remove a component
+
+    URI : `<base_url>/api/v1/project/status`
+
+    Method : DELETE
+
+    Description : Remove a component if it's not used in a logic
+
+    Parameters :
+        
+        Header {String}	private_key

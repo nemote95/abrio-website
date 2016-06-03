@@ -1,12 +1,14 @@
 from application.extensions import db, login_manager
+from enums import Abilities
 from flask.ext.login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from itsdangerous import BadSignature
 from flask import current_app
+from sqlalchemy import and_
+from sqlalchemy import UniqueConstraint
 
 
-class User(db.Model, UserMixin):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
@@ -51,6 +53,26 @@ class User(db.Model, UserMixin):
         db.session.commit()
         return fake
 
+    def has_ability(self, ability):
+        user_abilities = UserAbility.query.with_entities(UserAbility.aid).filter_by(uid=self.id).all()
+        return (ability,) in user_abilities or (Abilities.ALL,) in user_abilities
+
+    def is_admin(self):
+        return self.has_ability(Abilities.ALL)
+
+
+    def add_ability(self, ability):
+        user_ability = UserAbility(aid=ability, uid=self.id)
+        db.session.add(user_ability)
+        db.session.commit()
+
+    def remove_ability(self, ability):
+        user_ability = UserAbility.query.filter_by(
+            and_(UserAbility.uid == self.id, UserAbility.aid == ability)).one_or_none()
+        if user_ability:
+            db.session.delete(user_ability)
+            db.session.commit()
+
     def __repr__(self):
         return '<User %r>' % self.email
 
@@ -58,3 +80,13 @@ class User(db.Model, UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+class UserAbility(db.Model, UserMixin):
+    __tablename__ = 'user_ability'
+    id = db.Column(db.Integer, primary_key=True)
+    aid = db.Column(db.Integer)
+    uid = db.Column(db.Integer, db.ForeignKey('users.id'))
+    __table_args__ = (
+        UniqueConstraint("aid", "uid"),
+    )
