@@ -1,5 +1,8 @@
 {% extends "base.html" %}
-
+{%block head %}
+{{super()}}
+    <title>{{project.name}} در ابریو</title>
+{% endblock %}
 {%block content %}
 <img src="{{url_for('project.top_project_image',tpid=project.id)}}" alt="none">
 <p>{{project.name}}

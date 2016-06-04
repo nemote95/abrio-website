@@ -27,7 +27,7 @@ class TopProject(db.Model):
     __tablename__ = 'top_projects'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(length=100, convert_unicode=True))
-    description = db.Column(db.Text(length=5000, convert_unicode=True))
+    description = db.Column(db.String(length=5000, convert_unicode=True))
 
     def __repr__(self):
         return '<Top Project %r>' % self.name
