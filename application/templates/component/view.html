@@ -10,16 +10,12 @@
 <div class="column is-8 is-offset-1 main">
     <br>
     <div class="columns">
-        {% if pid %}
+
         <div class="column rtl is-3">
-
-
-            <a href="{{url_for('project.view',pid=pid )}}">بازگشت ></a>
-
-        </div>
-        {%endif%}
-        <div class="column rtl is-3">
+            <a href="{{back}}">بازگشت ></a><br>
+            {% if current_user.id==component.owner_id %}
             <a class="button is-danger" href="{{url_for('component.delete',cid=component.id )}}">حذف</a>
+            {%endif%}
             <a class="button is-primary" href="/download-sdk"> SDK دانلود</a><br>
         </div>
         <div class="column rtl is-8">

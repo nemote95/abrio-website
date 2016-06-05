@@ -21,9 +21,9 @@ component = Blueprint('component', __name__, url_prefix='/component')
 @component.route('/new', methods=['GET', 'POST'])
 @login_required
 def create():
-    pid = request.args.get('pid')
     form = CreateComponentForm(meta={'locales': ['fa']})
     if request.method == 'POST' and form.validate_on_submit():
+        back = request.args.get('back')
         new_component = Component(name=form.name.data, owner_id=current_user.id, private=form.private.data,
                                   deploy_version=form.version.data)
         filename = secure_filename(form.file.data.filename)
@@ -34,24 +34,24 @@ def create():
             form.file.data.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
                                              'components',
                                              '%s_v%s.%s' % (str(new_component.id), form.version.data, file_type)))
-            return redirect(url_for('component.view', pid=pid, cid=new_component.id))
+            return redirect(url_for('component.view', cid=new_component.id ,back=back))
         else:
             flash(u'.فرمت این فایل قابل پشتیبانی نیست')
-            return redirect(url_for('component.create', pid=pid))
-    return render_template('component/newcomponent.html', form=form, pid=pid)
+            return redirect(url_for('component.create'))
+    return render_template('component/newcomponent.html', form=form)
 
 
 @component.route('/<int:cid>', methods=['GET'])
 @login_required
 @permission(Component, 'cid')
 def view(cid, obj=None):
-    pid = request.args.get('pid')
+    back = request.args.get('back') or request.referrer
     upload_form = UploadForm(meta={'locales': ['fa']})
     regex = re.compile(r'\d+_(v(.+)\..+)')
     version_choices = [regex.match(f).group(2) for f in
                        obj.component_files()]
     return render_template('component/view.html', upload_form=upload_form, version_choices=version_choices,
-                           component=obj, pid=pid)
+                           component=obj, back=back)
 
 
 @component.route('/<int:cid>/upload', methods=['POST'])
@@ -80,9 +80,13 @@ def upload(cid, obj=None):
 @permission(Component, 'cid')
 def delete(cid, obj=None):
     if not Logic.query.filter(or_(Logic.component_1_id == cid, Logic.component_2_id == cid)).all():
+        files=obj.component_files()
+        for f in files:
+            os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'],
+                                   'components', f))
         db.session.delete(obj)
         db.session.commit()
-        return redirect(url_for('user.info', uid=current_user.id))
+        return redirect(url_for('user.profile', uid=current_user.id))
     else:
         flash(u'.از این کامپوننت در یک یا چند پروژه استفاده شده است')
         return redirect(url_for('component.view', cid=cid))
