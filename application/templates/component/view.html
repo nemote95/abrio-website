@@ -1,114 +1,142 @@
 {% extends "base.html" %}
 {%block head %}
 {{super()}}
-    <title>کامپوننت {{component.name}}</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/component-view.css')}}">
+<title>کامپوننت {{component.name}}</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/component-view.css')}}">
 {% endblock %}
 
 {%block content %}
-        <!-- content -->
-        <div class="column is-8 is-offset-1 main">
-            <br>
-            <div class="columns">
-				{% if pid %}
-                <div class="column rtl is-3">
+<!-- content -->
+<div class="column is-8 is-offset-1 main">
+    <br>
+    <div class="columns">
+        {% if pid %}
+        <div class="column rtl is-3">
 
 
-                    <a href="{{url_for('project.view',pid=pid )}}">بازگشت ></a>
+            <a href="{{url_for('project.view',pid=pid )}}">بازگشت ></a>
 
-                </div>
-				{%endif%}
-                <div class="column rtl is-3">
-                    <a class="button is-danger" href="{{url_for('component.delete',cid=component.id )}}">حذف</a>
-                    <a class="button is-primary" href="/download-sdk"> SDK دانلود</a>
-                </div>
-                <div class="column rtl is-8">
-                    <h1 class="title">نام کامپوننت : <input id="name" type="text" value="{{component.name}}" disabled>
-                    </h1>
-                </div>
-            </div>
-            <div class="columns detail">
-                <div class="column is-10 is-offset-1">
-                    <div align="right" dir="rtl"><span>نسخه کامپوننت :<select
-                            id="selectversion" disabled>
+        </div>
+        {%endif%}
+        <div class="column rtl is-3">
+            <a class="button is-danger" href="{{url_for('component.delete',cid=component.id )}}">حذف</a>
+            <a class="button is-primary" href="/download-sdk"> SDK دانلود</a><br>
+        </div>
+        <div class="column rtl is-8">
+            <h1 class="title">نام کامپوننت : <input id="name" type="text" value="{{component.name}}" disabled></h1>
+        </div>
+    </div>
+    <div class="columns detail">
+        <div class="column is-10 is-offset-1">
+            <div align="right" dir="rtl"><span>نسخه کامپوننت :<select
+                    id="selectversion" disabled>
                         {% for version in version_choices %}
                         <option value="{{version}}">{{version}}</option>
                         {% endfor %}
                     </select></span></div>
 
-                </div>
+        </div>
+    </div>
+
+    <div class="columns detail">
+        <div class="column is-10 is-offset-1">
+            {% if component.private %}
+            <div align="right" dir="rtl">
+                خصوصی
             </div>
 
-            <div class="columns detail">
-                <div class="column is-10 is-offset-1">
-                    {% if component.private %}
-                    <div align="right" dir="rtl">
-                        خصوصی
-                    </div>
+            {% else %}
+            <div align="right" dir="rtl">
+                عمومی
 
-                    {% else %}
-                    <div align="right" dir="rtl">
-                        عمومی
-
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-            {% if component.owner_id==current_user.id %}
-            <div class="columns">
-                <div align="right" class="column is-10 is-offset-1">
-                    <button id="editbutton" class=" button is-primary" onclick="edit()">ویرایش</button>
-                    <button id="savebutton" class=" button is-primary" onclick="save()" style="display: none;">ذخیره
-                    </button>
-                </div>
-            </div>
-            <div class="columns">
-                <div align="right" class="column is-10 is-offset-1">
-                    <label class="label">ارسال فایل</label>
-                    <form method=post action="{{url_for('component.upload',cid=component.id)}}"
-                          enctype="multipart/form-data">
-                        {{ upload_form.file(class="input") }}<br>
-                        {{ upload_form.version(class="input")}}<br>
-                        {{ upload_form.csrf_token }}
-                        <input class="button is-success" type="submit" value="آپلود">
-                    </form>
-                </div>
             </div>
             {% endif %}
         </div>
+    </div>
+    <div class="columns detail">
+        <div class="column is-10 is-offset-1">
+            <div align="right" dir="rtl">امتیاز :{{component.mean}}</span></div>
+
+        </div>
+    </div>
+    {% if component.owner_id==current_user.id %}
+    <div class="columns">
+        <div align="right" class="column is-10 is-offset-1">
+            <button id="editbutton" class=" button is-primary" onclick="edit()">ویرایش</button>
+            <button id="savebutton" class=" button is-primary" onclick="save()" style="display: none;">ذخیره
+            </button>
+        </div>
+    </div>
+    <div class="columns">
+        <div align="right" class="column is-10 is-offset-1">
+            <label class="label">ارسال فایل</label>
+            <form method=post action="{{url_for('component.upload',cid=component.id)}}"
+                  enctype="multipart/form-data">
+                {{ upload_form.file(class="input") }}<br>
+                {{ upload_form.version(class="input")}}<br>
+                {{ upload_form.csrf_token }}
+                <input class="button is-success" type="submit" value="آپلود">
+            </form>
+        </div>
+    </div>
+    {% endif %}
+    {% if component.owner_id!=current_user.id %}
+    <div>
+            <input type="radio" name="star" value=1> 1<br>
+            <input type="radio" name="star" value=2> 2<br>
+            <input type="radio" name="star" value=3> 3<br>
+            <input type="radio" name="star" value=4> 4<br>
+            <input type="radio" name="star" value=5> 5<br>
+            <button onclick="rate()">rate</button>
+        </div>
+    {%endif%}
+</div>
 {% endblock %}
 
 {% block script %}
 {{super()}}
-    $(document).ajaxStop(function(){
-    window.location.reload();});
+$(document).ajaxStop(function(){
+window.location.reload();});
 
-	function edit(){
-		$('input:disabled').removeAttr('disabled');
-		$('select:disabled').removeAttr('disabled');
-		$('#editbutton').hide();
-		$('#savebutton').show();
-	};
+function edit(){
+$('input:disabled').removeAttr('disabled');
+$('select:disabled').removeAttr('disabled');
+$('#editbutton').hide();
+$('#savebutton').show();
+};
 
-	function save(){
-	    var cid = {{component.id}}
-	    var e = document.getElementById("selectversion");
-		if (e.options.length){
-        var version = e.options[e.selectedIndex].value;}
-		else {version='';}
-        var name = document.getElementById("name").value;
-		var arr = { id: cid, name: name, version: version };
-        $.ajax({
-        url: '/api/v1/component/edit',
-        type: 'POST',
-        data: JSON.stringify(arr),
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        async: false,
-        success: function(msg) {
-		$("#name").attr('disabled','true');
-		$("#selectversion").attr('disabled','true');
-        }
-    });
-	};
+function save(){
+var cid = {{component.id}}
+var e = document.getElementById("selectversion");
+if (e.options.length){
+var version = e.options[e.selectedIndex].value;}
+else {version='';}
+var name = document.getElementById("name").value;
+var arr = { id: cid, name: name, version: version };
+$.ajax({
+url: '/api/v1/component/edit',
+type: 'POST',
+data: JSON.stringify(arr),
+contentType: 'application/json; charset=utf-8',
+dataType: 'json',
+async: false,
+success: function(msg) {
+$("#name").attr('disabled','true');
+$("#selectversion").attr('disabled','true');
+}
+});
+};
+function rate(){
+var cid={{component.id}};
+var amount=$('input[name=star]:checked').val()
+var arr = { cid: cid, amount: amount};
+$.ajax({
+url: '/api/v1/component/rate',
+type: 'POST',
+data: JSON.stringify(arr),
+contentType: 'application/json; charset=utf-8',
+dataType: 'json',
+async: false,
+});
+};
 {%endblock%}

@@ -2,6 +2,7 @@ import os
 from application.extensions import db
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
+from sqlalchemy import UniqueConstraint
 
 
 class Component(db.Model):
@@ -10,6 +11,7 @@ class Component(db.Model):
     name = db.Column(db.String(64))
     deploy_version = db.Column(db.String(16))
     private = db.Column(db.Boolean, default=True)
+    mean = db.Column(db.Float(precision=1), default=0)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def generate_token(self):
@@ -55,3 +57,14 @@ class Component(db.Model):
 
     def __repr__(self):
         return '<Component %r>' % self.name
+
+
+class Star(db.Model):
+    __tablename__ = 'stars'
+    id = db.Column(db.Integer, primary_key=True)
+    component_id = db.Column(db.Integer, db.ForeignKey('components.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    amount = db.Column(db.Integer, default=0)
+    __table_args__ = (
+        UniqueConstraint("component_id", "user_id"),
+    )

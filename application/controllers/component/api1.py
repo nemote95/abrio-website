@@ -2,12 +2,13 @@
 import os
 from itsdangerous import BadSignature
 from sqlalchemy import or_, and_
+from sqlalchemy import func
 # flask imports
 from flask import abort, Blueprint, jsonify, request, current_app, g
 from application.controllers.user.api1 import auth
 from flask.ext.login import current_user, login_required
 # project imports
-from application.models.component import Component
+from application.models.component import Component, Star
 from application.models.logic import Logic
 from application.extensions import db
 
@@ -80,8 +81,26 @@ def delete():
 @api.route('/search/<name>', methods=['GET'])
 @login_required
 def search(name):
-    result = [{'cid': c.id, 'name': c.name, 'private': c.private} for c in
+    result = [{'cid': c.id, 'name': c.name, 'private': c.private, 'mean': c.mean} for c in
               Component.query.filter(and_(Component.name.contains(name),
                                           or_(Component.private == False,
                                               Component.owner_id == current_user.id))).all()]
     return jsonify({"result": result}), 200
+
+
+@api.route('/rate', methods=['POST'])
+@login_required
+def rate():
+    cid = request.json['cid']
+    amount = int(request.json['amount'])
+    star = Star.query.filter(and_(Star.component_id == cid, Star.user_id == current_user.id)).one_or_none()
+    count = len(Star.query.filter_by(component_id=cid).all())
+    component = Component.query.get(cid)
+    if star:
+        component.mean = (component.mean * count - star.amount + amount) / count
+        star.amount = amount
+    else:
+        star = Star(component_id=cid, user_id=current_user.id, amount=amount)
+        component.mean = (component.mean * count + amount) / (count + 1)
+        db.session.add(star)
+    db.session.commit()
