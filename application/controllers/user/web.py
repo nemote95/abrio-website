@@ -44,9 +44,10 @@ def unconfirmed():
 @login_required
 def resend_confirmation():
     token = current_user.generate_confirmation_token()
+    url = url_for('user.confirm', token=token, _external=True)
     try:
         email.send(current_user.email, 'Confirm Your Account',
-                   render_template('user/email/confirm.html', user=current_user, token=token))
+                   render_template('user/email/confirm.html', user=current_user, url=url))
     except ConnectionError:
         flash(u'.ارسال ایمیل تایید حساب کاربری با مشکل روبه رو شد.مجددا تلاش کنید')
         return redirect('user.unconfirmed')
@@ -61,9 +62,10 @@ def register():
         new_user = User(email=form.email.data, password=form.password.data)
         db.session.add(new_user)
         token = new_user.generate_confirmation_token()
+        url = url_for('user.confirm', token=token, _external=True)
         try:
             email.send(new_user.email, 'Confirm Your Account',
-                       render_template('user/email/confirm.html', user=new_user, token=token))
+                       render_template('user/email/confirm.html', user=new_user, url=url))
             db.session.commit()
             new_user.add_ability(Abilities.TYPICAL)
         except ConnectionError:
