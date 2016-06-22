@@ -78,13 +78,17 @@ def delete():
         return abort(401)
 
 
-@api.route('/search/<name>', methods=['GET'])
+@api.route('/search/<name>')
+@api.route('/search/')
 @login_required
-def search(name):
-    result = [{'cid': c.id, 'name': c.name, 'private': c.private, 'mean': c.mean} for c in
-              Component.query.filter(and_(Component.name.contains(name),
-                                          or_(Component.private == False,
-                                              Component.owner_id == current_user.id))).all()]
+def search(name=""):
+    components = Component.query.filter(and_(Component.name.contains(name),
+                                             or_(Component.private == False,
+                                                 Component.owner_id == current_user.id))).order_by(
+        Component.mean.desc()).all()
+    result = [{'id': c.id, 'name': c.name, 'private': c.private, 'mean': c.mean,
+               "nr_use": len(Logic.query.filter(or_(Logic.component_1_id == c.id, Logic.component_2_id == c.id)).all())}
+              for c in components]
     return jsonify({"result": result}), 200
 
 

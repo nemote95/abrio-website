@@ -50,8 +50,9 @@ def view(cid, obj=None):
     regex = re.compile(r'\d+_(v(.+)\..+)')
     version_choices = [regex.match(f).group(2) for f in
                        obj.component_files()]
+    nr_use=len(Logic.query.filter(or_(Logic.component_1_id == cid, Logic.component_2_id == cid)).all())
     return render_template('component/view.html', upload_form=upload_form, version_choices=version_choices,
-                           component=obj, back=back)
+                           component=obj,nr_use=nr_use, back=back)
 
 
 @component.route('/<int:cid>/upload', methods=['POST'])

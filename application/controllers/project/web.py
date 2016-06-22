@@ -51,13 +51,15 @@ def view(pid, obj=None):
     components_choices = [{"id": c.id, "name": c.name} for c in Component.query.filter(
         or_(Component.owner_id == current_user.id,
             Component.private == False)).all()]
+    components_list = Component.query.filter(
+        or_(Component.owner_id == current_user.id, Component.private == False)).order_by(Component.mean.desc()).all()
     project_logic = Logic.query.filter_by(project_id=pid).all()
     logic_view = [(Component.query.filter_by(id=l.component_1_id).one_or_none(),
                    Component.query.filter_by(id=l.component_2_id).one_or_none(),
                    l.message_type, l.id) for l in project_logic]
     running = redis.exists('abr:%s' % obj.private_key)
     return render_template('project/view.html', project=obj, logic_view=logic_view,
-                           components_choices=dumps(components_choices), running=running, form=form)
+                           components_choices=dumps(components_choices),components_list=components_list, running=running, form=form)
 
 
 @project.route('/<int:pid>/run', methods=['POST'])

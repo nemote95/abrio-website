@@ -42,7 +42,7 @@
 
     <div class="columns">
         <div id="list" class="column is-10 is-offset-1">
-            {% for component in components%}
+            {% for component in details%}
             <div class="project">
 
                 <div class="columns">
@@ -54,6 +54,9 @@
                     <div align="center"class="column is-4">
 		    										<p>{{component.mean}}</p>
 		    										<h4>ستاره</h4>
+		    									</div>
+                    <div align="center"class="column is-2">
+		    										<p>{{component.nr_use}}</p>
 		    									</div>
 
                     <div class="column is-2">
@@ -102,7 +105,7 @@
     for( i=0;i < components.length;i++ ){
         var cmp = document.createElement('div');
         cmp.setAttribute("class", "project");
-        var inner = '<div class="columns"><div class="column is-6"><div class="name">'+ components[i].name +'</div></div><div align="center"class="column is-4"><p>'+components[i].mean+'</p><h4>ستاره</h4></div><div class="column is-2"><div class="columns"><div align="center" class="column is-4"><a href="/component/"' + components[i].cid + '><p><i style="font-size:1.5em;" class="fa fa-angle-left"></i></p><p>جزئیات</p></a></div></div></div></div>';
+        var inner = '<div class="columns"><div class="column is-6"><div class="name">'+ components[i].name +'</div></div><div align="center"class="column is-4"><p>'+components[i].mean+'</p><h4>ستاره</h4></div><div align="center"class="column is-2"><p>'+components[i].nr_use+'</p></div><div class="column is-2"><div class="columns"><div align="center" class="column is-4"><a href=\"/component/' + components[i].id + '\"><p><i style="font-size:1.5em;" class="fa fa-angle-left"></i></p><p>جزئیات</p></a></div></div></div></div>';
         cmp.innerHTML = inner ;
         e.appendChild(cmp);
     }

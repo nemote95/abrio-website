@@ -26,21 +26,26 @@
             </div>
             <div class="columns">
                 <div class="column is-12">
+                       {%for c in components_list%}
                     <div class="project">
+
                         <div class="columns">
                             <div class="column is-10">
-                                <div class="name">کامپوننت نمونه</div>
-                                <div class="desc">نسخه 1.0.1</div>
+                                <div class="name">{{c.name}}</div>
+                                <div class="desc">نسخه  :
+                                    {{c.deploy_version}}
+                                </div>
                             </div>
                             <div class="column is-2">
                                 <a class="button is-primary"
-                                   href="{{url_for('project.view',pid=project.id)}}">جزئیات</a>
+                                   href="{{url_for('component.view',cid=c.id)}}">جزئیات</a>
                             </div>
+
                         </div>
 
                     </div>
+                       {%endfor%}
                 </div>
-
             </div>
         </section>
         <footer class="modal-card-foot">
