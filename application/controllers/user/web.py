@@ -5,6 +5,7 @@ from sqlalchemy.orm.exc import NoResultFound
 import re
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import BadSignature
+from sqlalchemy import and_
 # flask imports
 from flask import Blueprint, render_template, redirect, request, url_for, flash, abort, current_app
 from flask.ext.login import login_user, login_required, logout_user, current_user
@@ -118,15 +119,21 @@ def logout():
     return redirect(url_for('main.index'))
 
 
-@user.route('/<int:uid>/profile')
+@user.route('/profile')
 @login_required
-def info(uid):
+def info():
+    uid=request.args.get("uid")
     try:
-        user_page = User.query.filter_by(id=uid).one()
-        c = Component.query.filter(Component.owner_id == current_user.id).all()
-        p = Project.query.filter_by(owner_id=current_user.id).all()
-        form = CreateProjectForm(request.form, meta={'locales': ['fa']})
-        return render_template('user/profile.html', user_page=user_page, components=c, projects=p,form=form)
+        user = User.query.filter_by(id=uid).one()
+        if user==current_user:
+            c = Component.query.filter(Component.owner_id == user.id).all()
+            p = Project.query.filter_by(owner_id=user.id).all()
+            form = CreateProjectForm(request.form, meta={'locales': ['fa']})
+            return render_template('user/myprofile.html', user_page=user, components=c, projects=p,form=form)
+        else:
+            c = Component.query.filter(and_(Component.owner_id == user.id,Component.private==False)).all()
+            print c
+            return render_template('user/profile.html', user_page=user,components=c)
     except NoResultFound:
         abort(404)
 
