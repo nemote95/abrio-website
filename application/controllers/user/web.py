@@ -60,7 +60,10 @@ def resend_confirmation():
 def register():
     form = RegistrationForm(request.form, meta={'locales': ['fa']})
     if request.method == 'POST' and form.validate():
-        new_user = User(email=form.email.data, password=form.password.data)
+        plain_email = re.match(re.compile("(.*)(@.*)"), form.email.data)
+        user_email = plain_email.group(1).replace('.', '') + plain_email.group(2)
+
+        new_user = User(email=user_email, password=form.password.data)
         db.session.add(new_user)
         token = new_user.generate_confirmation_token()
         url = url_for('user.confirm', token=token, _external=True)
@@ -103,7 +106,10 @@ def confirm(token):
 def login():
     form = LoginForm(request.form, meta={'locales': ['fa']})
     if request.method == 'POST' and form.validate():
-        new_user = User.query.filter_by(email=form.email.data).first()
+        plain_email = re.match(re.compile("(.*)(@.*)"),form.email.data)
+        email=plain_email.group(1).replace('.','')+plain_email.group(2)
+
+        new_user = User.query.filter_by(email=email).first()
         if new_user is not None and new_user.verify_password(form.password.data):
             login_user(new_user)
             return redirect(request.args.get('next') or url_for('user.info',uid=new_user.id))
