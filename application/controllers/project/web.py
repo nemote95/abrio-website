@@ -48,15 +48,24 @@ def create():
 @permission(Project, 'pid')
 def view(pid, obj=None):
     form = UploadForm(meta={'locales': ['fa']})
-    components_choices = [{"id": c.id, "name": c.name} for c in Component.query.filter(
-        or_(Component.owner_id == current_user.id,
-            Component.private == False)).all()]
+
+    project_logic = Logic.query.filter_by(project_id=pid).all()
+
+    components_choices =[]
+
+    for l in project_logic:
+        components = Component.query.filter(or_(Component.id==l.component_1_id,Component.id==l.component_2_id)).all()
+        for c in components:
+            if {"id": c.id, "name": c.name}  not in components_choices:
+                components_choices.append({"id": c.id, "name": c.name})
+
     components_list = Component.query.filter(
         or_(Component.owner_id == current_user.id, Component.private == False)).order_by(Component.mean.desc()).all()
-    project_logic = Logic.query.filter_by(project_id=pid).all()
+
     logic_view = [(Component.query.filter_by(id=l.component_1_id).one_or_none(),
                    Component.query.filter_by(id=l.component_2_id).one_or_none(),
                    l.message_type, l.id) for l in project_logic]
+
     running = redis.exists('abr:%s' % obj.private_key)
     return render_template('project/view.html', project=obj, logic_view=logic_view,
                            components_choices=dumps(components_choices),components_list=components_list, running=running, form=form)
