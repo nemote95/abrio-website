@@ -53,6 +53,7 @@
 	.main,.sidemenu{
 		min-height: 85vh;
 	}
+<<<<<<< HEAD
 		.sidemenu{
 			/*background:linear-gradient(141deg, #4DABA5 0%, #56B4BF 51%, #5DA9C6 75%);
 			background:-webkit-linear-gradient(141deg, #4DABA5 0%, #56B4BF 51%, #5DA9C6 75%);
@@ -74,6 +75,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
 			
 		}
 
+=======
+>>>>>>> f3205dc042585d31714c8af9370a5e53ed136ebb
 		table{
 			border : 1px solid #e3e3e3;
 			margin-top: 3em;

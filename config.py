@@ -20,12 +20,12 @@ class DefaultConfig(object):
     # Upload Configurations
     UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER') or 'uploads/'
     FAKE_UPLOAD = 'fake upload/sample.jar'
-    UPLOAD_DIRECTORIES = ['components']
+    UPLOAD_DIRECTORIES = ['components','logos','top_projects']
     ALLOWED_EXTENSIONS = {'jar'}
 
     # Download SDK
     SDK_DIRECTORY = os.environ.get('SDK_DIRECTORY') or 'sdk/'
-    SDK_FILENAME = 'new'
+    SDK_FILENAME = 'sdk.tar.gz'
 
     # Email Configurations
     REQUEST_URL = os.environ.get('REQUEST_URL')
@@ -43,7 +43,8 @@ class DefaultConfig(object):
 
     INSTALLED_API = (
         'component',
-        'project'
+        'project',
+        'user',
     )
 
     API_VERSION = '1'

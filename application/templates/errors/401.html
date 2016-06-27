@@ -13,7 +13,7 @@
 	<div class="title">
 		 <img src={{ url_for('static',filename="medias/abrio-transparent.png") }} alt="Logo">
 		401-abrio does not know you :(
-		<br>please <a href="{{url_for('user.login')}}">login</a> or <a href="{{url_for('user.register')}}">register</a>
+		<br>please <a href="{{url_for('user.login',next=request.url)}}">login</a> or <a href="{{url_for('user.register')}}">register</a>
 	</div>
 	</div>
 </div>

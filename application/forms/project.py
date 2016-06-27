@@ -1,12 +1,23 @@
-from wtforms import Form, StringField, SelectField, validators
+from wtforms import Form, StringField, TextAreaField, validators
+from flask.ext.wtf import Form as WTFForm
+from flask.ext.wtf.file import FileField, FileRequired
 
 
 class CreateProjectForm(Form):
     name = StringField('Project Name', [validators.DataRequired()])
 
 
-class LogicForm(Form):
-    component1 = SelectField('Component No1', coerce=int, validators=[validators.DataRequired()])
-    component2 = SelectField('Component No2', coerce=int, validators=[validators.DataRequired()])
-    message_type = SelectField('Message Types', choices=[('BasicEvent', 'BasicEvent'), ('type_b', 'type_b')],
-                               validators=[validators.DataRequired()])
+class UploadForm(WTFForm):
+    logo_image = FileField('logo_image', validators=[FileRequired()])
+
+
+class CreateTopProjectForm(WTFForm):
+    name = StringField('Name', [validators.DataRequired()])
+    image = FileField('image', validators=[FileRequired()])
+    description = TextAreaField('description', [validators.DataRequired()])
+
+
+class EditTopProjectForm(WTFForm):
+    name = StringField('Name', [validators.optional()])
+    image = FileField('image', [validators.optional()])
+    description = TextAreaField('description', [validators.optional()])

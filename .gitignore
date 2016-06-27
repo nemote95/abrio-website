@@ -1,3 +1,6 @@
+/dump.rdb
+
+
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -6,6 +9,23 @@ __pycache__/
 
 # C extensions
 *.so
+
+# OS generated files #
+######################
+*/.DS_Store
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# Python Generated files #
+*.pyc
+*/*.pyc
+
 
 # Distribution / packaging
 .Python
@@ -64,7 +84,6 @@ target/
 [Bb]in
 [Ii]nclude
 [Ll]ib
-[Ss]cripts
 /venv
 *.sqlite
 pyvenv.cfg
@@ -118,7 +137,8 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 
-#environment vra
+#environment variables
 environ.py
 
 # Created by .ignore support plugin (hsz.mobi)
+

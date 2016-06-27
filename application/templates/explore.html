@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{%block head %}
+{{super()}}
+    <title>کاوش در ابریو</title>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/component-list.css')}}">
+{% endblock %}
+
+
+{%block content %}
+<!-- content -->
+<div class="column is-8 is-offset-1 main">
+
+    <div class="columns">
+        {%for tp in random_top_projects %}
+        <a href="{{url_for('project.top_project',tpid=tp.id)}}"
+           class="column is-3 card">
+            <div>
+                <div class="card-image">
+                    <fisgure class="image is-4by3">
+                        <img src="{{url_for('project.top_project_image',tpid=tp.id)}}"
+                             alt="http://placehold.it/300x225">
+                        </figure>
+                </div>
+                <div class="card-content">
+                    <p class="title">{{tp.name}}</p>
+                </div>
+            </div>
+        </a>
+        {%endfor%}
+
+    </div>
+
+    <br>
+    <div class="columns">
+
+        <div class="column rtl is-6 is-offset-1"><input class="input" id="search-input" type="text" maxlength="120"
+                                                        placeholder="نام کامپوننت"></div>
+        <div class="column rtl is-4"><input type="submit" class="button is-success" value="جستجو"
+                                            onclick="search()">
+        </div>
+    </div>
+
+    <div class="columns">
+        <div id="list" class="column is-10 is-offset-1">
+            {% for component in details%}
+            <div class="project">
+
+                <div class="columns">
+
+                    <div class="column is-6">
+                        <div class="name">{{component.name}}</div>
+                    </div>
+
+                    <div align="center"class="column is-4">
+		    										<p>{{component.mean}}</p>
+		    										<h4>ستاره</h4>
+		    									</div>
+                    <div align="center"class="column is-2">
+		    										<p>{{component.nr_use}}</p>
+		    									</div>
+
+                    <div class="column is-2">
+                        <div class="columns">
+                            <div align="center" class="column is-4">
+                                <a href="{{url_for('component.view',cid=component.id)}}">
+                                    <p><i style="font-size:1.5em;" class="fa fa-angle-left"></i></p>
+                                    <p>جزئیات</p>
+                                </a>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            {% endfor %}
+
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+{{ super() }}
+
+{% block script %}
+    document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[2].className="selected";
+    function search(){
+    var name=document.getElementById("search-input").value
+    $.ajax({
+    url: '/api/v1/component/search/'+name,
+    type: 'GET',
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    async: false,
+    success: function(msg) {
+    components=msg['result'];
+    e=document.getElementById('list');
+    e.innerHTML = "";
+    for( i=0;i < components.length;i++ ){
+        var cmp = document.createElement('div');
+        cmp.setAttribute("class", "project");
+        var inner = '<div class="columns"><div class="column is-6"><div class="name">'+ components[i].name +'</div></div><div align="center"class="column is-4"><p>'+components[i].mean+'</p><h4>ستاره</h4></div><div align="center"class="column is-2"><p>'+components[i].nr_use+'</p></div><div class="column is-2"><div class="columns"><div align="center" class="column is-4"><a href=\"/component/' + components[i].id + '\"><p><i style="font-size:1.5em;" class="fa fa-angle-left"></i></p><p>جزئیات</p></a></div></div></div></div>';
+        cmp.innerHTML = inner ;
+        e.appendChild(cmp);
+    }
+
+    }
+    });
+    };
+{% endblock %}
+

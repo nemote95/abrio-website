@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>ابریو</title>
     <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/bulma.min.css") }}>
+    <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/responsive/index.css") }}>
     <link href='https://fonts.googleapis.com/css?family=Nunito:700' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -27,7 +28,7 @@
 	         
 	        	{% if current_user.is_authenticated %}
             		<span class="header-item">
-            			<a class="button is-primary is-inverted" href="{{ url_for('main.panel') }}">پنل من</a>
+            			<a class="button is-primary is-inverted" href="{{ url_for('user.info',uid=current_user.id) }}">پنل من</a>
             		</span>
             		<span class="header-item">
             			<a href="{{ url_for('user.logout') }}">خروج</a>
@@ -44,6 +45,15 @@
 	      </div>
 	    </header>
 	  </div>
+      <div class="buttons" style="display: none;">
+        {% if current_user.is_authenticated %}
+            <div><a class="button is-primary is-inverted" href="{{ url_for('user.info',uid=current_user.id) }}">پنل من</a></div>
+            <div><a href="{{ url_for('user.logout') }}">خروج</a></div>
+        {% else %}
+          <div><a href="{{ url_for('user.login') }}" class="button is-primary">ورود</a></div>
+          <div><a href="{{ url_for('user.login') }} " class="button is-primary is-inverted">ثبت نام</a></div>
+        {% endif %}
+      </div>
     <!-- Hero content: will be in the middle -->
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -64,10 +74,9 @@
         </h1>
         <br/>
         <h2 class="subtitle">
-            Abrio is a PaaS (Platform as a Service) for everyone who need <br/>
-            a soft real-time messaging server. <br/>
+             اَبْریو یک سرویس بی درنگ برای بک اند پروژه های شماست
+{#            Abrio is a customizable real time Backend as a Service for you! <br/>Abrio is reliable and always responsive.#}
         </h2>
-    </div>
     </div>
 </section>
 </body>

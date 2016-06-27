@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>ورود</title>
+    <title>ورود به ابریو</title>
     <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/bulma.min.css") }}>
     <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/login.css") }}>
+    <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/responsive/login-and-register.css") }}>
     <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <meta charset="utf-8">
@@ -24,7 +25,7 @@
                  اَبریو
                 </span>
             </div>
-            <a class="header-item" href="#">خانه</a>
+            <a class="header-item" href="/">خانه</a>
         </div>
     </div>
 </header>
@@ -33,7 +34,7 @@
         {% if messages %}
             <div class="message is-danger">
                 <div class="message-header">
-                    Messages
+                    
                 </div>
                 <div class="message-body">
                     <ul class=flashes>
@@ -45,7 +46,7 @@
             </div>
         {% endif %}
     {% endwith %}
-    <div class="columns">
+    <div class="columns only-large">
         <div class="column is-4 is-offset-4 title " align="center">ورود</div>
     </div>
     <div class="columns">
@@ -75,7 +76,7 @@
         </form>
     </div>
     <div class="columns">
-        <a href="{{ url_for('user.register') }}" class="notice column is-4 is-offset-4 ">یک حساب کاربری بسازید</a>
+        <a href="{{ url_for('user.register') }}" class="notice column is-4 is-offset-4 is-mobile ">یک حساب کاربری بسازید</a>
     </div>
 </div>
 </body>

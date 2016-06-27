@@ -1,145 +1,150 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title></title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/jquery-ui.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/bulma.min.css') }}">
-    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/component-view.css')}}">
+{% extends "base.html" %}
+{%block head %}
+{{super()}}
+<title>کامپوننت {{component.name}}</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/component-view.css')}}">
+{% endblock %}
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery.js')}}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-ui.js')}}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='scripts/hoverIntent.min.js')}}"></script>
-</head>
-<body>
-<header class="header">
-    <div class="container">
-        <div class="header-left">
-
-        </div>
-        <div class="header-right" style="direction: rtl;">
-            <a class="header-item logo" href="{{url_for('main.index')}}">
-                <img src="{{ url_for('static', filename='abrio-blue.png')}}">
-                    <span class="header-banner">
-                     اَبریو
-                    </span>
-            </a>
-
-            <a class="header-item" href="{{url_for('main.panel')}}">خانه</a>
-        </div>
-
-    </div>
-</header>
-<div class="hero is-large">
-
+{%block content %}
+<!-- content -->
+<div class="column is-8 is-offset-1 main">
+    <br>
     <div class="columns">
-        
 
-        <div class="column is-3 sidemenu ">
-
-            <ul class="submenu">
-                <a href="{{url_for('user.info',uid=current_user.id)}}">
-                    <li>مشخصات من
-                        <div class="hover"></div>
-                    </li>
-                </a>
-                <a href="{{url_for('project.list_projects')}}">
-                    <li>پروژه های من</li>
-                </a>
-                <a href="{{url_for('component.list_components')}}">
-                    <li class="selected">کامپوننت های من
-                        <div class="hover"></div>
-                    </li>
-                </a>
-
-            </ul>
+        <div class="column rtl is-3">
+            <a href="{{back}}">بازگشت ></a><br>
+            {% if current_user.id==component.owner_id %}
+            <a class="button is-danger" href="{{url_for('component.delete',cid=component.id )}}">حذف</a>
+            {%endif%}
+            <a class="button is-primary" href="/download-sdk"> SDK دانلود</a><br>
         </div>
-        <!-- content -->
-        <div class="column is-8 is-offset-1 main">
-            <br>
-            <div class="columns">
-                <div class="column rtl is-3">
-                    <a href="{{url_for('component.list_components')}}">بازگشت ></a>
-                </div>
-                <div class="column rtl is-8">
-                    <h1 class="title">نام کامپوننت : <input type="text" value="{{component.name}}" disabled></h1>
-                </div>
-            </div>
-            <div class="columns detail">
-                <div class="column is-10 is-offset-1">
-                    <div align="right" dir="rtl"><span>نسخه کامپوننت : <input type="text"
-                                                                              value="{{component.deploy_version}}"
-                                                                              disabled></input></span></div>
+        <div class="column rtl is-8">
+            <h1 class="title">نام کامپوننت : <input id="name" type="text" value="{{component.name}}" disabled></h1>
+        </div>
+    </div>
+    <div class="columns detail">
+        <div class="column is-10 is-offset-1">
+            <div align="right" dir="rtl"><span>نسخه کامپوننت :<select
+                    id="selectversion" disabled>
+                        {% for version in version_choices %}
+                        <option value="{{version}}">{{version}}</option>
+                        {% endfor %}
+                    </select></span></div>
 
-                </div>
+        </div>
+    </div>
+
+    <div class="columns detail">
+        <div class="column is-10 is-offset-1">
+            {% if component.private %}
+            <div align="right" dir="rtl">
+                خصوصی
             </div>
 
-            <div class="columns detail">
-                <div class="column is-10 is-offset-1">
-                    {% if component.private %}
-                    <div align="right" dir="rtl">
-                        خصوصی
-                    </div>
+            {% else %}
+            <div align="right" dir="rtl">
+                عمومی
 
-                    {% else %}
-                    <div align="right" dir="rtl">
-                        عمومی
-
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-            {% if component.owner_id==current_user.id %}
-            <div class="columns">
-                <div align="right" class="column is-10 is-offset-1">
-                    <button id="editbutton" class=" button is-primary" onclick="edit()">ویرایش</button>
-                    <button id="savebutton" class=" button is-primary" onclick="save()" style="display: none;">ذخیره
-                    </button>
-                </div>
-            </div>
-            <div class="columns">
-                <div align="right" class="column is-10 is-offset-1">
-                    <label class="label">ارسال فایل</label>
-                    <form method=post action="{{url_for('component.upload',cid=component.id)}}"
-                          enctype="multipart/form-data">
-                        {{ upload_form.file(class="input") }}<br>
-                        {{ upload_form.version(class="input")}}<br>
-                        {{ upload_form.csrf_token }}
-                        <input class="button is-success" type="submit" value="آپلود"></input>
-                    </form>
-                </div>
             </div>
             {% endif %}
         </div>
     </div>
+    <div class="columns detail">
+        <div class="column is-10 is-offset-1">
+            <div align="right" dir="rtl">امتیاز :{{component.mean}}</span></div>
 
-</div>
-
-<footer class="footer">
-    <div class="container">
-        <div class="content is-centered">
-            <p><strong>اَبریو</strong> پشتتون رو خالی نمیکنه :)</p>
         </div>
     </div>
-</footer>
+    <div class="columns detail">
+        <div class="column is-10 is-offset-1">
+            <div align="right" dir="rtl">تعداد استفاده :{{nr_use}}</span></div>
 
-</body>
-<script type="text/javascript">
-	$('.submenu li ').hoverIntent(function(){
-		$(this).find('.hover').animate({"width":"100%"},function(){});
-	},function(){
-		$(this).find('.hover').animate({"width":"0%"},function(){});
-	});
-	function edit(){
-		$('input:disabled').removeAttr('disabled');
-		$('#editbutton').hide();
-		$('#savebutton').show();
-	};
+        </div>
+    </div>
+    <div class="columns detail">
+        <div class="column is-10 is-offset-1">
+            <div align="right" dir="rtl"><a href="{{url_for('user.info',uid=component.owner_id)}}">owner page</a></span></div>
 
+        </div>
+    </div>
+    {% if component.owner_id==current_user.id %}
+    <div class="columns">
+        <div align="right" class="column is-10 is-offset-1">
+            <button id="editbutton" class=" button is-primary" onclick="edit()">ویرایش</button>
+            <button id="savebutton" class=" button is-primary" onclick="save()" style="display: none;">ذخیره
+            </button>
+        </div>
+    </div>
+    <div class="columns">
+        <div align="right" class="column is-10 is-offset-1">
+            <label class="label">ارسال فایل</label>
+            <form method=post action="{{url_for('component.upload',cid=component.id)}}"
+                  enctype="multipart/form-data">
+                {{ upload_form.file(class="input") }}<br>
+                {{ upload_form.version(class="input")}}<br>
+                {{ upload_form.csrf_token }}
+                <input class="button is-success" type="submit" value="آپلود">
+            </form>
+        </div>
+    </div>
+    {% endif %}
+    {% if component.owner_id!=current_user.id %}
+    <div>
+            <input type="radio" name="star" value=1> 1<br>
+            <input type="radio" name="star" value=2> 2<br>
+            <input type="radio" name="star" value=3> 3<br>
+            <input type="radio" name="star" value=4> 4<br>
+            <input type="radio" name="star" value=5> 5<br>
+            <button onclick="rate()">rate</button>
+        </div>
+    {%endif%}
+</div>
+{% endblock %}
 
+{% block script %}
+{{super()}}
+$(document).ajaxStop(function(){
+window.location.reload();});
 
-</script>
-</html>
+function edit(){
+$('input:disabled').removeAttr('disabled');
+$('select:disabled').removeAttr('disabled');
+$('#editbutton').hide();
+$('#savebutton').show();
+};
+
+function save(){
+var cid = {{component.id}}
+var e = document.getElementById("selectversion");
+if (e.options.length){
+var version = e.options[e.selectedIndex].value;}
+else {version='';}
+var name = document.getElementById("name").value;
+var arr = { id: cid, name: name, version: version };
+$.ajax({
+url: '/api/v1/component/edit',
+type: 'POST',
+data: JSON.stringify(arr),
+contentType: 'application/json; charset=utf-8',
+dataType: 'json',
+async: false,
+success: function(msg) {
+$("#name").attr('disabled','true');
+$("#selectversion").attr('disabled','true');
+}
+});
+};
+function rate(){
+var cid={{component.id}};
+var amount=$('input[name=star]:checked').val()
+var arr = { cid: cid, amount: amount};
+$.ajax({
+url: '/api/v1/component/rate',
+type: 'POST',
+data: JSON.stringify(arr),
+contentType: 'application/json; charset=utf-8',
+dataType: 'json',
+async: false,
+});
+};
+{%endblock%}
