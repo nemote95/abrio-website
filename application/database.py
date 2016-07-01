@@ -34,3 +34,14 @@ def recreate():
 def fake():
     from application.generate_fake import generate_fake
     generate_fake()
+
+@manager.command
+def refresh():
+    """Drops database, recreates it and inserts fake data in tables and redis"""
+    from application.models.logic import Logic
+    db.metadata.drop_all(db.engine, tables=[Logic.__table__])
+    db.drop_all()
+    redis.flushall()
+    create()
+    fake()
+
