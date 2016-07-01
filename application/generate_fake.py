@@ -31,7 +31,7 @@ def generate_development_data():
     user = User()
     user.company = 'Abrio'
     user.confirmed = True
-    user.email = 'az.bardia13@gmail.com'
+    user.email = 'azbardia13@gmail.com'
     user.name = 'BANK_H'
     user.phone_number = '0912345689'
     user.password = '123123'
