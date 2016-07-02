@@ -60,7 +60,10 @@ def resend_confirmation():
 def register():
     form = RegistrationForm(request.form, meta={'locales': ['fa']})
     if request.method == 'POST' and form.validate():
-        new_user = User(email=form.email.data, password=form.password.data)
+        plain_email = re.match(re.compile("(.*)(@.*)"), form.email.data)
+        user_email = plain_email.group(1).replace('.', '') + plain_email.group(2)
+
+        new_user = User(email=user_email, password=form.password.data)
         db.session.add(new_user)
         token = new_user.generate_confirmation_token()
         url = url_for('user.confirm', token=token, _external=True)
@@ -103,10 +106,13 @@ def confirm(token):
 def login():
     form = LoginForm(request.form, meta={'locales': ['fa']})
     if request.method == 'POST' and form.validate():
-        new_user = User.query.filter_by(email=form.email.data).first()
+        plain_email = re.match(re.compile("(.*)(@.*)"),form.email.data)
+        email=plain_email.group(1).replace('.','')+plain_email.group(2)
+
+        new_user = User.query.filter_by(email=email).first()
         if new_user is not None and new_user.verify_password(form.password.data):
             login_user(new_user)
-            return redirect(request.args.get('next') or url_for('user.info',uid=new_user.id))
+            return redirect(request.args.get('next') or url_for('user.info'))
         flash(u'.آدرس ایمیل یا کلمه ی عبور نا معتبر است')
     return render_template('user/login.html', form=form)
 
@@ -123,17 +129,18 @@ def logout():
 @login_required
 def info():
     uid=request.args.get("uid")
-    try:
-        user = User.query.filter_by(id=uid).one()
-        if user==current_user:
-            c = Component.query.filter(Component.owner_id == user.id).all()
-            p = Project.query.filter_by(owner_id=user.id).all()
-            form = CreateProjectForm(request.form, meta={'locales': ['fa']})
-            return render_template('user/myprofile.html', user_page=user, components=c, projects=p,form=form)
-        else:
+    print 'user', type(uid),type(current_user.id)
+    if not uid  or long(uid)==current_user.id :
+        user = User.query.filter_by(id=current_user.id).one()
+        c = Component.query.filter(Component.owner_id == current_user.id).all()
+        p = Project.query.filter_by(owner_id=current_user.id).all()
+        form = CreateProjectForm(request.form, meta={'locales': ['fa']})
+        return render_template('user/myprofile.html', user_page=user, components=c, projects=p,form=form)
+    else:
+        try:
+            user = User.query.filter_by(id=uid).one()
             c = Component.query.filter(and_(Component.owner_id == user.id,Component.private==False)).all()
-            print c
             return render_template('user/profile.html', user_page=user,components=c)
-    except NoResultFound:
-        abort(404)
+        except NoResultFound:
+            return abort(404)
 

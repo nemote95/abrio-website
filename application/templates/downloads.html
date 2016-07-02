@@ -1,27 +1,34 @@
 {% extends "base.html" %}
 {%block head %}
 {{super()}}
-    <title>دانلود ها</title>
+<title>دانلود ها</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/user-panel.css')}}">
 {%endblock%}
 
 {%block content %}
-        <div class="column is-8 is-offset-1 main">
-        <p dir="rtl">برای استفاده از این سیستم لازم است که ابتدا sdk مورد نظر را دانلود کنید</p>
-           <h1><a class="button is-danger" style="width :200px ;height:55px; vertical-align:middle;padding-top:15px;" href="/download-sdk"> SDK دانلود</a></h1>
+<div class="column is-8 is-offset-1 main">
+    <p dir="rtl">برای استفاده از این سیستم لازم است که ابتدا sdk مورد نظر را دانلود کنید</p>
+    <h1><a class="button is-danger" style="width :200px ;height:55px; vertical-align:middle;padding-top:15px;"
+           href="/download?sdk=sdk.tar.gz"> SDK دانلود</a></h1>
+    <p>
+    <a href="/download?sdk=">دانلود SDK کلاینتpython</a></p>
+    <p>
+    <a href="/download?sdk=">دانلود SDK کلاینتjava</a></p>
+    <p>
+    <a href="/download?sdk=">دانلود SDK کلاینتunity</a></p>
 </div>
 {% endblock %}
 
 {%block script %}
 {{super()}}
-	$(function() {
-    $( "ul.droptrue" ).sortable({
-    	items : "li:not('.info')",
-      connectWith: "ul",
-      change:function(){
-        $('button.accfood').removeAttr('disabled');
+$(function() {
+$( "ul.droptrue" ).sortable({
+items : "li:not('.info')",
+connectWith: "ul",
+change:function(){
+$('button.accfood').removeAttr('disabled');
 
-      }
-    });
-  });
+}
+});
+});
 {% endblock %}

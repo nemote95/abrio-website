@@ -38,9 +38,14 @@
                                     {{c.deploy_version}}
                                 </div>
                             </div>
-                            <div class="column is-2">
+                            <div class="column is-1">
                                 <a class="button is-primary"
                                    href="{{url_for('component.view',cid=c.id)}}">جزئیات</a>
+                            </div>
+
+                            <div class="column is-2">
+                                <a class="button is-primary"
+                                   onclick="add_choice({{c.id}},'{{c.name}}')">add</a>
                             </div>
 
                         </div>
@@ -173,6 +178,7 @@
 
 {%block script %}
 {{super()}}
+var components_choices={{components_choices|safe}}
 document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[1].className="selected";
 $(document).ajaxStop(function(){
 window.location.reload();});
@@ -200,21 +206,41 @@ $('.delete').click(function(){
 $('.modal').removeClass('is-active');
 });
 
+function add_choice(cid,cname){
+    components_choices.push({id: cid,name: cname});
+    var row=document.getElementById("define-logic").getElementsByTagName("tr");
+    for (i=0;i<row.length;i++){
+    var sel = row[i].getElementsByTagName("select");
+    if (sel.length!=0 ){
+    for (j = 0; j < sel[0].length; ++j){
+    if (sel[0].options[j].value == cid){
+        return;}}
+    var option = document.createElement("option");
+    option.text = cname;
+    option.value = cid;
+    sel[0].options.add(option,0);
+    var option = document.createElement("option");
+    option.text = cname;
+    option.value = cid;
+    sel[1].options.add(option,0);
+    }
+    }
+
+};
 function newRow(){
 var table=document.getElementById("define-logic")
 var row = table.insertRow(0);
 var comp1 = row.insertCell(0);
 var comp2 = row.insertCell(1);
 var msg = row.insertCell(2);
-var comps={{components_choices|safe}};
+var comps=components_choices;
 
 var sel_1= document.createElement("select");
 var option = document.createElement("option");
 option.text = "Input";
 option.value = "";
 sel_1.add(option,0);
-for (i=0;i
-<comps.length;i++){
+for (i=0;i<comps.length;i++){
 var option = document.createElement("option");
 option.text = comps[i]["name"];
 option.value = comps[i]["id"];
@@ -248,8 +274,7 @@ function define(){
 var project_id = {{project.id}}
 var rel = []
 var row=document.getElementById("define-logic").getElementsByTagName("tr")
-for (i=0;i
-<row.length;i++){
+for (i=0;i<row.length;i++){
 var sel = row[i].getElementsByTagName("select");
 if (sel.length!=0){
 var comp1=sel[0].options[sel[0].selectedIndex].value
