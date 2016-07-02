@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/bulma.min.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/responsive/main.css')}}">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery.js')}}"></script>
@@ -60,7 +61,7 @@
     {% endblock%}
     <div class="columns">
 
-        <div class="column is-3 sidemenu ">
+        <div class="column is-hidden-mobile is-3-desktop sidemenu ">
 
             <ul class="submenu">
                 <a href="{{url_for('user.info',uid=current_user.id)}}">
