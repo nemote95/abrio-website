@@ -3,7 +3,7 @@
 from requests import ConnectionError
 from sqlalchemy.orm.exc import NoResultFound
 import re
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import URLSafeTimedSerializer as Serializer
 from itsdangerous import BadSignature
 from sqlalchemy import and_
 # flask imports
@@ -83,11 +83,15 @@ def register():
 
 @user.route('/confirm/<token>')
 def confirm(token):
-    s = Serializer(current_app.config['SECRET_KEY'])
+    serializer = Serializer(current_app.config['SECRET_KEY'])
     try:
-        data = s.loads(token)
+        user_id = serializer.loads(
+            token,
+            salt=current_app.config['SECURITY_PASSWORD_SALT'],
+            max_age=current_app.config['EXPIRATION'])
+
         try:
-            current_user = User.query.filter_by(id=data.get('confirm')).one()
+            current_user = User.query.filter_by(id=user_id).one()
             if not current_user.confirmed:
                 current_user.confirmed = True
                 db.session.commit()

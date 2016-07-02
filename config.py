@@ -8,7 +8,9 @@ class DefaultConfig(object):
     DEBUG = True
     DEPLOYMENT = False
 
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'developers@abrio.ir'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'developers_sk@abrio.ir'
+    SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT') or 'developers_ps@abrio.ir'
+    EXPIRATION = 7 * 24 * 60 * 60
 
     TEMPLATE = ''
     SITE_NAME = 'Abrio'
