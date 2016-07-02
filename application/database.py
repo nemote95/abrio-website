@@ -15,6 +15,7 @@ def drop():
         db.drop_all()
         redis.flushall()
 
+
 @manager.command
 def create():
     """Creates database tables from SqlAlchemy models"""

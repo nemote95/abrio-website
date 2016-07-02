@@ -1,5 +1,5 @@
 # flask imports
-from flask import g, request, jsonify,Blueprint
+from flask import g, request, jsonify, Blueprint
 from flask.ext.httpauth import HTTPBasicAuth
 from flask.ext.login import current_user, login_required
 # project imports
@@ -9,6 +9,7 @@ from application.models.user import User
 __all__ = ['api']
 auth = HTTPBasicAuth()
 api = Blueprint('user.api1', __name__, url_prefix='/api/v1/user')
+
 
 @auth.verify_password
 def verify_password(email, password):

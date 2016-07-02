@@ -9,7 +9,6 @@ from sqlalchemy import and_
 # flask imports
 from flask import Blueprint, render_template, redirect, request, url_for, flash, abort, current_app
 from flask.ext.login import login_user, login_required, logout_user, current_user
-
 # project imports
 from application.extensions import db, email
 from application.forms.user import RegistrationForm, LoginForm
@@ -110,8 +109,8 @@ def confirm(token):
 def login():
     form = LoginForm(request.form, meta={'locales': ['fa']})
     if request.method == 'POST' and form.validate():
-        plain_email = re.match(re.compile("(.*)(@.*)"),form.email.data)
-        email=plain_email.group(1).replace('.','')+plain_email.group(2)
+        plain_email = re.match(re.compile("(.*)(@.*)"), form.email.data)
+        email = plain_email.group(1).replace('.', '') + plain_email.group(2)
 
         new_user = User.query.filter_by(email=email).first()
         if new_user is not None and new_user.verify_password(form.password.data):
@@ -132,19 +131,17 @@ def logout():
 @user.route('/profile')
 @login_required
 def info():
-    uid=request.args.get("uid")
-    print 'user', type(uid),type(current_user.id)
-    if not uid  or long(uid)==current_user.id :
-        user = User.query.filter_by(id=current_user.id).one()
+    uid = request.args.get("uid")
+    if not uid or long(uid) == current_user.id:
+        user_page = User.query.filter_by(id=current_user.id).one()
         c = Component.query.filter(Component.owner_id == current_user.id).all()
         p = Project.query.filter_by(owner_id=current_user.id).all()
         form = CreateProjectForm(request.form, meta={'locales': ['fa']})
-        return render_template('user/myprofile.html', user_page=user, components=c, projects=p,form=form)
+        return render_template('user/myprofile.html', user_page=user_page, components=c, projects=p, form=form)
     else:
         try:
-            user = User.query.filter_by(id=uid).one()
-            c = Component.query.filter(and_(Component.owner_id == user.id,Component.private==False)).all()
-            return render_template('user/profile.html', user_page=user,components=c)
+            user_page = User.query.filter_by(id=uid).one()
+            c = Component.query.filter(and_(Component.owner_id == user.id, Component.private == False)).all()
+            return render_template('user/profile.html', user_page=user_page, components=c)
         except NoResultFound:
             return abort(404)
-

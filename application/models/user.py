@@ -11,8 +11,8 @@ from sqlalchemy import UniqueConstraint
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), unique=True, index=True)
-    password_hash = db.Column(db.String(128))
+    email = db.Column(db.String(64), unique=True, index=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
     confirmed = db.Column(db.Boolean, default=False)
     name = db.Column(db.String(100))
     company = db.Column(db.String(100))
@@ -59,7 +59,6 @@ class User(UserMixin, db.Model):
 
     def is_admin(self):
         return self.has_ability(Abilities.ALL)
-
 
     def add_ability(self, ability):
         user_ability = UserAbility(aid=ability, uid=self.id)

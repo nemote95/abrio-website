@@ -1,10 +1,13 @@
+# python imports
+from sqlalchemy import or_
+import random
+# flask imports
 from flask import Blueprint, render_template, send_from_directory, current_app, request
 from flask.ext.login import login_required, current_user
+# project imports
 from application.models.component import Component
 from application.models.project import TopProject
 from application.models.logic import Logic
-from sqlalchemy import or_
-import random
 
 __all__ = ["main"]
 
@@ -29,9 +32,11 @@ def download():
     return send_from_directory(directory=current_app.config['SDK_DIRECTORY'],
                                filename=download_file, as_attachment=True)
 
+
 @main.route('/tutorials/')
 def tutorials():
     return render_template('tutorials.html')
+
 
 @main.route('/explore', methods=['GET'])
 @login_required
