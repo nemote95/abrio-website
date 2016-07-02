@@ -8,9 +8,9 @@
 
 {%block content %}
 <!-- content -->
-<div class="column is-8 is-offset-1 main">
+<div class="column is-11-mobile is-8 is-offset-1 main">
 
-    <div class="columns">
+    <div class="columns is-multiline">
         {%for tp in random_top_projects %}
         <a href="{{url_for('project.top_project',tpid=tp.id)}}"
            class="column is-3 card">

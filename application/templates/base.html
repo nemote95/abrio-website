@@ -30,8 +30,9 @@
                      اَبریو
                     </span>
             </a>
-            <a class="header-item" href="{{url_for('main.tutorials')}}">آموزش ها</a>
-            <a class="header-item" href="{{url_for('main.downloads')}}">دانلودها</a>
+            <a class="header-item is-hidden-mobile" href="{{url_for('main.tutorials')}}">آموزش ها</a>
+            <a class="header-item is-hidden-mobile" href="{{url_for('main.downloads')}}">دانلودها</a>
+            <div class="header-item"><button align="CENTER" id ="menudropper" class="button is-primary fa fa-bars"></button></div>
         </div>
 
     </div>
@@ -59,11 +60,28 @@
     {% endif %}
     {% endwith %}
     {% endblock%}
-    <div class="columns">
+    <div class="columns is-multiline">
+    <div class="column is-12 is-hidden-desktop topmenu">
+        <ul class="listmenu">
+            <a href="{{url_for('user.info')}}">
+                    <li>صفحه ی شخصی
+                    </li>
+                </a>
 
+                <a href="{{url_for('project.list_projects')}}">
+                    <li>پروژه های من
+                    </li>
+                </a>
+                <a href="{{url_for('main.explore')}}">
+                    <li>کاوش
+                    </li>
+                </a>
+        </ul>
+    </div>
         <div class="column is-hidden-mobile is-3-desktop sidemenu ">
 
             <ul class="submenu">
+
                 <a href="{{url_for('user.info')}}">
                     <li>صفحه ی شخصی
                         <div class="hover"></div>
@@ -77,6 +95,11 @@
                 </a>
                 <a href="{{url_for('main.explore')}}">
                     <li>کاوش
+                        <div class="hover"></div>
+                    </li>
+                </a>
+                <a href="{{url_for('user.info')}}">
+                    <li>صفحه ی شخصی
                         <div class="hover"></div>
                     </li>
                 </a>
@@ -116,7 +139,13 @@
 	},function(){
 		$(this).find('.hover').animate({"width":"0%"},function(){});
 	});
+    
 {%endblock%}
+$('#menudropper').click(function (){
+       var menu = $('div.topmenu ul');
+       menu.slideToggle();
+       console.log($('div.topmenu ul'))
 
+    });
 </script>
 </html>

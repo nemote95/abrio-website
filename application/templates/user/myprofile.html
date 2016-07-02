@@ -10,16 +10,16 @@
 <!-- content -->
 <div class="column is-11-mobile is-8 is-offset-1 main">
     <br>
-    <div class="columns">
+    <div class="columns is-multiline">
 
-        <div class="column rtl is-3">
+        <div class="column rtl is-11-mobile is-3">
             <h1 class="title"><img class="avatar"
                                    src="http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-ginger-guy.png">
             </h1>
         </div>
-        <div class="column rtl is-7 middle">
+        <div class="column rtl is-11-mobile is-7 middle">
             <div class="columns detail">
-                <div class="column is-10 is-offset-1">
+                <div class="column is-10 is-offset-1-desktop is-offset-0">
                     <div class="right"><h1 class="title"><input disabled type="text" value="{{user_page.name}}"></h1>
                     </div>
                     <div align="right" dir="rtl">
@@ -51,8 +51,8 @@
         </div>
     </div>
     {% if current_user.id==user_page.id %}
-    <div class="columns">
-        <div class="column rtl is-5 component">
+    <div class="columns is-multiline">
+        <div class="column rtl is-5 is-11-mobile component">
             <div class="title">
                 <h3>کامپوننت های من
                     <a href="{{url_for('component.create')}}" class="button is-success">ساخت کامپوننت جدید</a>
@@ -66,7 +66,7 @@
             </ul>
         </div>
 
-        <div class="column rtl is-5 project">
+        <div class="column rtl is-5 is-11-mobile project">
             <div class="title">
                 <h3>پروژه های من</h3>
             </div>
