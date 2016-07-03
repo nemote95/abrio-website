@@ -17,23 +17,24 @@ from application.decorators import permission
 __all__ = ['component']
 component = Blueprint('component', __name__, url_prefix='/component')
 
+
 @component.route('/new', methods=['GET', 'POST'])
 @login_required
 def create():
     form = CreateComponentForm(meta={'locales': ['fa']})
     if request.method == 'POST' and form.validate_on_submit():
         back = request.args.get('back')
-        new_component = Component(name=form.name.data, owner_id=current_user.id, private=form.private.data,
-                                  deploy_version=form.version.data)
+        new_component = Component(name=form.name.data, owner_id=current_user.id, private=form.private.data)
         filename = secure_filename(form.file.data.filename)
         file_type = filename.rsplit('.', 1)[1]
         if file_type in current_app.config['ALLOWED_EXTENSIONS']:
             db.session.add(new_component)
             db.session.commit()
+            """apply deploy version again"""
             form.file.data.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
                                              'components',
-                                             '%s_v%s.%s' % (str(new_component.id), form.version.data, file_type)))
-            return redirect(url_for('component.view', cid=new_component.id ,back=back))
+                                             '%s.%s' % (str(new_component.id), file_type)))
+            return redirect(url_for('component.view', cid=new_component.id, back=back))
         else:
             flash(u'.فرمت این فایل قابل پشتیبانی نیست')
             return redirect(url_for('component.create'))
@@ -47,11 +48,12 @@ def view(cid, obj=None):
     back = request.args.get('back') or request.referrer
     upload_form = UploadForm(meta={'locales': ['fa']})
     regex = re.compile(r'\d+_(v(.+)\..+)')
-    version_choices = [regex.match(f).group(2) for f in
-                       obj.component_files()]
-    nr_use=len(Logic.query.filter(or_(Logic.component_1_id == cid, Logic.component_2_id == cid)).all())
-    return render_template('component/view.html', upload_form=upload_form, version_choices=version_choices,
-                           component=obj,nr_use=nr_use, back=back)
+    """apply deploy version again"""
+    # version_choices = [regex.match(f).group(2) for f in obj.component_files()]
+
+    nr_use = len(Logic.query.filter(or_(Logic.component_1_id == cid, Logic.component_2_id == cid)).all())
+    return render_template('component/view.html', upload_form=upload_form,
+                           component=obj, nr_use=nr_use, back=back)
 
 
 @component.route('/<int:cid>/upload', methods=['POST'])
@@ -64,8 +66,9 @@ def upload(cid, obj=None):
         file_type = filename.rsplit('.', 1)[1]
         if file_type in current_app.config['ALLOWED_EXTENSIONS']:
             form.file.data.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
-                                             'components', '%s_v%s.%s' % (str(cid), form.version.data, file_type)))
-            obj.deploy_version = form.version.data
+                                             'components', '%s.%s' % (str(cid), file_type)))
+            """apply deploy version again"""
+            # obj.deploy_version = form.version.data
             db.session.commit()
             return redirect(url_for('component.view', cid=cid))
         else:
@@ -80,7 +83,7 @@ def upload(cid, obj=None):
 @permission(Component, 'cid')
 def delete(cid, obj=None):
     if not Logic.query.filter(or_(Logic.component_1_id == cid, Logic.component_2_id == cid)).all():
-        files=obj.component_files()
+        files = obj.component_files()
         for f in files:
             os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'],
                                    'components', f))

@@ -22,6 +22,7 @@
             <h1 class="title">نام کامپوننت : <input id="name" type="text" value="{{component.name}}" disabled></h1>
         </div>
     </div>
+    <!--
     <div class="columns detail">
         <div class="column is-10 is-offset-1">
             <div align="right" dir="rtl"><span>نسخه کامپوننت :<select
@@ -32,8 +33,14 @@
                     </select></span></div>
 
         </div>
-    </div>
+    </div>-->
 
+    <div class="columns detail">
+        <div class="column is-10 is-offset-1">
+            <div align="right" dir="rtl">شناسه ی کامپوننت :{{component.id}}</span></div>
+
+        </div>
+        </div>
     <div class="columns detail">
         <div class="column is-10 is-offset-1">
             {% if component.private %}
@@ -81,7 +88,7 @@
             <form method=post action="{{url_for('component.upload',cid=component.id)}}"
                   enctype="multipart/form-data">
                 {{ upload_form.file(class="input") }}<br>
-                {{ upload_form.version(class="input")}}<br>
+            <!--apply deploy version again    {{ upload_form.version(class="input")}}<br>-->
                 {{ upload_form.csrf_token }}
                 <input class="button is-success" type="submit" value="آپلود">
             </form>
@@ -115,12 +122,13 @@ $('#savebutton').show();
 
 function save(){
 var cid = {{component.id}}
+/* apply version +json
 var e = document.getElementById("selectversion");
 if (e.options.length){
 var version = e.options[e.selectedIndex].value;}
-else {version='';}
+else {version='';} */
 var name = document.getElementById("name").value;
-var arr = { id: cid, name: name, version: version };
+var arr = { id: cid, name: name };
 $.ajax({
 url: '/api/v1/component/edit',
 type: 'POST',

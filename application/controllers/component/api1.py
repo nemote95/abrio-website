@@ -38,10 +38,10 @@ def upload_component():
         component.deploy_version = version
     except BadSignature:
         return abort(401)
-
+    """apply deploy version again"""
     if file_type in current_app.config['ALLOWED_EXTENSIONS']:
         jar_file.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
-                                   'components', '%s_v%s.%s' % (str(component.id), version, file_type)))
+                                   'components', '%s.%s' % (str(component.id), file_type)))
         db.session.commit()
         return jsonify(), 200
     else:
@@ -51,12 +51,14 @@ def upload_component():
 @api.route('/edit', methods=['POST'])
 @login_required
 def edit_component():
+    print request.json
     cid = request.json['id']
     name = request.json['name']
     new_component = Component.query.get(cid)
     new_component.name = name
-    if request.json['version']:
-        new_component.deploy_version = request.json['version']
+    """apply version"""
+    # if request.json['version']:
+    # new_component.deploy_version = request.json['version']
     db.session.commit()
     return jsonify(), 201
 
@@ -82,7 +84,7 @@ def delete():
 @login_required
 def search(name=""):
     components = Component.query.filter(and_(Component.name.contains(name),
-                                             or_(Component.private==False,
+                                             or_(Component.private == False,
                                                  Component.owner_id == current_user.id))).order_by(
         Component.mean.desc()).all()
     result = [{'id': c.id, 'name': c.name, 'private': c.private, 'mean': c.mean,

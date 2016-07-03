@@ -8,17 +8,14 @@ class CreateComponentForm(WTFForm):
     name = StringField('Component Name', [validators.DataRequired()])
     private = BooleanField('private', [validators.optional()])
     file = FileField('Component file', validators=[FileRequired()])
-    version = StringField('version', [validators.DataRequired()])
+    """set datarequired validator"""
+    version = StringField('version')
 
 
 class UploadForm(WTFForm):
     file = FileField('Component file', validators=[FileRequired()])
-    version = StringField('version', [validators.DataRequired()])
-
-
-class EditForm(Form):
-    name = StringField('Component Name', validators=[validators.optional()])
-    deploy_version = SelectField('deploy version', validators=[validators.optional()])
+    """set datarequired validator"""
+    version = StringField('version')
 
 
 class SearchForm(Form):
