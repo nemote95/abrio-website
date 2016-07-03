@@ -63,6 +63,21 @@ body{
 	font-family: 'Yekan' , sans-serif;
 	direction: rtl;
 }
+.topmenu{
+	background-color: #fff;
+}
+.topmenu ul {
+  padding: 0;
+  padding-right: 1em;
+
+   text-align: right !important;
+}
+.topmenu ul li {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid #e3e3e3;
+	/*background-color: #e3e3e3;*/
+}
 .titr img{
 	width: 100px ;
 	height: 100px;

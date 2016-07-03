@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/bulma.min.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/responsive/main.css')}}">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery.js')}}"></script>
@@ -29,8 +30,9 @@
                      اَبریو
                     </span>
             </a>
-            <a class="header-item" href="{{url_for('main.tutorials')}}">آموزش ها</a>
-            <a class="header-item" href="{{url_for('main.downloads')}}">دانلودها</a>
+            <a class="header-item is-hidden-mobile" href="{{url_for('main.tutorials')}}">آموزش ها</a>
+            <a class="header-item is-hidden-mobile" href="{{url_for('main.downloads')}}">دانلودها</a>
+            <div class="header-item is-hidden-desktop"><button align="CENTER" id ="menudropper" class="button is-primary fa fa-bars"></button></div>
         </div>
 
     </div>
@@ -58,11 +60,38 @@
     {% endif %}
     {% endwith %}
     {% endblock%}
-    <div class="columns">
+    <div class="columns is-multiline">
+    <div class="column is-12 is-hidden-desktop topmenu">
+        <ul class="listmenu">
+            <a href="{{url_for('user.info')}}">
+                    <li>صفحه ی شخصی
+                    </li>
+                </a>
 
-        <div class="column is-3 sidemenu ">
+                <a href="{{url_for('project.list_projects')}}">
+                    <li>پروژه های من
+                    </li>
+                </a>
+                <a href="{{url_for('main.explore')}}">
+                    <li>کاوش
+                    </li>
+                </a>
+                <a href="{{url_for('main.downloads')}}">
+                    <li>دانلودها
+                        <div class="hover"></div>
+                    </li>
+                </a>
+                <a href="{{url_for('main.tutorials')}}">
+                    <li>آموزش ها
+                        <div class="hover"></div>
+                    </li>
+                </a>
+        </ul>
+    </div>
+        <div class="column is-hidden-mobile is-3-desktop sidemenu ">
 
             <ul class="submenu">
+
                 <a href="{{url_for('user.info')}}">
                     <li>صفحه ی شخصی
                         <div class="hover"></div>
@@ -79,6 +108,7 @@
                         <div class="hover"></div>
                     </li>
                 </a>
+
 
             </ul>
         </div>
@@ -115,7 +145,13 @@
 	},function(){
 		$(this).find('.hover').animate({"width":"0%"},function(){});
 	});
+    
 {%endblock%}
+$('#menudropper').click(function (){
+       var menu = $('div.topmenu ul');
+       menu.slideToggle();
+       console.log($('div.topmenu ul'))
 
+    });
 </script>
 </html>
