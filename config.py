@@ -8,7 +8,9 @@ class DefaultConfig(object):
     DEBUG = True
     DEPLOYMENT = False
 
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'developers@abrio.ir'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'developers_sk@abrio.ir'
+    SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT') or 'developers_ps@abrio.ir'
+    EXPIRATION = 7 * 24 * 60 * 60
 
     TEMPLATE = ''
     SITE_NAME = 'Abrio'
@@ -20,12 +22,11 @@ class DefaultConfig(object):
     # Upload Configurations
     UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER') or 'uploads/'
     FAKE_UPLOAD = 'fake upload/sample.jar'
-    UPLOAD_DIRECTORIES = ['components','logos','top_projects']
+    UPLOAD_DIRECTORIES = ['components', 'logos', 'top_projects']
     ALLOWED_EXTENSIONS = {'jar'}
 
     # Download SDK
     SDK_DIRECTORY = os.environ.get('SDK_DIRECTORY') or 'sdk/'
-    SDK_FILENAME = 'sdk.tar.gz'
 
     # Email Configurations
     REQUEST_URL = os.environ.get('REQUEST_URL')

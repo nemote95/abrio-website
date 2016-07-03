@@ -2,7 +2,6 @@
 import os
 from itsdangerous import BadSignature
 from sqlalchemy import or_, and_
-from sqlalchemy import func
 # flask imports
 from flask import abort, Blueprint, jsonify, request, current_app, g
 from application.controllers.user.api1 import auth
@@ -83,7 +82,7 @@ def delete():
 @login_required
 def search(name=""):
     components = Component.query.filter(and_(Component.name.contains(name),
-                                             or_(Component.private == False,
+                                             or_(Component.private==False,
                                                  Component.owner_id == current_user.id))).order_by(
         Component.mean.desc()).all()
     result = [{'id': c.id, 'name': c.name, 'private': c.private, 'mean': c.mean,

@@ -1,8 +1,10 @@
 # coding=utf-8
+# python imports
 import re
+# flask imports
 from wtforms import Form, StringField, PasswordField, validators
-
 from wtforms import ValidationError
+# project imports
 from application.models.user import User
 
 

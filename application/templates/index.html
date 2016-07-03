@@ -28,7 +28,7 @@
 	         
 	        	{% if current_user.is_authenticated %}
             		<span class="header-item">
-            			<a class="button is-primary is-inverted" href="{{ url_for('user.info',uid=current_user.id) }}">پنل من</a>
+            			<a class="button is-primary is-inverted" href="{{ url_for('user.info') }}">پنل من</a>
             		</span>
             		<span class="header-item">
             			<a href="{{ url_for('user.logout') }}">خروج</a>
