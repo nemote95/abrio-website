@@ -17,7 +17,6 @@ from application.decorators import permission
 __all__ = ['component']
 component = Blueprint('component', __name__, url_prefix='/component')
 
-
 @component.route('/new', methods=['GET', 'POST'])
 @login_required
 def create():

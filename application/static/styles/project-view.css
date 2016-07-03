@@ -107,7 +107,6 @@
 			padding: 1em;
 			border-bottom: 1px solid #e3e3e3;
 		}
-
 		.modal-background {
   bottom: 0;
   left: 0;
@@ -238,5 +237,4 @@
   display: -ms-flexbox;
   display: flex;
 }
-
 

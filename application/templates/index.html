@@ -3,6 +3,7 @@
 <head>
     <title>ابریو</title>
     <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/bulma.min.css") }}>
+    <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/responsive/index.css") }}>
     <link href='https://fonts.googleapis.com/css?family=Nunito:700' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -44,6 +45,15 @@
 	      </div>
 	    </header>
 	  </div>
+      <div class="buttons" style="display: none;">
+        {% if current_user.is_authenticated %}
+            <div><a class="button is-primary is-inverted" href="{{ url_for('user.info',uid=current_user.id) }}">پنل من</a></div>
+            <div><a href="{{ url_for('user.logout') }}">خروج</a></div>
+        {% else %}
+          <div><a href="{{ url_for('user.login') }}" class="button is-primary">ورود</a></div>
+          <div><a href="{{ url_for('user.login') }} " class="button is-primary is-inverted">ثبت نام</a></div>
+        {% endif %}
+      </div>
     <!-- Hero content: will be in the middle -->
     {% with messages = get_flashed_messages() %}
         {% if messages %}

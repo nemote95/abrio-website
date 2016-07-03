@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/jquery-ui.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/bulma.min.css') }}">
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/user-panel.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/responsive/main.css')}}">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/jquery-ui.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/hoverIntent.min.js')}}"></script>
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="header-left">
+
+        </div>
+        <div class="header-right" style="direction: rtl;">
+            <a class="header-item logo" href="{{url_for('main.index')}}">
+                <img src="{{ url_for('static', filename='abrio-blue.png')}}">
+                    <span class="header-banner">
+                     اَبریو
+                    </span>
+            </a>
+
+            <a class="header-item" href="{{url_for('main.panel')}}">خانه</a>
+        </div>
+
+    </div>
+</header>
+<div class="hero is-large">
+
+    <div class="columns">
+        
+
+        <div class="column is-3 sidemenu ">
+
+            <ul class="submenu">
+                <a href="{{url_for('user.info',uid=current_user.id)}}">
+                    <li>مشخصات من
+                        <div class="hover"></div>
+                    </li>
+                </a>
+
+                <a href="{{url_for('project.list_projects')}}">
+                    <li>پروژه های من</li>
+                </a>
+                <a href="{{url_for('component.list_components')}}">
+                    <li>کامپوننت های من
+                        <div class="hover"></div>
+                    </li>
+                </a>
+            </ul>
+        </div>
+        <div class="column is-8 is-offset-1 main">
+        <p dir="rtl">برای استفاده از این سیستم لازم است که ابتدا sdk مورد نظر را دانلود کنید</p>   
+           <h1><a class="button is-danger" style="width :200px ;height:55px; vertical-align:middle;padding-top:15px;" href="/download"> SDK دانلود</a></h1>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="content is-centered">
+            <p><strong>اَبریو</strong> پشتتون رو خالی نمیکنه :)</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+<script type="text/javascript">
+	$('.submenu li ').hoverIntent(function(){
+		$(this).find('.hover').animate({"width":"100%"},function(){});
+	},function(){
+		$(this).find('.hover').animate({"width":"0%"},function(){});
+	});
+
+
+</script>
+<script type="text/javascript">
+	$(function() {
+    $( "ul.droptrue" ).sortable({
+    	items : "li:not('.info')",
+      connectWith: "ul",
+      change:function(){
+        $('button.accfood').removeAttr('disabled');
+
+      }
+    });
+  });
+
+
+</script>
+
+</html>
