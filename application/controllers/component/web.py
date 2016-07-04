@@ -31,8 +31,7 @@ def create():
             db.session.add(new_component)
             db.session.commit()
             """apply deploy version again"""
-            form.file.data.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
-                                             'components',
+            form.file.data.save(os.path.join(current_app.config['COMPONENT_UPLOAD_FOLDER'],
                                              '%s.%s' % (str(new_component.id), file_type)))
             return redirect(url_for('component.view', cid=new_component.id, back=back))
         else:
@@ -65,8 +64,8 @@ def upload(cid, obj=None):
         filename = secure_filename(form.file.data.filename)
         file_type = filename.rsplit('.', 1)[1]
         if file_type in current_app.config['ALLOWED_EXTENSIONS']:
-            form.file.data.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
-                                             'components', '%s.%s' % (str(cid), file_type)))
+            form.file.data.save(
+                os.path.join(current_app.config['COMPONENT_UPLOAD_FOLDER'], '%s.%s' % (str(cid), file_type)))
             """apply deploy version again"""
             # obj.deploy_version = form.version.data
             db.session.commit()
@@ -85,11 +84,10 @@ def delete(cid, obj=None):
     if not Logic.query.filter(or_(Logic.component_1_id == cid, Logic.component_2_id == cid)).all():
         files = obj.component_files()
         for f in files:
-            os.remove(os.path.join(current_app.config['UPLOAD_FOLDER'],
-                                   'components', f))
+            os.remove(os.path.join(current_app.config['COMPONENT_UPLOAD_FOLDER'], f))
         db.session.delete(obj)
         db.session.commit()
-        return redirect(url_for('user.profile', uid=current_user.id))
+        return redirect(url_for('user.info', uid=current_user.id))
     else:
         flash(u'.از این کامپوننت در یک یا چند پروژه استفاده شده است')
         return redirect(url_for('component.view', cid=cid))

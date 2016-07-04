@@ -34,8 +34,8 @@ class Component(db.Model):
         return component
 
     def component_files(self):
-        directory = os.path.join(current_app.config['UPLOAD_FOLDER'], 'components')
-        return [filename for filename in os.listdir(directory) if filename.startswith(str(self.id))]
+        return [filename for filename in os.listdir(current_app.config['COMPONENT_UPLOAD_FOLDER']) if
+                filename.startswith(str(self.id))]
 
     def to_json(self):
         return {"pid": self.id, "name": self.name, "deploy_version": self.deploy_version, "private": self.private}

@@ -40,8 +40,8 @@ def upload_component():
         return abort(401)
     """apply deploy version again"""
     if file_type in current_app.config['ALLOWED_EXTENSIONS']:
-        jar_file.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
-                                   'components', '%s.%s' % (str(component.id), file_type)))
+        jar_file.save(
+            os.path.join(current_app.config['COMPONENT_UPLOAD_FOLDER'], '%s.%s' % (str(component.id), file_type)))
         db.session.commit()
         return jsonify(), 200
     else:

@@ -22,7 +22,8 @@ class DefaultConfig(object):
     # Upload Configurations
     UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER') or 'uploads/'
     FAKE_UPLOAD = 'fake upload/sample.jar'
-    UPLOAD_DIRECTORIES = ['components', 'logos', 'top_projects']
+    UPLOAD_DIRECTORIES = ['logos', 'top_projects']
+    COMPONENT_UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER') or 'components/'
     ALLOWED_EXTENSIONS = {'jar'}
 
     # Download SDK
