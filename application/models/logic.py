@@ -13,8 +13,7 @@ class Logic(db.Model):
     message_type = db.Column(db.Enum('BasicEvent',
                                      'RequestEvent',
                                      'Response',
-                                     'NewEvent',
-                                     'type_b', name='message_type'))
+                                     'NewEvent', name='message_type'))
     __table_args__ = (
         UniqueConstraint("project_id", "component_1_id", "component_2_id", "message_type"),
     )

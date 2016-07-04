@@ -34,8 +34,8 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def generate_confirmation_token(self):
-        s = Serializer(current_app.config['SECRET_KEY'], current_app.config['EXPIRATION'])
-        return s.dumps(self.id, salt=current_app.config['SECURITY_PASSWORD_SALT'])
+        s = Serializer(current_app.config['SECRET_KEY'])
+        return s.dumps(self.id)
 
     @classmethod
     def generate_fake(cls):

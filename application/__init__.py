@@ -68,6 +68,9 @@ def configure_upload_directories(app):
         path = os.path.join(app.config['UPLOAD_FOLDER'], dir)
         if not os.path.exists(path):
             os.makedirs(path)
+    components_path = os.path.join(app.config['COMPONENT_UPLOAD_FOLDER'])
+    if not os.path.exists(components_path):
+        os.makedirs(components_path)
 
 
 def configure_admin(app):

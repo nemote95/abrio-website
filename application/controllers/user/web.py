@@ -86,7 +86,6 @@ def confirm(token):
     try:
         user_id = serializer.loads(
             token,
-            salt=current_app.config['SECURITY_PASSWORD_SALT'],
             max_age=current_app.config['EXPIRATION'])
 
         try:
