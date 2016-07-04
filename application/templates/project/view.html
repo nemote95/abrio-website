@@ -138,7 +138,11 @@
                                                     sel[0].options[op].selected=true;}}
                                             for (op=0;op<sel[1].length;op++){
                                                 if (sel[1].options[op].value=={{logic_view[i][1].id }}){
-                                                    sel[1].options[op].selected=true;}}});
+                                                    sel[1].options[op].selected=true;}}
+                                            for (op=0;op<sel[2].length;op++){
+                                                if (sel[2].options[op].value=='{{logic_view[i][2]}}'){
+
+                                                    sel[2].options[op].selected=true;}}});
 
                         </script>
                         {% elif logic_view[i][0].id %}
@@ -148,7 +152,11 @@
                                             var sel=row[row.length-1-{{i}}].getElementsByTagName("select");
                                             for (op=0;op<sel[0].length;op++){
                                                 if (sel[0].options[op].value=={{logic_view[i][0].id}}){
-                                                    sel[0].options[op].selected=true;}}});
+                                                    sel[0].options[op].selected=true;}}
+                                            for (op=0;op<sel[2].length;op++){
+                                                if (sel[2].options[op].value=='{{logic_view[i][2]}}'){
+
+                                                    sel[2].options[op].selected=true;}}});
 
                         </script>
                         {% else %}
@@ -158,7 +166,11 @@
                                             var sel=row[row.length-1-{{i}}].getElementsByTagName("select");
                                             for (op=0;op<sel[1].length;op++){
                                                 if (sel[1].options[op].value=={{logic_view[i][1].id}}){
-                                                    sel[1].options[op].selected=true;}}});
+                                                    sel[1].options[op].selected=true;}}
+                                            for (op=0;op<sel[2].length;op++){
+                                                if (sel[2].options[op].value=='{{logic_view[i][2]}}'){
+
+                                                    sel[2].options[op].selected=true;}}});
 
                         </script>
 
@@ -262,13 +274,13 @@ sel_2.add(option, 0);}
 comp2.appendChild(sel_2);
 
 var sel_3= document.createElement("select");
+var msg_list=["BasicEvent","RequestEvent","Response","NewEvent"];
+for(i=0;i<msg_list.length;i++){
 var option = document.createElement("option");
-option.text = "BasicEvent";
-option.value = "BasicEvent";
+option.text = msg_list[i];
 var top = sel_3.options[sel_3.selectedIndex];
 sel_3.add(option, top);
-msg.appendChild(sel_3);
-
+msg.appendChild(sel_3);}
 };
 function define(){
 var project_id = {{project.id}}
