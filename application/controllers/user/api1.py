@@ -1,3 +1,5 @@
+# python imports
+import re
 # flask imports
 from flask import g, request, jsonify, Blueprint
 from flask.ext.httpauth import HTTPBasicAuth
@@ -13,7 +15,9 @@ api = Blueprint('user.api1', __name__, url_prefix='/api/v1/user')
 
 @auth.verify_password
 def verify_password(email, password):
-    new_user = User.query.filter_by(email=email).one_or_none()
+    plain_email = re.match(re.compile("(.*)(@.*)"), email)
+    user_email = plain_email.group(1).replace('.', '') + plain_email.group(2)
+    new_user = User.query.filter_by(email=user_email).one_or_none()
     if not new_user or not new_user.verify_password(password):
         return False
     g.user = new_user
