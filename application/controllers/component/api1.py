@@ -2,7 +2,6 @@
 import os
 from itsdangerous import BadSignature
 from sqlalchemy import or_, and_
-from sqlalchemy import func
 # flask imports
 from flask import abort, Blueprint, jsonify, request, current_app, g
 from application.controllers.user.api1 import auth
@@ -39,10 +38,10 @@ def upload_component():
         component.deploy_version = version
     except BadSignature:
         return abort(401)
-
+    """apply deploy version again"""
     if file_type in current_app.config['ALLOWED_EXTENSIONS']:
         jar_file.save(os.path.join(current_app.config['UPLOAD_FOLDER'],
-                                   'components', '%s_v%s.%s' % (str(component.id), version, file_type)))
+                                   'components', '%s.%s' % (str(component.id), file_type)))
         db.session.commit()
         return jsonify(), 200
     else:
@@ -52,12 +51,14 @@ def upload_component():
 @api.route('/edit', methods=['POST'])
 @login_required
 def edit_component():
+    print request.json
     cid = request.json['id']
     name = request.json['name']
     new_component = Component.query.get(cid)
     new_component.name = name
-    if request.json['version']:
-        new_component.deploy_version = request.json['version']
+    """apply version"""
+    # if request.json['version']:
+    # new_component.deploy_version = request.json['version']
     db.session.commit()
     return jsonify(), 201
 

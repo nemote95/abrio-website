@@ -1,5 +1,7 @@
-from application.extensions import db
+#python imports
 from sqlalchemy import UniqueConstraint
+#project imports
+from application.extensions import db
 
 
 class Logic(db.Model):

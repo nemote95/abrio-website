@@ -2,7 +2,7 @@ from application.extensions import db, login_manager
 from enums import Abilities
 from flask.ext.login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import URLSafeTimedSerializer as Serializer
 from flask import current_app
 from sqlalchemy import and_
 from sqlalchemy import UniqueConstraint
@@ -11,8 +11,8 @@ from sqlalchemy import UniqueConstraint
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), unique=True, index=True)
-    password_hash = db.Column(db.String(128))
+    email = db.Column(db.String(64), unique=True, index=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
     confirmed = db.Column(db.Boolean, default=False)
     name = db.Column(db.String(100))
     company = db.Column(db.String(100))
@@ -33,9 +33,9 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def generate_confirmation_token(self, expiration=7 * 24 * 60 * 60):
-        s = Serializer(current_app.config['SECRET_KEY'], expiration)
-        return s.dumps({'confirm': self.id})
+    def generate_confirmation_token(self):
+        s = Serializer(current_app.config['SECRET_KEY'], current_app.config['EXPIRATION'])
+        return s.dumps(self.id, salt=current_app.config['SECURITY_PASSWORD_SALT'])
 
     @classmethod
     def generate_fake(cls):
@@ -59,7 +59,6 @@ class User(UserMixin, db.Model):
 
     def is_admin(self):
         return self.has_ability(Abilities.ALL)
-
 
     def add_ability(self, ability):
         user_ability = UserAbility(aid=ability, uid=self.id)

@@ -61,6 +61,7 @@ def generate_project_multiplier_data(user):
 
     component1 = Component()
     component1.name = 'multiplier 2'
+    component1.private = False
     component1.deploy_version = str(randint(0, 10))
     component1.owner_id = user.id
 
@@ -69,6 +70,7 @@ def generate_project_multiplier_data(user):
 
     component2 = Component()
     component2.name = 'multiplier 3'
+    component2.private = False
     component2.deploy_version = str(randint(0, 10))
     component2.owner_id = user.id
 
@@ -117,6 +119,7 @@ def generate_project_chat_data(user):
 
     component = Component()
     component.name = 'Chat component'
+    component.private = False
     component.deploy_version = str(randint(0, 10))
     component.owner_id = user.id
 
@@ -147,6 +150,8 @@ def generate_project_auth_data(user):
     project.name = 'authentication'
     project.owner = user
     project.owner_id = user.id
+    Project.private_key = PROJECT_AUTH_TOKEN
+    project.create_date = datetime.utcnow()
 
     db.session.add(project)
     db.session.commit()
@@ -154,6 +159,7 @@ def generate_project_auth_data(user):
 
     component = Component()
     component.name = 'Authentication component'
+    component.private = False
     component.deploy_version = str(randint(0, 10))
     component.owner_id = user.id
 
@@ -202,6 +208,7 @@ def generate_project_dispatcher_data(user):
 
     component = Component()
     component.name = 'One to one dispatcher'
+    component.private = False
     component.deploy_version = str(randint(0, 10))
     component.owner_id = user.id
 
@@ -241,6 +248,7 @@ def generate_project_football_data(user):
 
     component = Component()
     component.name = 'FK logic'
+    component.private = False
     component.deploy_version = str(randint(0, 10))
     component.owner_id = user.id
 

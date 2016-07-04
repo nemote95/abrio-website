@@ -17,7 +17,7 @@
             <a class="button is-primary" href="/download-sdk"> SDK دانلود</a><br>
             <div class="column rtl is-8">
                 <div class="columns" style="font-size: 24px;">
-                    <h1 class="title column is-7" style="font-size: 24px;">نام کامپوننت : </h1> <span class="column is-5"><input id="name" type="text"  value="{{component.name}}" disabled></span>    
+                    <h1 class="title column is-7" style="font-size: 24px;">نام کامپوننت : </h1> <span class="column is-5"><input id="name" type="text"  value="{{component.name}}" disabled></span>
                 </div>
             </div>
     </div>
@@ -25,10 +25,9 @@
             <a href="{{back}}">بازگشت ></a><br>
         </div>
     </div>
-    <div class="columns">
-        <div class="column is-4 rtl">
-        <div class="columns detail is-multiline">
-            <div class="column is-10 is-offset-1">
+    <!--
+    <div class="columns detail">
+        <div class="column is-10 is-offset-1">
             <div align="right" dir="rtl"><span>نسخه کامپوننت :<select
                     id="selectversion" disabled>
                         {% for version in version_choices %}
@@ -36,65 +35,79 @@
                         {% endfor %}
                     </select></span></div>
 
+        </div>
+    </div>-->
+    <div class="columns is-multiline">
+    <div class="column is-4">
+         <div class="columns detail">
+            <div class="column is-10 is-offset-1">
+                <div align="right" dir="rtl">شناسه ی کامپوننت :{{component.id}}</span></div>
+
             </div>
+            </div>
+        <div class="columns detail is-multiline">
             <div class="column is-10 is-offset-1">
                 {% if component.private %}
                 <div align="right" dir="rtl">
                     خصوصی
                 </div>
 
-                {% else %}
-                <div align="right" dir="rtl">
-                    عمومی
+                    {% else %}
+                    <div align="right" dir="rtl">
+                        عمومی
+
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="column is-10 is-offset-1">
+                    <div align="right" dir="rtl">امتیاز :{{component.mean}}</span></div>
 
                 </div>
-                {% endif %}
-            </div>
-            <div class="column is-10 is-offset-1">
-                <div align="right" dir="rtl">امتیاز :{{component.mean}}</span></div>
+                <div class="column is-10 is-offset-1">
+                    <div align="right" dir="rtl">امتیاز :{{component.mean}}</span></div>
 
-            </div>
-            <div class="column is-10 is-offset-1">
-                <div align="right" dir="rtl">امتیاز :{{component.mean}}</span></div>
+                </div>
+                <div class="column is-10 is-offset-1">
+                    <div align="right" dir="rtl">تعداد استفاده :{{nr_use}}</span></div>
 
-            </div>
-            <div class="column is-10 is-offset-1">
-                <div align="right" dir="rtl">تعداد استفاده :{{nr_use}}</span></div>
+                </div>
+                <div class="column is-10 is-offset-1">
+                    <div align="right" dir="rtl"><a href="{{url_for('user.info',uid=component.owner_id)}}">owner page</a></span></div>
 
-            </div>
-            <div class="column is-10 is-offset-1">
-                <div align="right" dir="rtl"><a href="{{url_for('user.info',uid=component.owner_id)}}">owner page</a></span></div>
-
-            </div>
-        </div>    
-    </div>
-    <div class="column is-6 rtl">
-        {% if component.owner_id==current_user.id %}
-        <div class="columns">
-            <div align="right" class="column is-10 is-offset-1">
-                <button id="editbutton" class=" button is-primary" onclick="edit()">ویرایش</button>
-                <button id="savebutton" class=" button is-primary" onclick="save()" style="display: none;">ذخیره
-                </button>
+                </div>
             </div>
         </div>
-        <div class="columns">
-            <div align="right" class="column is-10 is-offset-1">
-                <label class="label">ارسال فایل</label>
-                <form method=post action="{{url_for('component.upload',cid=component.id)}}"
-                      enctype="multipart/form-data">
-                    {{ upload_form.file(class="input") }}<br>
-                    {{ upload_form.version(class="input")}}<br>
-                    {{ upload_form.csrf_token }}
-                    <input class="button is-success" type="submit" value="آپلود">
-                </form>
+        <div class="column is-5 is-multiline">
+         {% if component.owner_id==current_user.id %}
+            <div class="columns">
+                <div align="right" class="column is-10 is-offset-1">
+                    <button id="editbutton" class=" button is-primary" onclick="edit()">ویرایش</button>
+                    <button id="savebutton" class=" button is-primary" onclick="save()" style="display: none;">ذخیره
+                    </button>
+                </div>
             </div>
-        </div>
-    {% endif %}
+            <div class="columns">
+                <div align="right" class="column is-10 is-offset-1">
+                    <label class="label">ارسال فایل</label>
+                    <form method=post action="{{url_for('component.upload',cid=component.id)}}"
+                          enctype="multipart/form-data">
+                        {{ upload_form.file(class="input") }}<br>
+                    <!--apply deploy version again    {{ upload_form.version(class="input")}}<br>-->
+                        {{ upload_form.csrf_token }}
+                        <input class="button is-success" type="submit" value="آپلود">
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+    </div>
     </div>
     
+   </div>
     </div>
-    
-    
+
+    </div>
+
+
     {% if component.owner_id!=current_user.id %}
     <div>
             <input type="radio" name="star" value=1> 1<br>
@@ -122,12 +135,13 @@ $('#savebutton').show();
 
 function save(){
 var cid = {{component.id}}
+/* apply version +json
 var e = document.getElementById("selectversion");
 if (e.options.length){
 var version = e.options[e.selectedIndex].value;}
-else {version='';}
+else {version='';} */
 var name = document.getElementById("name").value;
-var arr = { id: cid, name: name, version: version };
+var arr = { id: cid, name: name };
 $.ajax({
 url: '/api/v1/component/edit',
 type: 'POST',

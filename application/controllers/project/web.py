@@ -51,12 +51,13 @@ def view(pid, obj=None):
 
     project_logic = Logic.query.filter_by(project_id=pid).all()
 
-    components_choices =[]
+    components_choices = []
 
     for l in project_logic:
-        components = Component.query.filter(or_(Component.id==l.component_1_id,Component.id==l.component_2_id)).all()
+        components = Component.query.filter(
+            or_(Component.id == l.component_1_id, Component.id == l.component_2_id)).all()
         for c in components:
-            if {"id": c.id, "name": c.name}  not in components_choices:
+            if {"id": c.id, "name": c.name} not in components_choices:
                 components_choices.append({"id": c.id, "name": c.name})
 
     components_list = Component.query.filter(
@@ -68,7 +69,8 @@ def view(pid, obj=None):
 
     running = redis.exists('abr:%s' % obj.private_key)
     return render_template('project/view.html', project=obj, logic_view=logic_view,
-                           components_choices=dumps(components_choices),components_list=components_list, running=running, form=form)
+                           components_choices=dumps(components_choices), components_list=components_list,
+                           running=running, form=form)
 
 
 @project.route('/<int:pid>/run', methods=['POST'])

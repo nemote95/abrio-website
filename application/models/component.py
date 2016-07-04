@@ -1,14 +1,17 @@
+# python imports
 import os
-from application.extensions import db
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import current_app
+from itsdangerous import JSONWebSignatureSerializer as Serializer
 from sqlalchemy import UniqueConstraint
+# flask imports
+from flask import current_app
+# project imports
+from application.extensions import db
 
 
 class Component(db.Model):
     __tablename__ = 'components'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64))
+    name = db.Column(db.String(64), nullable=False)
     deploy_version = db.Column(db.String(16))
     private = db.Column(db.Boolean, default=True)
     mean = db.Column(db.Float(precision=1), default=0)
@@ -48,11 +51,10 @@ class Component(db.Model):
         )
         db.session.add(fake)
         db.session.commit()
-        for i in range(int(fake.deploy_version)):
-            copyfile(current_app.config['FAKE_UPLOAD'],
-                     os.path.join(current_app.config['UPLOAD_FOLDER'], 'components',
-                                  '%s_v%s.%s' % (
-                                      str(fake.id), i, 'jar')))
+        """apply deploy version again"""
+        copyfile(current_app.config['FAKE_UPLOAD'],
+                 os.path.join(current_app.config['UPLOAD_FOLDER'], 'components',
+                              '%s.%s' % (str(fake.id), 'jar')))
         return fake
 
     def __repr__(self):
@@ -62,8 +64,8 @@ class Component(db.Model):
 class Star(db.Model):
     __tablename__ = 'stars'
     id = db.Column(db.Integer, primary_key=True)
-    component_id = db.Column(db.Integer, db.ForeignKey('components.id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    component_id = db.Column(db.Integer, db.ForeignKey('components.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     amount = db.Column(db.Integer, default=0)
     __table_args__ = (
         UniqueConstraint("component_id", "user_id"),
