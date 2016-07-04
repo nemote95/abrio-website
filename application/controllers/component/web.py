@@ -25,18 +25,10 @@ def create():
     if request.method == 'POST' and form.validate_on_submit():
         back = request.args.get('back')
         new_component = Component(name=form.name.data, owner_id=current_user.id, private=form.private.data)
-        filename = secure_filename(form.file.data.filename)
-        file_type = filename.rsplit('.', 1)[1]
-        if file_type in current_app.config['ALLOWED_EXTENSIONS']:
-            db.session.add(new_component)
-            db.session.commit()
-            """apply deploy version again"""
-            form.file.data.save(os.path.join(current_app.config['COMPONENT_UPLOAD_FOLDER'],
-                                             '%s.%s' % (str(new_component.id), file_type)))
-            return redirect(url_for('component.view', cid=new_component.id, back=back))
-        else:
-            flash(u'.فرمت این فایل قابل پشتیبانی نیست')
-            return redirect(url_for('component.create'))
+
+        db.session.add(new_component)
+        db.session.commit()
+        return redirect(url_for('component.view', cid=new_component.id, back=back))
     return render_template('component/newcomponent.html', form=form)
 
 
