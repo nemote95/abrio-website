@@ -19,14 +19,14 @@
         <section class="modal-card-body">
             <div class="columns">
                 <div class="column is-10">
-                    <input class="input" placeholder="نام کامپوننت">
+                    <input class="input" id="search-input" placeholder="نام کامپوننت">
                 </div>
                 <div class="column is-2">
-                    <input class="button" type="submit" value="جستجو">
+                    <button class="button" onclick="search()">جستجو </button>
                 </div>
             </div>
             <div class="columns">
-                <div class="column is-12">
+                <div class="column is-12" id="list">
                        {%for c in components_list%}
                     <div class="project">
 
@@ -181,11 +181,28 @@
 {%block script %}
 {{super()}}
 
+function search(){
+    var name=document.getElementById("search-input").value
+    $.ajax({
+    url: '/api/v1/component/search/'+name,
+    type: 'GET',
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    async: false,
+    success: function(msg) {
+    components=msg['result'];
+    e=document.getElementById('list');
+    e.innerHTML = "";
+    for( i=0;i < components.length;i++ ){
+        var cmp = document.createElement('div');
+        cmp.setAttribute("class", "project");
+        var inner = '<div class="columns"><div class="column is-6"><div class="name">'+ components[i].name +'</div></div><div class="column is-12"><div class="columns"><div align="center" class="column is-10"><a href=\"/component/' + components[i].id + '\"><p class="button is-primary">جزئیات</p></a></div></div></div><div align="center"class="column is-2"><a class="button is-primary" onclick="add_choice(' + components[i].id + ',' + components[i].name + ')">add</a></div></div>';
+        cmp.innerHTML = inner ;
+        e.appendChild(cmp);
+    }}})};
 
 var components_choices={{components_choices|safe}}
 document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[1].className="selected";
-$(document).ajaxStop(function(){
-window.location.reload();});
 $(function() {
 
 $( ".draggable" ).draggable({containment: "parent"});
@@ -297,6 +314,7 @@ contentType: 'application/json; charset=utf-8',
 dataType: 'json',
 async: false,
 success: function(msg) {
+window.location.reload();
 }
 });
 };
