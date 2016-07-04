@@ -28,6 +28,7 @@ class DefaultConfig(object):
 
     # Download SDK
     SDK_DIRECTORY = os.environ.get('SDK_DIRECTORY') or 'sdk/'
+    SDK_FILES = {'abrio-sdk': 'sdk.tar.gz', 'client-sdk-python': '', 'client-sdk-java': '', 'client-sdk-unity': ''}
 
     # Email Configurations
     REQUEST_URL = os.environ.get('REQUEST_URL')
