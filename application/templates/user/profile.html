@@ -3,11 +3,12 @@
 {{super()}}
     <title>صفحه شخصی {{user_page.name}}</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/profile.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/responsive/main.css')}}">
 {% endblock %}
 
 {% block content %}
 <!-- content -->
-<div class="column is-8 is-offset-1 main">
+<div class="column is-11-mobile is-9 is-offset-1 main">
     <br>
     <div class="columns">
 
@@ -35,7 +36,7 @@
         </div>
     </div>
 
-    <div class="columns">
+    <div class="columns is-">
         <div class="column rtl is-5 component">
             <div class="title">
                 <h3>کامپوننت ها

@@ -2,11 +2,20 @@
 {%block head %}
 {{super()}}
     <title>{{project.name}} در ابریو</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/project-view.css')}}">
 {% endblock %}
 {%block content %}
-<img src="{{url_for('project.top_project_image',tpid=project.id)}}" alt="none">
-<p>{{project.name}}
-<p>{{project.description}}
+<div class="columns">
+	<div class="column is-11-mobile is-8 is-offset-1 main">
+	<div class="columns is-multiline">
+		<div class="column is-6">
+			<img src="{{url_for('project.top_project_image',tpid=project.id)}}" alt="none">		
+		</div>
+		<div class="column is-10 is-offset-1"><p>{{project.name}}</p></div>
+		<div class="column is-10 is-offset-1"><p>{{project.description}}</p></div>
+	</div>
+	</div>	
+</div>
     {%endblock%}
 {%block script %}
 {{super()}}

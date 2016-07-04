@@ -3,6 +3,8 @@
 {{super()}}
     <title>{{project.name}}</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/project-view.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/goSamples.css')}}">
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.6.7/go-debug.js"></script> -->
 {% endblock %}
 
 {%block content %}
@@ -17,28 +19,25 @@
         <section class="modal-card-body">
             <div class="columns">
                 <div class="column is-10">
-                    <input class="input" placeholder="نام کامپوننت">
+                    <input class="input" id="search-input" placeholder="نام کامپوننت">
                 </div>
                 <div class="column is-2">
-                    <input class="button" type="submit" value="جستجو">
-                </div>
-                <div class="column rtl is-3">
-                    <a href="{{url_for('project.list_projects')}}">بازگشت ></a>
+                    <button class="button" onclick="search()">جستجو </button>
                 </div>
             </div>
             <div class="columns">
-                <div class="column is-12">
+                <div class="column is-12" id="list">
                        {%for c in components_list%}
                     <div class="project">
 
                         <div class="columns">
-                            <div class="column is-10">
+                            <div class="column is-6">
                                 <div class="name">{{c.name}}</div>
                                 <div class="desc">نسخه  :
                                     {{c.deploy_version}}
                                 </div>
                             </div>
-                            <div class="column is-1">
+                            <div class="column is-4">
                                 <a class="button is-primary"
                                    href="{{url_for('component.view',cid=c.id)}}">جزئیات</a>
                             </div>
@@ -60,7 +59,7 @@
     </div>
 </div>
 <!-- content -->
-<div class="column is-8 is-offset-1 main">
+<div class="column is-11-mobile is-8 is-offset-1 main">
     <br>
     <div class="columns">
 
@@ -119,10 +118,13 @@
             <div class="title">Project Logic</div>
             <div class="columns">
                 <div class="column is-3">
-                    <button class="is-primary button" onclick="define()" style="width: 100%;margin-bottom: 1em;">ذخیره
+                    <button class="is-primary button" onclick="save()" style="width: 100%;margin-bottom: 1em;">ذخیره
                     </button>
                     <button class="is-success button" style="width: 100%;" onclick="showPopup()">افزودن کامپوننت
                     </button>
+                </div>
+                <div  id="myDiagramDiv" class="column drag is-10 is-hidden-mobile is-hidden-desktop is-hidden-tablet" >
+                    
                 </div>
                 <div class="column drag is-10">
                     <button class="button is-success" onclick="newRow()">اضافه کردن سطر جدید</button>
@@ -190,10 +192,29 @@
 
 {%block script %}
 {{super()}}
+
+function search(){
+    var name=document.getElementById("search-input").value
+    $.ajax({
+    url: '/api/v1/component/search/'+name,
+    type: 'GET',
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    async: false,
+    success: function(msg) {
+    components=msg['result'];
+    e=document.getElementById('list');
+    e.innerHTML = "";
+    for( i=0;i < components.length;i++ ){
+        var cmp = document.createElement('div');
+        cmp.setAttribute("class", "project");
+        var inner = '<div class="columns"><div class="column is-6"><div class="name">'+ components[i].name +'</div></div><div class="column is-12"><div class="columns"><div align="center" class="column is-10"><a href=\"/component/' + components[i].id + '\"><p class="button is-primary">جزئیات</p></a></div></div></div><div align="center"class="column is-2"><a class="button is-primary" onclick="add_choice(' + components[i].id + ',' + components[i].name + ')">add</a></div></div>';
+        cmp.innerHTML = inner ;
+        e.appendChild(cmp);
+    }}})};
+
 var components_choices={{components_choices|safe}}
 document.getElementsByClassName("submenu")[0].getElementsByTagName("li")[1].className="selected";
-$(document).ajaxStop(function(){
-window.location.reload();});
 $(function() {
 
 $( ".draggable" ).draggable({containment: "parent"});
@@ -218,6 +239,7 @@ $('.delete').click(function(){
 $('.modal').removeClass('is-active');
 });
 
+    
 function add_choice(cid,cname){
     components_choices.push({id: cid,name: cname});
     var row=document.getElementById("define-logic").getElementsByTagName("tr");
@@ -304,8 +326,10 @@ contentType: 'application/json; charset=utf-8',
 dataType: 'json',
 async: false,
 success: function(msg) {
+window.location.reload();
 }
 });
 };
 {%endblock%}
+
 
