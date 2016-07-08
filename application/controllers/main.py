@@ -30,7 +30,7 @@ def downloads():
 def download():
     download_file = request.args.get("sdk")
     return send_from_directory(directory=current_app.config['SDK_DIRECTORY'],
-                               filename=download_file, as_attachment=True)
+                               filename=current_app.config['SDK_FILES'][download_file], as_attachment=True)
 
 
 @main.route('/tutorials/')

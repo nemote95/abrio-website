@@ -7,7 +7,6 @@ from flask.ext.wtf.file import FileField, FileRequired
 class CreateComponentForm(WTFForm):
     name = StringField('Component Name', [validators.DataRequired()])
     private = BooleanField('private', [validators.optional()])
-    file = FileField('Component file', validators=[FileRequired()])
     """set datarequired validator"""
     version = StringField('version')
 

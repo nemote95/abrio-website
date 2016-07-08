@@ -18,7 +18,6 @@
                           enctype="multipart/form-data">
                         نام کامپوننت :{{form.name(class="input") }} <br>
                         خصوصی :{{form.private(type="checkbox") }}<br>
-                        فایل : {{form.file(class="input") }}<br>
                         <!--apply deploy version again
                         نسخه : {{ form.version(class="input")}}<br>
                         -->
@@ -29,7 +28,7 @@
             </div>
             <div class="column rtl is-3 is-offset-3">
                     <a href="{{request.referrer}}">بازگشت ></a><br>
-                    <a class="button is-primary" href="/download-sdk"> SDK دانلود</a><br>
+                    <a class="button is-primary" href="/download?sdk=abrio-sdk"> SDK دانلود</a><br>
                 </div>
         </div>
 {% endblock %}
