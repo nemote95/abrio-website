@@ -1,6 +1,4 @@
-# flask imports
 from flask import Blueprint, request, jsonify, abort
-# project imports
 from application.models.logic import Logic
 from application.models.project import Project
 from application.models.component import Component

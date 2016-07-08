@@ -1,6 +1,5 @@
-# flask imports
 from flask.ext.script import Manager, prompt_bool
-# project imports
+
 from application.extensions import db, redis
 
 manager = Manager(usage="Perform database operations")

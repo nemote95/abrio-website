@@ -1,10 +1,10 @@
-# python imports
+
 import re
-# flask imports
+
 from flask import g, request, jsonify, Blueprint
 from flask.ext.httpauth import HTTPBasicAuth
 from flask.ext.login import current_user, login_required
-# project imports
+
 from application.extensions import db
 from application.models.user import User
 

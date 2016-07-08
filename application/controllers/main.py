@@ -1,10 +1,10 @@
-# python imports
+
 from sqlalchemy import or_
 import random
-# flask imports
+
 from flask import Blueprint, render_template, send_from_directory, current_app, request
 from flask.ext.login import login_required, current_user
-# project imports
+
 from application.models.component import Component
 from application.models.project import TopProject
 from application.models.logic import Logic

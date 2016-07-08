@@ -3,11 +3,9 @@
 import os
 import re
 from sqlalchemy import or_
-# flask imports
 from flask import Blueprint, request, render_template, redirect, url_for, flash, abort, current_app
 from flask.ext.login import current_user, login_required
 from werkzeug import secure_filename
-# project imports
 from application.models.component import Component
 from application.models.logic import Logic
 from application.forms.component import CreateComponentForm, UploadForm

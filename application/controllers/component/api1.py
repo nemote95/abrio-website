@@ -2,11 +2,9 @@
 import os
 from itsdangerous import BadSignature
 from sqlalchemy import or_, and_
-# flask imports
 from flask import abort, Blueprint, jsonify, request, current_app, g
 from application.controllers.user.api1 import auth
 from flask.ext.login import current_user, login_required
-# project imports
 from application.models.component import Component, Star
 from application.models.logic import Logic
 from application.extensions import db

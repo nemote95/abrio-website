@@ -1,15 +1,15 @@
 # coding=utf-8
-# python imports
+
 from datetime import datetime
 from uuid import uuid4
 from sqlalchemy import or_
 from json import dumps
 import os
 from werkzeug import secure_filename
-# flask imports
+
 from flask import Blueprint, request, render_template, redirect, url_for, flash, current_app, send_from_directory
 from flask.ext.login import current_user, login_required
-# project imports
+
 from application.models.project import Project, TopProject
 from application.models.component import Component
 from application.models.logic import Logic

@@ -1,7 +1,6 @@
-# python imports
 from uuid import uuid4
 from datetime import datetime
-# project imports
+
 from application.extensions import db
 
 

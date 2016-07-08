@@ -1,6 +1,5 @@
-# python imports
 from sqlalchemy.exc import IntegrityError
-# flask imports
+
 from flask_admin import AdminIndexView as oldAdminIndexView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.rediscli import RedisCli
@@ -9,7 +8,7 @@ from flask_admin.model.helpers import get_mdict_item_or_list
 from flask_admin.helpers import get_redirect_target
 from flask import redirect, current_app, flash, abort, request
 from flask_login import current_user
-# project imports
+
 import os
 from werkzeug import secure_filename
 from application.forms.project import CreateTopProjectForm, EditTopProjectForm

@@ -1,15 +1,15 @@
 # coding=utf-8
-# python imports
+
 from requests import ConnectionError
 from sqlalchemy.orm.exc import NoResultFound
 import re
 from itsdangerous import URLSafeTimedSerializer as Serializer
 from itsdangerous import BadSignature
 from sqlalchemy import and_
-# flask imports
+
 from flask import Blueprint, render_template, redirect, request, url_for, flash, abort, current_app
 from flask.ext.login import login_user, login_required, logout_user, current_user
-# project imports
+
 from application.extensions import db, email
 from application.forms.user import RegistrationForm, LoginForm
 from application.forms.project import CreateProjectForm

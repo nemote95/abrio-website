@@ -1,10 +1,9 @@
-# python imports
 import os
 from itsdangerous import JSONWebSignatureSerializer as Serializer
 from sqlalchemy import UniqueConstraint
-# flask imports
+
 from flask import current_app
-# project imports
+
 from application.extensions import db
 
 

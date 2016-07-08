@@ -1,4 +1,3 @@
-# flask imports
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 import redis
