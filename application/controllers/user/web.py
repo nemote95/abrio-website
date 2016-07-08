@@ -64,8 +64,8 @@ def register():
 
         new_user = User(email=user_email, password=form.password.data)
         db.session.add(new_user)
-        new_user.add_ability(Abilities.TYPICAL)
         db.session.commit()
+        new_user.add_ability(Abilities.TYPICAL)
 
         token = new_user.generate_confirmation_token()
         url = url_for('user.confirm', token=token, _external=True)
