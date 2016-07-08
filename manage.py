@@ -1,7 +1,8 @@
-# python imports
+#!/usr/bin/env python
+#coding=utf-8
 import os
 # flask imports
-from flask.ext.script import Manager, Shell,Server
+from flask.ext.script import Manager, Shell, Server
 # project imports
 from application import create_app
 from application.database import manager as database_manager
