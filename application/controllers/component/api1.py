@@ -88,7 +88,8 @@ def search(name=""):
                                                  Component.owner_id == current_user.id))).order_by(
         Component.mean.desc()).all()
     result = [{'id': c.id, 'name': c.name, 'private': c.private, 'mean': c.mean,
-               "nr_use": len(Logic.query.filter(or_(Logic.component_1_id == c.id, Logic.component_2_id == c.id)).all())}
+               "nr_use": db.session.query(Logic.project_id.distinct()).filter(
+                        or_(Logic.component_1_id == c.id, Logic.component_2_id == c.id)).count()}
               for c in components]
     return jsonify({"result": result}), 200
 

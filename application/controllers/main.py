@@ -5,6 +5,7 @@ import random
 from flask import Blueprint, render_template, send_from_directory, current_app, request
 from flask.ext.login import login_required, current_user
 # project imports
+from application.extensions import db
 from application.models.component import Component
 from application.models.project import TopProject
 from application.models.logic import Logic
@@ -50,8 +51,8 @@ def explore():
     components = Component.query.filter(
         or_(Component.owner_id == current_user.id, Component.private == False)).order_by(Component.mean.desc()).all()
     details = [{'id': c.id, 'name': c.name, 'private': c.private, 'mean': c.mean,
-                "nr_use": len(
-                    Logic.query.filter(or_(Logic.component_1_id == c.id, Logic.component_2_id == c.id)).all())}
+                "nr_use": db.session.query(Logic.project_id.distinct()).filter(
+                        or_(Logic.component_1_id == c.id, Logic.component_2_id == c.id)).count()}
                for c in components]
 
     return render_template('explore.html', details=details, random_top_projects=random_top_projects)
