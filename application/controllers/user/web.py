@@ -64,13 +64,14 @@ def register():
 
         new_user = User(email=user_email, password=form.password.data)
         db.session.add(new_user)
+        new_user.add_ability(Abilities.TYPICAL)
+        db.session.commit()
+
         token = new_user.generate_confirmation_token()
         url = url_for('user.confirm', token=token, _external=True)
         try:
             email.send(new_user.email, 'Confirm Your Account',
                        render_template('user/email/confirm.html', user=new_user, url=url))
-            db.session.commit()
-            new_user.add_ability(Abilities.TYPICAL)
         except ConnectionError:
             flash(u'.ارسال ایمیل تایید حساب کاربری با مشکل روبه رو شد.مجددا تلاش کنید')
             db.session.rollback()
