@@ -1,117 +1,419 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
     <title>ابریو</title>
-    <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/bulma.min.css") }}>
-    <link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/responsive/index.css") }}>
-    <link href='https://fonts.googleapis.com/css?family=Nunito:700' rel='stylesheet' type='text/css'>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="" rel="stylesheet">
+    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+{#    <link href="{{ url_for('static', filename='') }}" rel="stylesheet" type="text/css">#}
+
+    <!-- Custom Fonts -->
+    <link href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+    <!-- Plugin CSS -->
+    <link href="{{ url_for('static', filename="vendor/magnific-popup/magnific-popup.css") }}" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link href="{{ url_for('static', filename="css/abrio.min.css") }}" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
-<body>
-<video autoplay loop poster="polina.jpg" id="bg-vid">
-    <source src={{ url_for('static', filename="medias/bg.mp4") }} type="video/mp4">
-</video>
-<section class="hero is-primary is-fullheight">
-	<div class="hero-header">
-	    <header class="header">
-	      <div class="container">
-	        <div class="header-left">
-	          <a class="header-item" href="#">
-	            <img src={{ url_for('static',filename="medias/abrio-transparent.png") }} alt="Logo">
-	          </a>
-	        </div>
-	        <span class="header-toggle">
-	          <span></span>
-	          <span></span>
-	          <span></span>
-	        </span>
-	        <div class="header-right header-menu">
-	         
-	        	{% if current_user.is_authenticated %}
-            		<span class="header-item">
-            			<a class="button is-primary is-inverted" href="{{ url_for('user.info') }}">پنل من</a>
-            		</span>
-            		<span class="header-item">
-            			<a href="{{ url_for('user.logout') }}">خروج</a>
-            		</span>
-        		{% else %}
-            		<span class="header-item">
-            			<a  href="{{ url_for('user.login') }}">ورود</a>
-            		</span>
-            		<span class="header-item">
-            			<a class="button is-primary is-inverted" href="{{ url_for('user.register') }}">ثبت نام</a>
-            		</span>
-        		{% endif %}
-	        </div>
-	      </div>
-	    </header>
-	  </div>
-      <div class="buttons" style="display: none;">
-        {% if current_user.is_authenticated %}
-            <div><a class="button is-primary is-inverted" href="{{ url_for('user.info',uid=current_user.id) }}">پنل من</a></div>
-            <div><a href="{{ url_for('user.logout') }}">خروج</a></div>
-        {% else %}
-          <div><a href="{{ url_for('user.login') }}" class="button is-primary">ورود</a></div>
-          <div><a href="{{ url_for('user.login') }} " class="button is-primary is-inverted">ثبت نام</a></div>
-        {% endif %}
-      </div>
-    <!-- Hero content: will be in the middle -->
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class=flashes>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-    
-    <div class="hero-content">
-        <div class="title container">
-            <img src={{ url_for('static',filename="medias/abrio-transparent.png") }}>
+
+<body id="page-top">
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span> منو <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand page-scroll" href="#page-top">ابریو</a>
         </div>
-        <h1 class="title">
-            AbrIO
-        </h1>
-        <br/>
-        <h2 class="subtitle">
-             اَبْریو یک سرویس بی درنگ برای بک اند پروژه های شماست
-{#            Abrio is a customizable real time Backend as a Service for you! <br/>Abrio is reliable and always responsive.#}
-        </h2>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right" style="direction: rtl">
+                <li>
+                    <a class="page-scroll" href="#contact">تماس با ما</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#about">درباره ما</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#services">سرویس ها</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#portfolio">پروژه ها</a>
+                </li>
+                <li>
+                    <img src="{{ url_for('static', filename='abrio-blue.png') }}" style="max-height: 30px ; margin: 5px">
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+<header>
+    <video loop muted autoplay class="fullscreen-bg__video">
+        <source src="{{ url_for('static', filename='medias/bg.mp4') }}" type="video/mp4">
+    </video>
+    <div class="header-content">
+        <div class="header-content-inner">
+            <h1 id="homeHeading">ابریو </h1>
+            <hr>
+            <p>اَبْریو یک سرویس بی درنگ برای بک اند پروژه های شماست</p>
+            <a href="#about" class="btn btn-primary btn-xl page-scroll">بیشتر بدانید</a>
+        </div>
+    </div>
+</header>
+
+<section class="bg-primary" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">کمی بیشتر از ابریو بدانید !</h2>
+                <hr class="light">
+                <p class="text-faded">
+                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+                </p>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('user.info',uid=current_user.id) }}" class="page-scroll btn btn-default btn-xl sr-button"> پنل مدیریت من</a>
+
+                {% else %}
+                    <a href="{{ url_for('user.login') }}" class="page-scroll btn btn-default btn-xl sr-button">ورود به سیستم</a>
+                    <a href="{{ url_for('user.register') }}" class="page-scroll btn btn-default btn-xl sr-button">ثبت نام کنید </a>
+                {% endif %}
+
+
+            </div>
+        </div>
     </div>
 </section>
+
+<section id="services">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">ویژگی های ابریو</h2>
+                <hr class="primary">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-diamond text-primary sr-icons"></i>
+                    <h3>Sturdy Templates</h3>
+                    <p class="text-muted">Our templates are updated regularly so they don't break.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-paper-plane text-primary sr-icons"></i>
+                    <h3>Ready to Ship</h3>
+                    <p class="text-muted">You can use this theme as is, or you can make changes!</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-newspaper-o text-primary sr-icons"></i>
+                    <h3>Up to Date</h3>
+                    <p class="text-muted">We update dependencies to keep things fresh.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-heart text-primary sr-icons"></i>
+                    <h3>Made with Love</h3>
+                    <p class="text-muted">You have to make your websites with love these days!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{#<section class="no-padding" id="portfolio">#}
+{#    <div class="container-fluid">#}
+{#        <div class="row no-gutter popup-gallery">#}
+{#            <div class="col-lg-4 col-sm-6">#}
+{#                <a href="img/portfolio/fullsize/1.jpg" class="portfolio-box">#}
+{#                    <img src="img/portfolio/thumbnails/1.jpg" class="img-responsive" alt="">#}
+{#                    <div class="portfolio-box-caption">#}
+{#                        <div class="portfolio-box-caption-content">#}
+{#                            <div class="project-category text-faded">#}
+{#                                Category#}
+{#                            </div>#}
+{#                            <div class="project-name">#}
+{#                                Project Name#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </a>#}
+{#            </div>#}
+{#            <div class="col-lg-4 col-sm-6">#}
+{#                <a href="img/portfolio/fullsize/2.jpg" class="portfolio-box">#}
+{#                    <img src="img/portfolio/thumbnails/2.jpg" class="img-responsive" alt="">#}
+{#                    <div class="portfolio-box-caption">#}
+{#                        <div class="portfolio-box-caption-content">#}
+{#                            <div class="project-category text-faded">#}
+{#                                Category#}
+{#                            </div>#}
+{#                            <div class="project-name">#}
+{#                                Project Name#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </a>#}
+{#            </div>#}
+{#            <div class="col-lg-4 col-sm-6">#}
+{#                <a href="img/portfolio/fullsize/3.jpg" class="portfolio-box">#}
+{#                    <img src="img/portfolio/thumbnails/3.jpg" class="img-responsive" alt="">#}
+{#                    <div class="portfolio-box-caption">#}
+{#                        <div class="portfolio-box-caption-content">#}
+{#                            <div class="project-category text-faded">#}
+{#                                Category#}
+{#                            </div>#}
+{#                            <div class="project-name">#}
+{#                                Project Name#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </a>#}
+{#            </div>#}
+{#            <div class="col-lg-4 col-sm-6">#}
+{#                <a href="img/portfolio/fullsize/4.jpg" class="portfolio-box">#}
+{#                    <img src="img/portfolio/thumbnails/4.jpg" class="img-responsive" alt="">#}
+{#                    <div class="portfolio-box-caption">#}
+{#                        <div class="portfolio-box-caption-content">#}
+{#                            <div class="project-category text-faded">#}
+{#                                Category#}
+{#                            </div>#}
+{#                            <div class="project-name">#}
+{#                                Project Name#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </a>#}
+{#            </div>#}
+{#            <div class="col-lg-4 col-sm-6">#}
+{#                <a href="img/portfolio/fullsize/5.jpg" class="portfolio-box">#}
+{#                    <img src="img/portfolio/thumbnails/5.jpg" class="img-responsive" alt="">#}
+{#                    <div class="portfolio-box-caption">#}
+{#                        <div class="portfolio-box-caption-content">#}
+{#                            <div class="project-category text-faded">#}
+{#                                Category#}
+{#                            </div>#}
+{#                            <div class="project-name">#}
+{#                                Project Name#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </a>#}
+{#            </div>#}
+{#            <div class="col-lg-4 col-sm-6">#}
+{#                <a href="img/portfolio/fullsize/6.jpg" class="portfolio-box">#}
+{#                    <img src="img/portfolio/thumbnails/6.jpg" class="img-responsive" alt="">#}
+{#                    <div class="portfolio-box-caption">#}
+{#                        <div class="portfolio-box-caption-content">#}
+{#                            <div class="project-category text-faded">#}
+{#                                Category#}
+{#                            </div>#}
+{#                            <div class="project-name">#}
+{#                                Project Name#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </a>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</section>#}
+
+<aside class="bg-dark">
+    <div class="container text-center">
+        <div class="call-to-action">
+            <h2> محیط توسعه آزمایشی ابریو را دانلود کنید</h2>
+            <a href="http://startbootstrap.com/template-overviews/creative/" class="btn btn-default btn-xl sr-button">
+                دانلود اس دی کی
+            </a>
+        </div>
+    </div>
+</aside>
+
+<section id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">با ما در تماس باشید !</h2>
+                <hr class="primary">
+                <p>Ready to start your next project with us? That's great! Give us a call or send us an email and we will get back to you as soon as possible!</p>
+            </div>
+            <div class="col-lg-4 col-lg-offset-2 text-center">
+                <i class="fa fa-phone fa-3x sr-contact"></i>
+                <p>123-456-6789</p>
+            </div>
+            <div class="col-lg-4 text-center">
+                <i class="fa fa-envelope-o fa-3x sr-contact"></i>
+                <p><a href="mailto:your-email@your-domain.com">feedback@startbootstrap.com</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- jQuery -->
+<script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+
+<!-- Plugin JavaScript -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+<script src="{{ url_for('static', filename='vendor/scrollreveal/scrollreveal.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
+
+<!-- Theme JavaScript -->
+<script src="{{ url_for('static', filename='js/creative.min.js') }}"></script>
+
 </body>
-<style type="text/css">
-@font-face{
-    font-family: 'Yekan';
-    src: url('../static/font/BYekan.eot?#iefix') format('embedded-opentype'),
-    url('../static/font/BYekan.woff') format('woff'),
-    url('../static/font/BYekan.ttf') format('truetype');
-}
-	body *{
-		font-family: 'Yekan';
-	}
-    .title{
-        font-family:Nunito;
-        font-size: 72px;
-    }
-    .hero.is-primary{
-        background-color: rgba(24,153,211,0.7);
-    }
-    video#bg-vid {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
-        z-index: -100;
-        -ms-transform: translateX(-50%) translateY(-50%);
-        -moz-transform: translateX(-50%) translateY(-50%);
-        -webkit-transform: translateX(-50%) translateY(-50%);
-        transform: translateX(-50%) translateY(-50%);
-        background: url(polina.jpg) no-repeat;
-        background-size: cover;
-    }
-</style>
+
 </html>
+
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+    <!--<title>ابریو</title>-->
+    <!--<link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/bulma.min.css") }}>-->
+    <!--<link rel="stylesheet" type="text/css" href={{ url_for('static', filename="styles/responsive/index.css") }}>-->
+    <!--<link href='https://fonts.googleapis.com/css?family=Nunito:700' rel='stylesheet' type='text/css'>-->
+<!--</head>-->
+<!--<body>-->
+<!--<video autoplay loop poster="polina.jpg" id="bg-vid">-->
+    <!--<source src={{ url_for('static', filename="medias/bg.mp4") }} type="video/mp4">-->
+<!--</video>-->
+<!--<section class="hero is-primary is-fullheight">-->
+	<!--<div class="hero-header">-->
+	    <!--<header class="header">-->
+	      <!--<div class="container">-->
+	        <!--<div class="header-left">-->
+	          <!--<a class="header-item" href="#">-->
+	            <!--<img src={{ url_for('static',filename="medias/abrio-transparent.png") }} alt="Logo">-->
+	          <!--</a>-->
+	        <!--</div>-->
+	        <!--<span class="header-toggle">-->
+	          <!--<span></span>-->
+	          <!--<span></span>-->
+	          <!--<span></span>-->
+	        <!--</span>-->
+	        <!--<div class="header-right header-menu">-->
+	         <!---->
+	        	<!--{% if current_user.is_authenticated %}-->
+            		<!--<span class="header-item">-->
+            			<!--<a class="button is-primary is-inverted" href="{{ url_for('user.info') }}">پنل من</a>-->
+            		<!--</span>-->
+            		<!--<span class="header-item">-->
+            			<!--<a href="{{ url_for('user.logout') }}">خروج</a>-->
+            		<!--</span>-->
+        		<!--{% else %}-->
+            		<!--<span class="header-item">-->
+            			<!--<a  href="{{ url_for('user.login') }}">ورود</a>-->
+            		<!--</span>-->
+            		<!--<span class="header-item">-->
+            			<!--<a class="button is-primary is-inverted" href="{{ url_for('user.register') }}">ثبت نام</a>-->
+            		<!--</span>-->
+        		<!--{% endif %}-->
+	        <!--</div>-->
+	      <!--</div>-->
+	    <!--</header>-->
+	  <!--</div>-->
+      <!--<div class="buttons" style="display: none;">-->
+        <!--{% if current_user.is_authenticated %}-->
+            <!--<div><a class="button is-primary is-inverted" href="{{ url_for('user.info',uid=current_user.id) }}">پنل من</a></div>-->
+            <!--<div><a href="{{ url_for('user.logout') }}">خروج</a></div>-->
+        <!--{% else %}-->
+          <!--<div><a href="{{ url_for('user.login') }}" class="button is-primary">ورود</a></div>-->
+          <!--<div><a href="{{ url_for('user.login') }} " class="button is-primary is-inverted">ثبت نام</a></div>-->
+        <!--{% endif %}-->
+      <!--</div>-->
+    <!--&lt;!&ndash; Hero content: will be in the middle &ndash;&gt;-->
+    <!--{% with messages = get_flashed_messages() %}-->
+        <!--{% if messages %}-->
+            <!--<ul class=flashes>-->
+                <!--{% for message in messages %}-->
+                    <!--<li>{{ message }}</li>-->
+                <!--{% endfor %}-->
+            <!--</ul>-->
+        <!--{% endif %}-->
+    <!--{% endwith %}-->
+    <!---->
+    <!--<div class="hero-content">-->
+        <!--<div class="title container">-->
+            <!--<img src={{ url_for('static',filename="medias/abrio-transparent.png") }}>-->
+        <!--</div>-->
+        <!--<h1 class="title">-->
+            <!--AbrIO-->
+        <!--</h1>-->
+        <!--<br/>-->
+        <!--<h2 class="subtitle">-->
+             <!--اَبْریو یک سرویس بی درنگ برای بک اند پروژه های شماست-->
+<!--{#            Abrio is a customizable real time Backend as a Service for you! <br/>Abrio is reliable and always responsive.#}-->
+        <!--</h2>-->
+    <!--</div>-->
+<!--</section>-->
+<!--</body>-->
+<!--<style type="text/css">-->
+<!--@font-face{-->
+    <!--font-family: 'Yekan';-->
+    <!--src: url('../static/font/BYekan.eot?#iefix') format('embedded-opentype'),-->
+    <!--url('../static/font/BYekan.woff') format('woff'),-->
+    <!--url('../static/font/BYekan.ttf') format('truetype');-->
+<!--}-->
+	<!--body *{-->
+		<!--font-family: 'Yekan';-->
+	<!--}-->
+    <!--.title{-->
+        <!--font-family:Nunito;-->
+        <!--font-size: 72px;-->
+    <!--}-->
+    <!--.hero.is-primary{-->
+        <!--background-color: rgba(24,153,211,0.7);-->
+    <!--}-->
+    <!--video#bg-vid {-->
+        <!--position: fixed;-->
+        <!--top: 50%;-->
+        <!--left: 50%;-->
+        <!--min-width: 100%;-->
+        <!--min-height: 100%;-->
+        <!--width: auto;-->
+        <!--height: auto;-->
+        <!--z-index: -100;-->
+        <!-- -ms-transform: translateX(-50%) translateY(-50%);-->
+        <!-- -moz-transform: translateX(-50%) translateY(-50%);-->
+        <!-- -webkit-transform: translateX(-50%) translateY(-50%);-->
+        <!--transform: translateX(-50%) translateY(-50%);-->
+        <!--background: url(polina.jpg) no-repeat;-->
+        <!--background-size: cover;-->
+    <!--}-->
+<!--</style>-->
+<!--</html>-->
