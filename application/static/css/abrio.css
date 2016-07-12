@@ -9,13 +9,21 @@
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face{
+    font-family: 'Yekan';
+    src: url('../font/BYekan.eot?#iefix') format('embedded-opentype'),
+    url('../font/BYekan.woff') format('woff'),
+    url('../font/BYekan.ttf') format('truetype');
+}
 html,
 body {
   height: 100%;
   width: 100%;
 }
 body {
-  font-family: 'Iranian Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Yekan', 'Helvetica Neue', Arial, sans-serif;
+  direction: rtl;
 }
 hr {
   border-color: #1899d3;
